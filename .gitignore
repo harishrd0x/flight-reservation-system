@@ -1,10 +1,16 @@
-HELP.md
-target/
+# === FRONTEND (React / Node) ===
+/frontend/node_modules/
+/frontend/build/
+/frontend/.env
+/frontend/.DS_Store
+
+# === BACKEND (Spring Boot / Java) ===
+/backend/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+### Spring Tool Suite (STS) ###
 .apt_generated
 .classpath
 .factorypath
@@ -14,7 +20,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -31,3 +37,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# === OS-generated files ===
+.DS_Store
+Thumbs.db

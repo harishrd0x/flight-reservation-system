@@ -1,0 +1,25 @@
+# === Shell scripts ===
+/mvnw text eol=lf
+*.sh text eol=lf
+
+# === Windows batch files ===
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# === Java files (backend) ===
+*.java text diff=java
+
+# === Web files (frontend, for later) ===
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.css text
+*.html text
+*.json text
+*.yml text
+
+# === Misc ===
+*.md text
+*.xml text
+*.properties text

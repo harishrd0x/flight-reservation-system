@@ -1,4 +1,4 @@
-package com.version1.flightreservation;
+package com.version1.fms;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

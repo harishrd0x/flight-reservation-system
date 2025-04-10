@@ -1,4 +1,4 @@
-package com.version1.flightreservation;
+package com.version1.frs;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

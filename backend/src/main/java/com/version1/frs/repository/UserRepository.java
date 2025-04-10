@@ -1,5 +1,5 @@
 package com.version1.frs.repository;
 
-public class UserRepository {
+public interface UserRepository {
 
 }

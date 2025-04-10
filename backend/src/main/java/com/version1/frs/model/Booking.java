@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Table(name = "tbl_bookings")
 
-public class Bookings {
+public class Booking {
 
 	@Id
 

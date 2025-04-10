@@ -1,0 +1,59 @@
+.
+├── .DS_Store
+├── .mvn
+│   └── wrapper
+│       └── maven-wrapper.properties
+├── HELP.md
+├── backend-structure.txt
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── version1
+│   │   │           └── frs
+│   │   │               ├── BackendApplication.java
+│   │   │               ├── ServletInitializer.java
+│   │   │               ├── controller
+│   │   │               │   ├── AdminController.java
+│   │   │               │   ├── AirplaneController.java
+│   │   │               │   ├── AirportController.java
+│   │   │               │   ├── BookingController.java
+│   │   │               │   ├── CustomerController.java
+│   │   │               │   ├── LoginController.java
+│   │   │               │   └── RegistrationController.java
+│   │   │               ├── model
+│   │   │               │   ├── Airplane.java
+│   │   │               │   ├── Airport.java
+│   │   │               │   ├── Bookings.java
+│   │   │               │   ├── Flights.java
+│   │   │               │   ├── User.java
+│   │   │               │   └── Wallet.java
+│   │   │               ├── repository
+│   │   │               │   ├── AirplaneRepository.java
+│   │   │               │   ├── AirportRepository.java
+│   │   │               │   ├── BookingRepository.java
+│   │   │               │   ├── FlightRepository.java
+│   │   │               │   ├── UserRepository.java
+│   │   │               │   └── WalletRepository.java
+│   │   │               └── service
+│   │   │                   ├── AirplaneService.java
+│   │   │                   ├── AirportService.java
+│   │   │                   ├── BookingService.java
+│   │   │                   ├── FlightService.java
+│   │   │                   ├── UserService.java
+│   │   │                   ├── UserServiceImpl.java
+│   │   │                   └── WalletService.java
+│   │   └── resources
+│   │       └── application.properties
+│   └── test
+│       └── java
+│           └── com
+│               └── version1
+│                   └── frs
+│                       └── BackendApplicationTests.java
+└── structure.txt
+
+19 directories, 38 files

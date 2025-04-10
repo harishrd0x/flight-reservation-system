@@ -1,4 +1,4 @@
-package com.version1.frs.service;
+package com.version1.frs.service.impl;
 
 import com.version1.frs.model.User;
 import com.version1.frs.repository.UserRepository;

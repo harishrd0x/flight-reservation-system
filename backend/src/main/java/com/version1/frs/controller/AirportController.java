@@ -32,12 +32,12 @@ public class AirportController {
 		airportRepository.save(airport);
 		return "Airport are updated Successfully";
 	}
-	@DeleteMapping("/delete/{code}")
-   public String doDelete(@PathVariable String code) {
-	   airportRepository.deleteById(code);
-	   return "Airport deleted successfully";
-
-	}
+//	@DeleteMapping("/delete/{code}")
+//   public String doDelete(@PathVariable String code) {
+//	   airportRepository.deleteById(code);
+//	   return "Airport deleted successfully";
+//
+//	}
 	@GetMapping("/getAll")
    public Iterable<Airport> doList() {
 	return airportRepository.findAll();

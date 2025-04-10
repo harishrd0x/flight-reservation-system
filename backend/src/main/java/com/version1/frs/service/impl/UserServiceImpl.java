@@ -1,9 +1,11 @@
 package com.version1.frs.service.impl;
 
-import com.version1.frs.model.User;
-import com.version1.frs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.version1.frs.model.User;
+import com.version1.frs.repository.UserRepository;
+import com.version1.frs.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {

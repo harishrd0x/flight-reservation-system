@@ -15,7 +15,7 @@ public class RegistrationController {
 	UserRepository usreop;
  
 	@Autowired
-	public AuthenticationController(UserRepository usreop) {
+	public RegistrationController(UserRepository usreop) {
 		super();
 		this.usreop = usreop;
 	}

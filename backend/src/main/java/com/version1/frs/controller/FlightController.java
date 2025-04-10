@@ -12,16 +12,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/flights")
+@RequestMapping("/flights")
 public class FlightController {
 
     @Autowired
     private FlightService flightService;
 
     @PostMapping
-    public ResponseEntity<String> addFlight(@RequestBody FlightRequest request) {
+    public String addFlight(@RequestBody FlightRequest request) {
         flightService.addFlight(request);
-        return ResponseEntity.ok("Flight added successfully");
+//        return ResponseEntity.ok("Flight added successfully");
+        return "Flight added successfully";
     }
 
     @GetMapping("/search")

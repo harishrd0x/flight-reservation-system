@@ -63,10 +63,15 @@ flight-reservation-system/
 
 2. Configure the database in `src/main/resources/application.properties`:
    ```properties
-   server.port=8080
-   spring.datasource.url=jdbc:mysql://localhost:3306/flightdb
-   spring.datasource.username=root
-   spring.datasource.password=yourpassword
+   server.port=1212
+   # Oracle Database Connection Details
+   spring.datasource.url=jdbc:oracle:thin:@localhost:1522:xe
+   spring.datasource.username=your-username
+   spring.datasource.password=your-password
+   spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+    
+   # Additional Configuration
+   spring.jpa.show-sql=true
    spring.jpa.hibernate.ddl-auto=update
    ```
 

@@ -8,6 +8,7 @@
 /backend/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
+.properties
 
 # Include Maven Wrapper
 !.mvn/wrapper/

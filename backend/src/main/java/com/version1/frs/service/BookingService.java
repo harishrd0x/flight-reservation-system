@@ -1,4 +1,4 @@
-package com.version1.fms.service;
+package com.version1.frs.service;
 
 public class BookingService {
 

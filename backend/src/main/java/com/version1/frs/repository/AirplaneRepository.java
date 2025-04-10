@@ -1,4 +1,4 @@
-package com.version1.fms.repository;
+package com.version1.frs.repository;
 
 public class AirplaneRepository {
 

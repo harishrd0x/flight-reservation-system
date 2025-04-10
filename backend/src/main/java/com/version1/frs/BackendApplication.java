@@ -1,4 +1,4 @@
-package com.version1.fms;
+package com.version1.frs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

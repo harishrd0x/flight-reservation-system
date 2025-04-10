@@ -1,4 +1,4 @@
-package com.version1.fms.controller;
+package com.version1.frs.controller;
 
 public class CustomerController {
 

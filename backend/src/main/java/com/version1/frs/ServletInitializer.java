@@ -1,4 +1,4 @@
-package com.version1.fms;
+package com.version1.frs;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

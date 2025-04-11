@@ -2,18 +2,11 @@ package com.version1.frs.dto;
 
 public class BookingRequest {
 
-    private Long flightId;
     private Long userId;
+    private Long flightId;
     private int numberOfSeats;
 
-    // Getters and Setters
-    public Long getFlightId() {
-        return flightId;
-    }
-
-    public void setFlightId(Long flightId) {
-        this.flightId = flightId;
-    }
+    // Getters & Setters
 
     public Long getUserId() {
         return userId;
@@ -21,6 +14,14 @@ public class BookingRequest {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
     }
 
     public int getNumberOfSeats() {

@@ -1,50 +1,94 @@
 package com.version1.frs.service.impl;
 
-import com.version1.frs.dto.BookingRequest;
-import com.version1.frs.model.Booking;
-import com.version1.frs.repository.BookingRepository;
-import com.version1.frs.service.BookingService;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import com.version1.frs.dto.BookingRequest;
+import com.version1.frs.dto.BookingResponse;
+import com.version1.frs.model.Booking;
+import com.version1.frs.model.Flight;
+import com.version1.frs.model.User;
+import com.version1.frs.model.Wallet;
+import com.version1.frs.repository.BookingRepository;
+import com.version1.frs.repository.FlightRepository;
+import com.version1.frs.repository.UserRepository;
+import com.version1.frs.repository.WalletRepository;
+import com.version1.frs.service.BookingService;
+import com.version1.frs.service.FlightService;
 
 @Service
 public class BookingServiceImpl implements BookingService {
 
-    @Autowired
-    private BookingRepository bookingRepository;
+    @Autowired private BookingRepository bookingRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private FlightRepository flightRepository;
+    @Autowired private WalletRepository walletRepository;
+    @Autowired private FlightService flightService;
 
     @Override
-    public Booking bookFlight(BookingRequest request) {
-        Booking booking = new Booking();
-        booking.setFlightId(request.getFlightId());
-        booking.setUserId(request.getUserId());
-        booking.setNumberOfSeats(request.getNumberOfSeats());
-        booking.setBookingDate(LocalDateTime.now());
-        booking.setStatus("CONFIRMED");
-        return bookingRepository.save(booking);
-    }
+    public BookingResponse bookFlight(BookingRequest request) {
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    @Override
-    public List<Booking> getBookingsByUser(Long userId) {
-        return bookingRepository.findByUserId(userId);
-    }
+        Flight flight = flightRepository.findById(request.getFlightId())
+                .orElseThrow(() -> new RuntimeException("Flight not found"));
 
-    @Override
-    public Booking getBookingById(Long bookingId) {
-        return bookingRepository.findById(bookingId).orElse(null);
-    }
+        Wallet wallet = walletRepository.findByUser(user)
+                .orElseThrow(() -> new RuntimeException("Wallet not found"));
 
-    @Override
-    public void cancelBooking(Long bookingId) {
-        Optional<Booking> bookingOpt = bookingRepository.findById(bookingId);
-        if (bookingOpt.isPresent()) {
-            Booking booking = bookingOpt.get();
-            booking.setStatus("CANCELLED");
-            bookingRepository.save(booking);
+        double flightPrice = flight.getPrice();
+
+        if (wallet.getBalance() < flightPrice) {
+            throw new RuntimeException("Insufficient wallet balance.");
         }
+
+        // Deduct amount from wallet
+        wallet.setBalance(wallet.getBalance() - flightPrice);
+        walletRepository.save(wallet);
+
+        Booking booking = new Booking();
+        booking.setUser(user);
+        booking.setFlight(flight);
+        booking.setBookingTime(LocalDateTime.now());
+
+        bookingRepository.save(booking);
+
+        return new BookingResponse(
+                booking.getBookingId(),
+                user.getUserId(),
+                flight.getId(),
+                flight.getFlightNumber(),
+                booking.getBookingTime()
+        );
+    }
+
+    @Override
+    public List<BookingResponse> getBookingsByUser(int userId) {
+        return bookingRepository.findByUserUserId(userId)
+                .stream()
+                .map(b -> new BookingResponse(
+                        b.getBookingId(),
+                        b.getUser().getUserId(),
+                        b.getFlight().getId(),
+                        b.getFlight().getFlightNumber(),
+                        b.getBookingTime()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookingResponse> getAllBookings() {
+        return bookingRepository.findAll()
+                .stream()
+                .map(b -> new BookingResponse(
+                        b.getBookingId(),
+                        b.getUser().getUserId(),
+                        b.getFlight().getId(),
+                        b.getFlight().getFlightNumber(),
+                        b.getBookingTime()))
+                .collect(Collectors.toList());
     }
 }

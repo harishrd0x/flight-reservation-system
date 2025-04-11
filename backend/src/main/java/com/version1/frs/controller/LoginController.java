@@ -1,19 +1,21 @@
 package com.version1.frs.controller;
 
-import java.util.Map;
+import com.version1.frs.dto.LoginRequest;
+import com.version1.frs.dto.LoginResponse;
+import com.version1.frs.model.User;
+import com.version1.frs.repository.UserRepository;
+import com.version1.frs.security.JwtUtil;
+
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.version1.frs.dto.LoginRequest;
-import com.version1.frs.dto.UserRegistrationRequest;
-import com.version1.frs.model.User;
-import com.version1.frs.service.UserService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -21,27 +23,35 @@ import com.version1.frs.service.UserService;
 public class LoginController {
 
     @Autowired
-    private UserService userService;
+    private AuthenticationManager authManager;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRegistrationRequest request) {
-        String response = userService.register(request);
-        return ResponseEntity.ok(response);
-    }
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        User user = userService.authenticate(request);
-        if (user != null) {
-            return ResponseEntity.ok(
-                Map.of(
-                    "message", "Login successful",
-                    "userId", user.getUserId(),
-                    "userRole", user.getUserRole()
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        try {
+            Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    request.getUserEmail(), request.getUserPassword()
                 )
             );
-        } else {
-            return ResponseEntity.status(401).body(Map.of("error", "Invalid email or password"));
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            // Fetch user to get user role
+            User user = userRepository.findByUserEmail(request.getUserEmail());
+            if (user == null) {
+                return ResponseEntity.status(404).body("User not found.");
+            }
+
+            String token = jwtUtil.generateToken(user.getUserEmail(), user.getUserRole());
+            return ResponseEntity.ok(new LoginResponse(token, user.getUserRole()));
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(401).body("Invalid email or password");
         }
     }
 }

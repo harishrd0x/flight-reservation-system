@@ -1,13 +1,12 @@
 package com.version1.frs.service;
- 
-import com.version1.frs.dto.ReviewRequest;
-import com.version1.frs.model.Review;
- 
+
 import java.util.List;
- 
+
+import com.version1.frs.dto.ReviewRequest;
+import com.version1.frs.dto.ReviewResponse;
+
 public interface ReviewService {
- 
-    String postReview(ReviewRequest request);
- 
-    List<Review> getReviewsByFlight(Long flightId);
+    ReviewResponse postReview(ReviewRequest request);
+    List<ReviewResponse> getReviewsByFlight(Long flightId);
+    List<ReviewResponse> getAllReviews(); // For homepage display
 }

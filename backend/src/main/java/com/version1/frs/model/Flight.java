@@ -1,8 +1,16 @@
 package com.version1.frs.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_FLIGHTS")
@@ -13,32 +21,31 @@ public class Flight {
     @Column(name = "FLIGHT_ID")
     private Long id;
 
-    @Column(name = "FLIGHT_NUMBER")
+    @Column(name = "FLIGHT_NUMBER", nullable = false)
     private String flightNumber;
 
-    @Column(name = "AIRLINE")
-    private String airline;
-
-    @Column(name = "SOURCE")
+    @Column(name = "SOURCE", nullable = false)
     private String source;
 
-    @Column(name = "DESTINATION")
+    @Column(name = "DESTINATION", nullable = false)
     private String destination;
 
-    @Column(name = "DEPARTURE_DATE")
+    @Column(name = "DEPARTURE_DATE", nullable = false)
     private LocalDate departureDate;
 
-    @Column(name = "DEPARTURE_TIME")
+    @Column(name = "DEPARTURE_TIME", nullable = false)
     private LocalTime departureTime;
 
-    @Column(name = "ARRIVAL_TIME")
+    @Column(name = "ARRIVAL_TIME", nullable = false)
     private LocalTime arrivalTime;
 
-    @Column(name = "TOTAL_SEATS")
-    private int totalSeats;
+    @Column(name = "PRICE", nullable = false)
+    private Double price;
 
-    @Column(name = "PRICE")
-    private double price;
+    // Relationship to airplane
+    @ManyToOne
+    @JoinColumn(name = "AIRPLANE_ID", nullable = false)
+    private Airplane airplane;
 
     // Getters and Setters
 
@@ -56,14 +63,6 @@ public class Flight {
 
     public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
-    }
-
-    public String getAirline() {
-        return airline;
-    }
-
-    public void setAirline(String airline) {
-        this.airline = airline;
     }
 
     public String getSource() {
@@ -106,19 +105,19 @@ public class Flight {
         this.arrivalTime = arrivalTime;
     }
 
-    public int getTotalSeats() {
-        return totalSeats;
-    }
-
-    public void setTotalSeats(int totalSeats) {
-        this.totalSeats = totalSeats;
-    }
-
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Airplane getAirplane() {
+        return airplane;
+    }
+
+    public void setAirplane(Airplane airplane) {
+        this.airplane = airplane;
     }
 }

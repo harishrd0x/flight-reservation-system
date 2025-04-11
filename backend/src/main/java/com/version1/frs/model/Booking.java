@@ -1,13 +1,7 @@
 package com.version1.frs.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_BOOKINGS")
@@ -18,22 +12,25 @@ public class Booking {
     @Column(name = "BOOKING_ID")
     private Long bookingId;
 
-    @Column(name = "USER_ID")
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
 
-    @Column(name = "FLIGHT_ID")
-    private Long flightId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FLIGHT_ID", nullable = false)
+    private Flight flight;
 
-    @Column(name = "NUMBER_OF_SEATS")
+    @Column(name = "BOOKING_TIME", nullable = false)
+    private LocalDateTime bookingTime;
+
+    @Column(name = "NUMBER_OF_SEATS", nullable = false)
     private int numberOfSeats;
 
-    @Column(name = "BOOKING_DATE")
-    private LocalDateTime bookingDate;
+    @Column(name = "TOTAL_AMOUNT", nullable = false)
+    private double totalAmount;
 
-    @Column(name = "STATUS")
-    private String status;
+    // Getters & Setters
 
-    // Getters and Setters
     public Long getBookingId() {
         return bookingId;
     }
@@ -42,20 +39,28 @@ public class Booking {
         this.bookingId = bookingId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getFlightId() {
-        return flightId;
+    public Flight getFlight() {
+        return flight;
     }
 
-    public void setFlightId(Long flightId) {
-        this.flightId = flightId;
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
+
+    public LocalDateTime getBookingTime() {
+        return bookingTime;
+    }
+
+    public void setBookingTime(LocalDateTime bookingTime) {
+        this.bookingTime = bookingTime;
     }
 
     public int getNumberOfSeats() {
@@ -66,19 +71,11 @@ public class Booking {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public LocalDateTime getBookingDate() {
-        return bookingDate;
+    public double getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setBookingDate(LocalDateTime bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

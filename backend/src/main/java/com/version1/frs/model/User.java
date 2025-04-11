@@ -17,7 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int userId;
+    private long userId;
 
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name must be at most 100 characters")
@@ -45,7 +45,7 @@ public class User {
 
     // --- Getters and Setters ---
     
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 

@@ -1,11 +1,15 @@
 package com.version1.frs.service;
 
 import com.version1.frs.dto.WalletRequest;
-import com.version1.frs.model.Wallet;
+import com.version1.frs.dto.WalletResponse;
 
 public interface WalletService {
 
-    String addMoney(WalletRequest request);
+	WalletResponse createWallet(Long userId);
 
-    Wallet getWalletByUserId(int userId);
+	WalletResponse getWalletByUserId(Long userId);
+
+	WalletResponse addMoney(WalletRequest request);
+
+	WalletResponse makePayment(WalletRequest request);
 }

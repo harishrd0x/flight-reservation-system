@@ -1,6 +1,13 @@
 package com.version1.frs.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_WALLETS")
@@ -11,13 +18,14 @@ public class Wallet {
     @Column(name = "WALLET_ID")
     private Long walletId;
 
-    @Column(name = "USER_ID", nullable = false, unique = true)
-    private int userId;
+    @OneToOne
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
 
     @Column(name = "BALANCE", nullable = false)
-    private double balance;
+    private Double balance = 0.0;
 
-    // Getters and Setters
+    // Getters & Setters
     public Long getWalletId() {
         return walletId;
     }
@@ -26,19 +34,19 @@ public class Wallet {
         this.walletId = walletId;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public double getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 }

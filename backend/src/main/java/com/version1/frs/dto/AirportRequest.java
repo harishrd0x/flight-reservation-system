@@ -1,11 +1,24 @@
 package com.version1.frs.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class AirportRequest {
 
+    @NotBlank(message = "Airport name is required")
     private String airportName;
+
+    @NotBlank(message = "Airport code is required")
+    @Size(max = 10)
     private String airportCode;
+
+    @NotBlank(message = "City is required")
     private String airportCity;
+
+    @NotBlank(message = "State is required")
     private String airportState;
+
+    @NotBlank(message = "Country is required")
     private String airportCountry;
 
     // Getters and Setters

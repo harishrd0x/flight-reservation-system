@@ -1,19 +1,14 @@
 package com.version1.frs.controller;
 
-import java.util.List;
-
+import com.version1.frs.dto.ReviewRequest;
+import com.version1.frs.dto.ReviewResponse;
+import com.version1.frs.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-import com.version1.frs.dto.ReviewRequest;
-import com.version1.frs.model.Review;
-import com.version1.frs.service.ReviewService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -22,13 +17,24 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
+    // CUSTOMER: Post a review
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping
-    public ResponseEntity<String> postReview(@RequestBody ReviewRequest request) {
-        return ResponseEntity.ok(reviewService.postReview(request));
+    public ResponseEntity<ReviewResponse> postReview(@RequestBody ReviewRequest request) {
+        ReviewResponse saved = reviewService.postReview(request);
+        return ResponseEntity.ok(saved);
     }
 
+    // SHARED: Get reviews by flight ID
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping("/flight/{flightId}")
-    public ResponseEntity<List<Review>> getReviewsByFlight(@PathVariable Long flightId) {
-        return ResponseEntity.ok(reviewService.getReviewsByFlight(flightId));
+    public List<ReviewResponse> getReviewsByFlight(@PathVariable Long flightId) {
+        return reviewService.getReviewsByFlight(flightId);
+    }
+
+    // PUBLIC/SHARED: Get all reviews (for homepage display)
+    @GetMapping
+    public List<ReviewResponse> getAllReviews() {
+        return reviewService.getAllReviews();
     }
 }

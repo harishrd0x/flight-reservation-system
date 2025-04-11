@@ -1,54 +1,66 @@
 package com.version1.frs.controller;
 
-import com.version1.frs.dto.AirportRequest;
-import com.version1.frs.model.Airport;
-import com.version1.frs.service.AirportService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.version1.frs.dto.AirportRequest;
+import com.version1.frs.dto.AirportResponse;
+import com.version1.frs.service.AirportService;
 
 @RestController
 @RequestMapping("/api/airports")
+@CrossOrigin
 public class AirportController {
 
     @Autowired
     private AirportService airportService;
 
+    // ✅ Add airport (ADMIN only)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<String> addAirport(@RequestBody AirportRequest request,
-                                             @RequestParam String userRole) {
-        if (!userRole.equalsIgnoreCase("ADMIN")) {
-            return ResponseEntity.status(403).body("Access denied. Only ADMINs can add airports.");
-        }
-
+    public ResponseEntity<AirportResponse> addAirport(@RequestBody AirportRequest request) {
         return ResponseEntity.ok(airportService.addAirport(request));
     }
-    @GetMapping
-	public ResponseEntity<List<Airport>> getAllAirports() {
-		return ResponseEntity.ok(airportService.getAllAirports());
-	}
 
+    // ✅ Update airport (ADMIN only)
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAirport(@PathVariable int id,
-                                                @RequestBody AirportRequest request,
-                                                @RequestParam String userRole) {
-        if (!userRole.equalsIgnoreCase("ADMIN")) {
-            return ResponseEntity.status(403).body("Access denied. Only ADMINs can update airports.");
-        }
-
+    public ResponseEntity<AirportResponse> updateAirport(@PathVariable int id,
+                                                         @RequestBody AirportRequest request) {
         return ResponseEntity.ok(airportService.updateAirport(id, request));
     }
 
+    // ✅ Delete airport (ADMIN only)
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAirport(@PathVariable int id,
-                                                @RequestParam String userRole) {
-        if (!userRole.equalsIgnoreCase("ADMIN")) {
-            return ResponseEntity.status(403).body("Access denied. Only ADMINs can delete airports.");
-        }
-
+    public ResponseEntity<String> deleteAirport(@PathVariable int id) {
         airportService.deleteAirport(id);
         return ResponseEntity.ok("Airport deleted successfully.");
+    }
+
+    // ✅ Get all airports (shared)
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @GetMapping
+    public List<AirportResponse> getAllAirports() {
+        return airportService.getAllAirports();
+    }
+
+    // ✅ Get airport by ID (shared)
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @GetMapping("/{id}")
+    public ResponseEntity<AirportResponse> getAirportById(@PathVariable int id) {
+        return ResponseEntity.ok(airportService.getAirportById(id));
     }
 }

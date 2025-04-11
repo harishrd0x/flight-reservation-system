@@ -5,20 +5,39 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
+@Table(name = "TBL_FLIGHTS")
 public class Flight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FLIGHT_ID")
     private Long id;
 
+    @Column(name = "FLIGHT_NUMBER")
     private String flightNumber;
+
+    @Column(name = "AIRLINE")
     private String airline;
+
+    @Column(name = "SOURCE")
     private String source;
+
+    @Column(name = "DESTINATION")
     private String destination;
+
+    @Column(name = "DEPARTURE_DATE")
     private LocalDate departureDate;
+
+    @Column(name = "DEPARTURE_TIME")
     private LocalTime departureTime;
+
+    @Column(name = "ARRIVAL_TIME")
     private LocalTime arrivalTime;
+
+    @Column(name = "TOTAL_SEATS")
     private int totalSeats;
+
+    @Column(name = "PRICE")
     private double price;
 
     // Getters and Setters

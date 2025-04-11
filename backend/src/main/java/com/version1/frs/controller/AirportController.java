@@ -1,45 +1,41 @@
 package com.version1.frs.controller;
- 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
- 
+
+import com.version1.frs.dto.AirportRequest;
 import com.version1.frs.model.Airport;
-import com.version1.frs.repository.AirportRepository;
- 
- 
+import com.version1.frs.service.AirportService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
-@CrossOrigin
+@RequestMapping("/api/airports")
 public class AirportController {
-	
-	private AirportRepository airportRepository;
-	public AirportController(AirportRepository airportRepository) {
-	this.airportRepository = airportRepository;
-	}
-	@PostMapping("/add")
-	public String doCreate(@RequestBody Airport airport) {
-		airportRepository.save(airport);
-		return "Airport are add Successfully";
-	}
-	@PutMapping("/update")
-	public String doUpdate(@RequestBody Airport airport) {
-		airportRepository.save(airport);
-		return "Airport are updated Successfully";
-	}
-//	@DeleteMapping("/delete/{code}")
-//   public String doDelete(@PathVariable String code) {
-//	   airportRepository.deleteById(code);
-//	   return "Airport deleted successfully";
-//
-//	}
-	@GetMapping("/getAll")
-   public Iterable<Airport> doList() {
-	return airportRepository.findAll();
-}
+
+    @Autowired
+    private AirportService airportService;
+
+    @PostMapping
+    public ResponseEntity<String> addAirport(@RequestBody AirportRequest request) {
+        String response = airportService.addAirport(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Airport>> getAllAirports() {
+        return ResponseEntity.ok(airportService.getAllAirports());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateAirport(@PathVariable int id, @RequestBody AirportRequest request) {
+        String response = airportService.updateAirport(id, request);
+        return ResponseEntity.ok(response);
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAirport(@PathVariable int id) {
+        airportService.deleteAirport(id);
+        return ResponseEntity.ok("Airport deleted successfully.");
+    }
 }

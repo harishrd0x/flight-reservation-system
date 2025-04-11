@@ -1,5 +1,7 @@
 package com.version1.frs.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,113 +10,75 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-
-@Table(name = "tbl_bookings")
-
+@Table(name = "TBL_BOOKINGS")
 public class Booking {
 
-	@Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BOOKING_ID")
+    private Long bookingId;
 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "booking_id")
-	private Long bookingId;
-	@Column(name = "flight_id")
-	private Long flightId;
-	@Column(name = "passenger_name")
-	private String passengerName;
-	@Column(name = "email")
-	private String email;
-	@Column(name = "phone_number")
-	private String phoneNumber;
-	@Column(name = "seat_number")
-	private String seatNumber;
-	@Column(name = "status")
-	private String status;
+    @Column(name = "USER_ID")
+    private Long userId;
 
-	// Getters and Setters
+    @Column(name = "FLIGHT_ID")
+    private Long flightId;
 
-	public Long getBookingId() {
+    @Column(name = "NUMBER_OF_SEATS")
+    private int numberOfSeats;
 
-		return bookingId;
+    @Column(name = "BOOKING_DATE")
+    private LocalDateTime bookingDate;
 
-	}
+    @Column(name = "STATUS")
+    private String status;
 
-	public void setBookingId(Long bookingId) {
+    // Getters and Setters
+    public Long getBookingId() {
+        return bookingId;
+    }
 
-		this.bookingId = bookingId;
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
 
-	}
+    public Long getUserId() {
+        return userId;
+    }
 
-	public Long getFlightId() {
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-		return flightId;
+    public Long getFlightId() {
+        return flightId;
+    }
 
-	}
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
+    }
 
-	public void setFlightId(Long flightId) {
+    public int getNumberOfSeats() {
+        return numberOfSeats;
+    }
 
-		this.flightId = flightId;
+    public void setNumberOfSeats(int numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
 
-	}
+    public LocalDateTime getBookingDate() {
+        return bookingDate;
+    }
 
-	public String getPassengerName() {
+    public void setBookingDate(LocalDateTime bookingDate) {
+        this.bookingDate = bookingDate;
+    }
 
-		return passengerName;
+    public String getStatus() {
+        return status;
+    }
 
-	}
-
-	public void setPassengerName(String passengerName) {
-
-		this.passengerName = passengerName;
-
-	}
-
-	public String getEmail() {
-
-		return email;
-
-	}
-
-	public void setEmail(String email) {
-
-		this.email = email;
-
-	}
-
-	public String getPhoneNumber() {
-
-		return phoneNumber;
-
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-
-		this.phoneNumber = phoneNumber;
-
-	}
-
-	public String getSeatNumber() {
-
-		return seatNumber;
-
-	}
-
-	public void setSeatNumber(String seatNumber) {
-
-		this.seatNumber = seatNumber;
-
-	}
-
-	public String getStatus() {
-
-		return status;
-
-	}
-
-	public void setStatus(String status) {
-
-		this.status = status;
-
-	}
-
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

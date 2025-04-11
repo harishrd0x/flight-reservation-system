@@ -1,37 +1,13 @@
-package com.version1.frs.model;
+package com.version1.frs.dto;
 
-import jakarta.persistence.*;
+public class AirplaneRequest {
 
-@Entity
-@Table(name = "TBL_AIRPLANES")
-public class Airplane {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AIRPLANE_ID")
-    private Long id;
-
-    @Column(name = "AIRPLANE_NAME", nullable = false)
     private String name;
-
-    @Column(name = "AIRPLANE_MODEL", nullable = false)
     private String model;
-
-    @Column(name = "MANUFACTURER", nullable = false)
     private String manufacturer;
-
-    @Column(name = "CAPACITY", nullable = false)
     private int capacity;
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }

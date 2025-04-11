@@ -1,0 +1,100 @@
+.
+├── .DS_Store
+├── .gitattributes
+├── .gitignore
+├── README.md
+├── backend
+│   ├── .DS_Store
+│   ├── .classpath
+│   ├── .mvn
+│   │   └── wrapper
+│   │       └── maven-wrapper.properties
+│   ├── .project
+│   ├── .settings
+│   │   ├── .jsdtscope
+│   │   ├── org.eclipse.core.resources.prefs
+│   │   ├── org.eclipse.jdt.apt.core.prefs
+│   │   ├── org.eclipse.jdt.core.prefs
+│   │   ├── org.eclipse.wst.common.component
+│   │   ├── org.eclipse.wst.common.project.facet.core.xml
+│   │   ├── org.eclipse.wst.jsdt.ui.superType.container
+│   │   ├── org.eclipse.wst.jsdt.ui.superType.name
+│   │   ├── org.eclipse.wst.validation.prefs
+│   │   └── org.springframework.ide.eclipse.prefs
+│   ├── HELP.md
+│   ├── backend-structure.txt
+│   ├── mvnw
+│   ├── mvnw.cmd
+│   ├── pom.xml
+│   └── src
+│       ├── main
+│       │   ├── java
+│       │   │   └── com
+│       │   │       └── version1
+│       │   │           └── frs
+│       │   │               ├── BackendApplication.java
+│       │   │               ├── ServletInitializer.java
+│       │   │               ├── controller
+│       │   │               │   ├── AirplaneController.java
+│       │   │               │   ├── AirportController.java
+│       │   │               │   ├── BookingController.java
+│       │   │               │   ├── FlightController.java
+│       │   │               │   ├── LoginController.java
+│       │   │               │   ├── RegistrationControllerReview.java
+│       │   │               │   ├── ReviewController.java
+│       │   │               │   └── WalletController.java
+│       │   │               ├── dto
+│       │   │               │   ├── AirplaneRequest.java
+│       │   │               │   ├── AirportRequest.java
+│       │   │               │   ├── BookingRequest.java
+│       │   │               │   ├── FlightRequest.java
+│       │   │               │   ├── LoginRequest.java
+│       │   │               │   ├── ReviewRequest.java
+│       │   │               │   ├── UserRegistrationRequest.java
+│       │   │               │   └── WalletRequest.java
+│       │   │               ├── model
+│       │   │               │   ├── Airplane.java
+│       │   │               │   ├── Airport.java
+│       │   │               │   ├── Booking.java
+│       │   │               │   ├── Flight.java
+│       │   │               │   ├── Review.java
+│       │   │               │   ├── User.java
+│       │   │               │   └── Wallet.java
+│       │   │               ├── repository
+│       │   │               │   ├── AirplaneRepository.java
+│       │   │               │   ├── AirportRepository.java
+│       │   │               │   ├── BookingRepository.java
+│       │   │               │   ├── FlightRepository.java
+│       │   │               │   ├── ReviewRepository.java
+│       │   │               │   ├── UserRepository.java
+│       │   │               │   └── WalletRepository.java
+│       │   │               └── service
+│       │   │                   ├── AirplaneService.java
+│       │   │                   ├── AirportService.java
+│       │   │                   ├── BookingService.java
+│       │   │                   ├── FlightService.java
+│       │   │                   ├── ReviewService.java
+│       │   │                   ├── UserService.java
+│       │   │                   ├── WalletService.java
+│       │   │                   └── impl
+│       │   │                       ├── AirplaneServiceImpl.java
+│       │   │                       ├── AirportServiceImpl.java
+│       │   │                       ├── BookingServiceImpl.java
+│       │   │                       ├── FlightServiceImpl.java
+│       │   │                       ├── ReviewServiceImpl.java
+│       │   │                       ├── UserServiceImpl.java
+│       │   │                       └── WalletServiceImpl.java
+│       │   ├── resources
+│       │   │   └── application.properties
+│       │   └── webapp
+│       └── test
+│           ├── java
+│           │   └── com
+│           │       └── version1
+│           │           └── frs
+│           │               └── BackendApplicationTests.java
+│           └── resources
+├── backend-structure.txt
+└── frontend
+
+26 directories, 72 files

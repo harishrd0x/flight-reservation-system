@@ -1,13 +1,20 @@
 package com.version1.frs.dto;
 
-public class ReviewRequest {
-
+public class ReviewResponse {
+    private Long reviewId;
     private Long userId;
     private Long flightId;
     private int rating;
     private String reviewText;
 
     // Getters & Setters
+    public Long getReviewId() {
+        return reviewId;
+    }
+
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
+    }
 
     public Long getUserId() {
         return userId;

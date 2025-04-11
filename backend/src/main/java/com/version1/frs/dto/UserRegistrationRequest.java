@@ -1,11 +1,24 @@
 package com.version1.frs.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class UserRegistrationRequest {
+
+	@NotBlank
 	private String userName;
+
+	@Email
+	@NotBlank
 	private String userEmail;
+
+	@NotBlank
 	private String userGender;
+
+	@NotBlank
 	private String userPassword;
-	private String userRole;
+
+	private String userRole; // Optional — default is CUSTOMER
 
 	// Getters and Setters
 	public String getUserName() {
@@ -23,11 +36,11 @@ public class UserRegistrationRequest {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
-
+	
 	public String getUserGender() {
 		return userGender;
 	}
-
+	
 	public void setUserGender(String userGender) {
 		this.userGender = userGender;
 	}

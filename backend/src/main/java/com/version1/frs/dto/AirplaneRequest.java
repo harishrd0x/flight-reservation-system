@@ -1,7 +1,6 @@
 package com.version1.frs.dto;
 
 public class AirplaneRequest {
-
     private String name;
     private String model;
     private String manufacturer;

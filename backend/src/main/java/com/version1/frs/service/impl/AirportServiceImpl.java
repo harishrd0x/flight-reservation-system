@@ -1,14 +1,15 @@
 package com.version1.frs.service.impl;
 
-import com.version1.frs.dto.AirportRequest;
-import com.version1.frs.model.Airport;
-import com.version1.frs.repository.AirportRepository;
-import com.version1.frs.service.AirportService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.version1.frs.dto.AirportRequest;
+import com.version1.frs.dto.AirportResponse;
+import com.version1.frs.model.Airport;
+import com.version1.frs.repository.AirportRepository;
+import com.version1.frs.service.AirportService;
 
 @Service
 public class AirportServiceImpl implements AirportService {
@@ -16,46 +17,57 @@ public class AirportServiceImpl implements AirportService {
     @Autowired
     private AirportRepository airportRepository;
 
-    @Override
-    public String addAirport(AirportRequest request) {
-        if (airportRepository.existsByAirportCode(request.getAirportCode())) {
-            return "Airport with this code already exists.";
-        }
+    private AirportResponse mapToResponse(Airport airport) {
+        AirportResponse response = new AirportResponse();
+        response.setAirportId(airport.getAirportId());
+        response.setAirportName(airport.getAirportName());
+        response.setAirportCode(airport.getAirportCode());
+        response.setAirportCity(airport.getAirportCity());
+        response.setAirportState(airport.getAirportState());
+        response.setAirportCountry(airport.getAirportCountry());
+        return response;
+    }
 
+    @Override
+    public AirportResponse addAirport(AirportRequest request) {
         Airport airport = new Airport();
         airport.setAirportName(request.getAirportName());
         airport.setAirportCode(request.getAirportCode());
         airport.setAirportCity(request.getAirportCity());
         airport.setAirportState(request.getAirportState());
         airport.setAirportCountry(request.getAirportCountry());
-
-        airportRepository.save(airport);
-        return "Airport added successfully.";
+        return mapToResponse(airportRepository.save(airport));
     }
 
     @Override
-    public List<Airport> getAllAirports() {
-        return airportRepository.findAll();
+    public AirportResponse updateAirport(int id, AirportRequest request) {
+        Airport airport = airportRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Airport not found"));
+        airport.setAirportName(request.getAirportName());
+        airport.setAirportCode(request.getAirportCode());
+        airport.setAirportCity(request.getAirportCity());
+        airport.setAirportState(request.getAirportState());
+        airport.setAirportCountry(request.getAirportCountry());
+        return mapToResponse(airportRepository.save(airport));
     }
 
-    @Override
-    public String updateAirport(int id, AirportRequest request) {
-        Optional<Airport> optionalAirport = airportRepository.findById(id);
-        if (optionalAirport.isPresent()) {
-            Airport airport = optionalAirport.get();
-            airport.setAirportName(request.getAirportName());
-            airport.setAirportCode(request.getAirportCode());
-            airport.setAirportCity(request.getAirportCity());
-            airport.setAirportState(request.getAirportState());
-            airport.setAirportCountry(request.getAirportCountry());
-            airportRepository.save(airport);
-            return "Airport updated successfully.";
-        }
-        return "Airport not found.";
-    }
-    
     @Override
     public void deleteAirport(int id) {
         airportRepository.deleteById(id);
+    }
+
+    @Override
+    public List<AirportResponse> getAllAirports() {
+        return airportRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    @Override
+    public AirportResponse getAirportById(int id) {
+        Airport airport = airportRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Airport not found"));
+        return mapToResponse(airport);
     }
 }

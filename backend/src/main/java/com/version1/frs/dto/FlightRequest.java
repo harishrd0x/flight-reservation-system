@@ -4,87 +4,77 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class FlightRequest {
+	private String flightNumber;
+	private String source;
+	private String destination;
+	private LocalDate departureDate;
+	private LocalTime departureTime;
+	private LocalTime arrivalTime;
+	private double price;
+	private Long airplaneId;
 
-    private String flightNumber;
-    private String airline;
-    private String source;
-    private String destination;
-    private LocalDate departureDate;
-    private LocalTime departureTime;
-    private LocalTime arrivalTime;
-    private int totalSeats;
-    private double price;
+	// Getters and Setters
+	public String getFlightNumber() {
+		return flightNumber;
+	}
 
-    // Getters and Setters
-    public String getFlightNumber() {
-        return flightNumber;
-    }
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
+	}
 
-    public void setFlightNumber(String flightNumber) {
-        this.flightNumber = flightNumber;
-    }
+	public String getSource() {
+		return source;
+	}
 
-    public String getAirline() {
-        return airline;
-    }
+	public void setSource(String source) {
+		this.source = source;
+	}
 
-    public void setAirline(String airline) {
-        this.airline = airline;
-    }
+	public String getDestination() {
+		return destination;
+	}
 
-    public String getSource() {
-        return source;
-    }
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
 
-    public void setSource(String source) {
-        this.source = source;
-    }
+	public LocalDate getDepartureDate() {
+		return departureDate;
+	}
 
-    public String getDestination() {
-        return destination;
-    }
+	public void setDepartureDate(LocalDate departureDate) {
+		this.departureDate = departureDate;
+	}
 
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
+	public LocalTime getDepartureTime() {
+		return departureTime;
+	}
 
-    public LocalDate getDepartureDate() {
-        return departureDate;
-    }
+	public void setDepartureTime(LocalTime departureTime) {
+		this.departureTime = departureTime;
+	}
 
-    public void setDepartureDate(LocalDate departureDate) {
-        this.departureDate = departureDate;
-    }
+	public LocalTime getArrivalTime() {
+		return arrivalTime;
+	}
 
-    public LocalTime getDepartureTime() {
-        return departureTime;
-    }
+	public void setArrivalTime(LocalTime arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
 
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
-    }
+	public double getPrice() {
+		return price;
+	}
 
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
+	public Long getAirplaneId() {
+		return airplaneId;
+	}
 
-    public int getTotalSeats() {
-        return totalSeats;
-    }
-
-    public void setTotalSeats(int totalSeats) {
-        this.totalSeats = totalSeats;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
+	public void setAirplaneId(Long airplaneId) {
+		this.airplaneId = airplaneId;
+	}
 }

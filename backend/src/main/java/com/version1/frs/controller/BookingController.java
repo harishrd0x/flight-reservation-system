@@ -1,21 +1,15 @@
 package com.version1.frs.controller;
 
-import java.util.List;
+import com.version1.frs.dto.BookingRequest;
+import com.version1.frs.dto.BookingResponse;
+import com.version1.frs.service.BookingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-import com.version1.frs.dto.BookingRequest;
-import com.version1.frs.model.Booking;
-import com.version1.frs.service.BookingService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -24,30 +18,24 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
+    // ✅ Book flight (CUSTOMER only)
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping
-    public ResponseEntity<Booking> bookFlight(@RequestBody BookingRequest request,
-                                              @RequestParam String userRole) {
-        if (!userRole.equalsIgnoreCase("CUSTOMER")) {
-            return ResponseEntity.status(403).build();
-        }
-
-        Booking booking = bookingService.bookFlight(request);
-        return ResponseEntity.ok(booking);
+    public ResponseEntity<BookingResponse> bookFlight(@RequestBody BookingRequest request) {
+        return ResponseEntity.ok(bookingService.bookFlight(request));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Booking>> getBookingsByUser(@RequestParam Long userId) {
+    // ✅ View all bookings of a user (CUSTOMER only)
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BookingResponse>> getUserBookings(@PathVariable int userId) {
         return ResponseEntity.ok(bookingService.getBookingsByUser(userId));
     }
 
-    @GetMapping("/{bookingId}")
-    public ResponseEntity<Booking> getBookingById(@PathVariable Long bookingId) {
-        return ResponseEntity.ok(bookingService.getBookingById(bookingId));
-    }
-
-    @DeleteMapping("/{bookingId}")
-    public ResponseEntity<String> cancelBooking(@PathVariable Long bookingId) {
-        bookingService.cancelBooking(bookingId);
-        return ResponseEntity.ok("Booking cancelled successfully");
+    // ✅ View all bookings (ADMIN only)
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<List<BookingResponse>> getAllBookings() {
+        return ResponseEntity.ok(bookingService.getAllBookings());
     }
 }

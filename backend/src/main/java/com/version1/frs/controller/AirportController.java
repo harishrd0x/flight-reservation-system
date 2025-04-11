@@ -25,6 +25,10 @@ public class AirportController {
 
         return ResponseEntity.ok(airportService.addAirport(request));
     }
+    @GetMapping
+	public ResponseEntity<List<Airport>> getAllAirports() {
+		return ResponseEntity.ok(airportService.getAllAirports());
+	}
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateAirport(@PathVariable int id,

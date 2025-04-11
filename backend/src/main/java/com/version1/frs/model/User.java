@@ -44,7 +44,7 @@ public class User {
     private String userRole;
 
     // --- Getters and Setters ---
-
+    
     public int getUserId() {
         return userId;
     }

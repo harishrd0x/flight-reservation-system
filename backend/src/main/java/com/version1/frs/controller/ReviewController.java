@@ -29,6 +29,6 @@ public class ReviewController {
 
     @GetMapping("/flight/{flightId}")
     public ResponseEntity<List<Review>> getReviewsByFlight(@PathVariable Long flightId) {
-        return ResponseEntity.ok(reviewService.getReviewsByFlightId(flightId));
+        return ResponseEntity.ok(reviewService.getReviewsByFlight(flightId));
     }
 }

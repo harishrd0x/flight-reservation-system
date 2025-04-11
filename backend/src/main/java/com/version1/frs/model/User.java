@@ -1,6 +1,11 @@
 package com.version1.frs.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -33,6 +38,10 @@ public class User {
     @Size(min = 8, message = "Password must be at least 8 characters")
     @Column(name = "user_password", nullable = false, length = 255)
     private String userPassword;
+    
+    @NotBlank(message = "Role is required")
+    @Column(name = "user_role", nullable = false, length = 20)
+    private String userRole;
 
     // --- Getters and Setters ---
 
@@ -74,5 +83,13 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+    
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 }

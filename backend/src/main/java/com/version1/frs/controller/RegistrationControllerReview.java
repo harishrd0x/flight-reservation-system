@@ -11,11 +11,11 @@ import com.version1.frs.repository.UserRepository;
  
 @RestController
 @CrossOrigin
-public class RegistrationController {
+public class RegistrationControllerReview {
 	UserRepository usreop;
  
 	@Autowired
-	public RegistrationController(UserRepository usreop) {
+	public RegistrationControllerReview(UserRepository usreop) {
 		super();
 		this.usreop = usreop;
 	}

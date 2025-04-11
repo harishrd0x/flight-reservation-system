@@ -17,24 +17,33 @@ public class AirportController {
     private AirportService airportService;
 
     @PostMapping
-    public ResponseEntity<String> addAirport(@RequestBody AirportRequest request) {
-        String response = airportService.addAirport(request);
-        return ResponseEntity.ok(response);
-    }
+    public ResponseEntity<String> addAirport(@RequestBody AirportRequest request,
+                                             @RequestParam String userRole) {
+        if (!userRole.equalsIgnoreCase("ADMIN")) {
+            return ResponseEntity.status(403).body("Access denied. Only ADMINs can add airports.");
+        }
 
-    @GetMapping
-    public ResponseEntity<List<Airport>> getAllAirports() {
-        return ResponseEntity.ok(airportService.getAllAirports());
+        return ResponseEntity.ok(airportService.addAirport(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAirport(@PathVariable int id, @RequestBody AirportRequest request) {
-        String response = airportService.updateAirport(id, request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<String> updateAirport(@PathVariable int id,
+                                                @RequestBody AirportRequest request,
+                                                @RequestParam String userRole) {
+        if (!userRole.equalsIgnoreCase("ADMIN")) {
+            return ResponseEntity.status(403).body("Access denied. Only ADMINs can update airports.");
+        }
+
+        return ResponseEntity.ok(airportService.updateAirport(id, request));
     }
-    
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAirport(@PathVariable int id) {
+    public ResponseEntity<String> deleteAirport(@PathVariable int id,
+                                                @RequestParam String userRole) {
+        if (!userRole.equalsIgnoreCase("ADMIN")) {
+            return ResponseEntity.status(403).body("Access denied. Only ADMINs can delete airports.");
+        }
+
         airportService.deleteAirport(id);
         return ResponseEntity.ok("Airport deleted successfully.");
     }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,10 +25,14 @@ public class FlightController {
     private FlightService flightService;
 
     @PostMapping
-    public String addFlight(@RequestBody FlightRequest request) {
+    public ResponseEntity<String> addFlight(@RequestBody FlightRequest request,
+                                            @RequestParam String userRole) {
+        if (!userRole.equalsIgnoreCase("ADMIN")) {
+            return ResponseEntity.status(403).body("Access denied. Only ADMINs can add flights.");
+        }
+
         flightService.addFlight(request);
-//        return ResponseEntity.ok("Flight added successfully");
-        return "Flight added successfully";
+        return ResponseEntity.ok("Flight added successfully.");
     }
 
     @GetMapping("/search")

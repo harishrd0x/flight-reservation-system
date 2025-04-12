@@ -25,11 +25,6 @@ public class AdminController {
     @Autowired private ReviewService reviewService;
     @Autowired private WalletService walletService;
 
-    @GetMapping("/bookings")
-    public List<BookingResponse> viewAllBookings() {
-        return bookingService.getAllBookings();
-    }
-
     @GetMapping("/users")
     public List<UserResponse> viewAllUsers() {
         return userService.getAllUsers();

@@ -552,7 +552,7 @@
     "/api/register": {
       "post": {
         "tags": [
-          "registration-controller"
+          "auth-controller"
         ],
         "operationId": "register",
         "requestBody": {
@@ -582,7 +582,7 @@
     "/api/login": {
       "post": {
         "tags": [
-          "login-controller"
+          "auth-controller"
         ],
         "operationId": "login",
         "requestBody": {

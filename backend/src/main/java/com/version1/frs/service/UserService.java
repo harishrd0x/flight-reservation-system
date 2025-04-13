@@ -16,4 +16,7 @@ public interface UserService {
 
 	// Authenticate and return user (used internally for login)
 	User authenticate(LoginRequest request);
+	
+	UserResponse getUserById(Long id);
+
 }

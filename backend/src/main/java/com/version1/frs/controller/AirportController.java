@@ -1,6 +1,7 @@
 package com.version1.frs.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +28,14 @@ public class AirportController {
     @Autowired
     private AirportService airportService;
 
-    // ✅ Add airport (ADMIN only)
+    // Add airport (ADMIN only)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<AirportResponse> addAirport(@RequestBody AirportRequest request) {
         return ResponseEntity.ok(airportService.addAirport(request));
     }
 
-    // ✅ Update airport (ADMIN only)
+    // Update airport (ADMIN only)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<AirportResponse> updateAirport(@PathVariable int id,
@@ -42,7 +43,7 @@ public class AirportController {
         return ResponseEntity.ok(airportService.updateAirport(id, request));
     }
 
-    // ✅ Delete airport (ADMIN only)
+    // Delete airport (ADMIN only)
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAirport(@PathVariable int id) {
@@ -50,17 +51,19 @@ public class AirportController {
         return ResponseEntity.ok("Airport deleted successfully.");
     }
 
-    // ✅ Get all airports (shared)
+    // Get all airports (shared)
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping
     public List<AirportResponse> getAllAirports() {
         return airportService.getAllAirports();
     }
 
-    // ✅ Get airport by ID (shared)
+    // Get airport by ID (shared)
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<AirportResponse> getAirportById(@PathVariable int id) {
-        return ResponseEntity.ok(airportService.getAirportById(id));
+        Optional<AirportResponse> response = airportService.getAirportById(id);
+        return response.map(ResponseEntity::ok)
+                       .orElse(ResponseEntity.notFound().build());
     }
 }

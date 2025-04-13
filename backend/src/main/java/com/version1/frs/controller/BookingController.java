@@ -18,21 +18,21 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-    // ✅ Book flight (CUSTOMER only)
+    // Book flight (CUSTOMER only)
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping
     public ResponseEntity<BookingResponse> bookFlight(@RequestBody BookingRequest request) {
         return ResponseEntity.ok(bookingService.bookFlight(request));
     }
 
-    // ✅ View all bookings of a user (CUSTOMER only)
+    // View all bookings of a user (CUSTOMER only)
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<BookingResponse>> getUserBookings(@PathVariable int userId) {
         return ResponseEntity.ok(bookingService.getBookingsByUser(userId));
     }
 
-    // ✅ View all bookings (ADMIN only)
+    // View all bookings (ADMIN only)
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<BookingResponse>> getAllBookings() {

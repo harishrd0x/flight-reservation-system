@@ -57,6 +57,20 @@ public class UserServiceImpl implements UserService {
                 .map(this::mapToResponse)
                 .toList();
     }
+    
+    @Override
+    public UserResponse getUserById(Long id) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        UserResponse response = new UserResponse();
+        response.setUserId(user.getUserId());
+        response.setUserName(user.getUserName());
+        response.setUserEmail(user.getUserEmail());
+        response.setUserGender(user.getUserGender());
+        response.setUserRole(user.getUserRole());
+        return response;
+    }
 
     // Mapping method
     private UserResponse mapToResponse(User user) {

@@ -4,7 +4,7 @@ public class BookingRequest {
 
     private Long userId;
     private Long flightId;
-    private int numberOfSeats;
+//    private int numberOfSeats;
 
     // Getters & Setters
 
@@ -24,11 +24,11 @@ public class BookingRequest {
         this.flightId = flightId;
     }
 
-    public int getNumberOfSeats() {
-        return numberOfSeats;
-    }
-
-    public void setNumberOfSeats(int numberOfSeats) {
-        this.numberOfSeats = numberOfSeats;
-    }
+//    public int getNumberOfSeats() {
+//        return numberOfSeats;
+//    }
+//
+//    public void setNumberOfSeats(int numberOfSeats) {
+//        this.numberOfSeats = numberOfSeats;
+//    }
 }

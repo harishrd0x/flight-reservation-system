@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 
+
 // Pages
 import LandingPage from "./pages/LandingPage";
 import AboutUs from "./pages/AboutUs";
@@ -27,6 +28,8 @@ import Index from "./pages/Index";
 import AddFlightPage from "./pages/Dashboard/AddFlight";
 import RoleGuard from "./components/auth/RoleGuard";
 import Profile from "./pages/Dashboard/Profile";
+
+
 
 /**
  * BACKEND INTEGRATION NOTE:
@@ -120,5 +123,7 @@ const App = () => (
     </AuthProvider>
   </QueryClientProvider>
 );
+
+
 
 export default App;

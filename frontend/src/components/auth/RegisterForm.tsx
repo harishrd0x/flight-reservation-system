@@ -22,6 +22,7 @@ export default function RegisterForm() {
     email?: string; 
     password?: string;
     confirmPassword?: string;
+    general?: string;
   }>({});
   
   const { register } = useAuth();
@@ -56,17 +57,34 @@ export default function RegisterForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+  
     if (validateForm()) {
-      // Always register as customer
-      const success = register(email, password, "customer");
-      if (success) {
+      try {
+        // Send registration request to the backend
+        const res = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password, role: "customer" }),
+        });
+  
+        if (!res.ok) {
+          const errorData = await res.json();
+          setErrors({ general: errorData.message || "Registration failed" });
+          return;
+        }
+  
+        // On success, redirect to the login page
         navigate("/login");
+      } catch (err) {
+        setErrors({ general: "Something went wrong. Please try again." });
       }
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center min-h-[80vh] px-4 py-8">

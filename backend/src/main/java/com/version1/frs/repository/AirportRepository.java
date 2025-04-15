@@ -9,5 +9,5 @@ import com.version1.frs.model.Airport;
 public interface AirportRepository extends JpaRepository<Airport, Integer> {
     boolean existsByAirportCode(String airportCode);
     Optional<Airport> findByAirportId(Long airportId);
-    boolean existsById(Long id);
+    boolean existsByAirportId(Long id);
 }

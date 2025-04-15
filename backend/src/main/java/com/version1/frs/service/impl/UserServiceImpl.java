@@ -33,20 +33,17 @@ public class UserServiceImpl implements UserService {
         user.setUserName(request.getUserName());
         user.setUserEmail(request.getUserEmail());
         user.setUserGender(request.getUserGender());
+        userRepository.save(user);
+        // Encode password before saving
+        user.setUserPassword(passwordEncoder.encode(request.getUserPassword()));
+        user.setUserRole(request.getUserRole() != null ? request.getUserRole() : "CUSTOMER");
+        userRepository.save(user);
+        
         
         Wallet wallet = new Wallet();
         wallet.setUser(user);
         wallet.setBalance(0.0);
         user.setWallet(wallet); // creating bidirectional link
-        
-        userRepository.save(user);
-
-        // Encode password before saving
-        user.setUserPassword(passwordEncoder.encode(request.getUserPassword()));
-
-        user.setUserRole(request.getUserRole() != null ? request.getUserRole() : "CUSTOMER");
-        
-        userRepository.save(user);
         return "Registration successful.";
     }
 

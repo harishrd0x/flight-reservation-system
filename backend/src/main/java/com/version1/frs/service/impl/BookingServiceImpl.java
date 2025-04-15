@@ -52,6 +52,8 @@ public class BookingServiceImpl implements BookingService {
         booking.setUser(user);
         booking.setFlight(flight);
         booking.setBookingTime(LocalDateTime.now());
+        booking.setTotalAmount(flightPrice);
+
 
         bookingRepository.save(booking);
 

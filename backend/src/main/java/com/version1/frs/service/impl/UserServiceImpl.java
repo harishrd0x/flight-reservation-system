@@ -10,6 +10,7 @@ import com.version1.frs.dto.LoginRequest;
 import com.version1.frs.dto.UserRegistrationRequest;
 import com.version1.frs.dto.UserResponse;
 import com.version1.frs.model.User;
+import com.version1.frs.model.Wallet;
 import com.version1.frs.repository.UserRepository;
 import com.version1.frs.service.UserService;
 
@@ -32,6 +33,12 @@ public class UserServiceImpl implements UserService {
         user.setUserName(request.getUserName());
         user.setUserEmail(request.getUserEmail());
         user.setUserGender(request.getUserGender());
+        
+        Wallet wallet = new Wallet();
+        wallet.setUser(user);
+        user.setWallet(wallet); // creating bidirectional link
+        
+        userRepository.save(user);
 
         // Encode password before saving
         user.setUserPassword(passwordEncoder.encode(request.getUserPassword()));

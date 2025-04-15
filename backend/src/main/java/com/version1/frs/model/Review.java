@@ -1,6 +1,13 @@
 package com.version1.frs.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_REVIEWS")
@@ -11,12 +18,12 @@ public class Review {
     @Column(name = "REVIEW_ID")
     private Long reviewId;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "FLIGHT_ID", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "FLIGHT_ID")
     private Flight flight;
 
     @Column(name = "RATING", nullable = false)
@@ -26,7 +33,6 @@ public class Review {
     private String reviewText;
 
     // Getters and Setters
-
     public Long getReviewId() {
         return reviewId;
     }

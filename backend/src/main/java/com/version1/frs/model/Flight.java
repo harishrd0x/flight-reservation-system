@@ -12,6 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
+
 @Entity
 @Table(name = "TBL_FLIGHTS")
 public class Flight {
@@ -19,16 +21,10 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FLIGHT_ID")
-    private Long id;
+    private Long flightId;
 
     @Column(name = "FLIGHT_NUMBER", nullable = false)
     private String flightNumber;
-
-    @Column(name = "SOURCE", nullable = false)
-    private String source;
-
-    @Column(name = "DESTINATION", nullable = false)
-    private String destination;
 
     @Column(name = "DEPARTURE_DATE", nullable = false)
     private LocalDate departureDate;
@@ -42,19 +38,25 @@ public class Flight {
     @Column(name = "PRICE", nullable = false)
     private Double price;
 
-    // Relationship to airplane
     @ManyToOne
     @JoinColumn(name = "AIRPLANE_ID", nullable = false)
     private Airplane airplane;
+    
+    @ManyToOne
+    @JoinColumn(name = "SOURCE_AIRPORT_ID", nullable = false)
+    private Airport sourceAirport;
+
+    @ManyToOne
+    @JoinColumn(name = "DESTINATION_AIRPORT_ID", nullable = false)
+    private Airport destinationAirport;
 
     // Getters and Setters
-
-    public Long getId() {
-        return id;
+    public Long getFlightId() {
+        return flightId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
     }
 
     public String getFlightNumber() {
@@ -63,22 +65,6 @@ public class Flight {
 
     public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     public LocalDate getDepartureDate() {

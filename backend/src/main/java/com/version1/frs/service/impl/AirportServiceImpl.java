@@ -66,4 +66,10 @@ public class AirportServiceImpl implements AirportService {
         Optional<Airport> airport = airportRepository.findById(id);
         return airport.map(this::mapToResponse);
     }
+
+    @Override
+    public boolean doesAirportExist(int id) {
+        return airportRepository.existsById(id);
+    }
+
 }

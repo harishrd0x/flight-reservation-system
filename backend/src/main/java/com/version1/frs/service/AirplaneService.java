@@ -15,4 +15,6 @@ public interface AirplaneService {
 	List<Airplane> getAllAirplanes();
 
 	Airplane getAirplaneById(Long id);
+
+	boolean doesAirplaneExist(Long id);
 }

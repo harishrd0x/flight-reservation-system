@@ -54,10 +54,15 @@ public class AirplaneController {
         }
     }
 
-    // Delete Airplane
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteAirplane(@PathVariable Long id) {
+        boolean exists = airplaneService.doesAirplaneExist(id);
+        
+        if (!exists) {
+            return new ResponseEntity<>(new MessageResponse("Airplane not found."), HttpStatus.NOT_FOUND);
+        }
+
         try {
             String result = airplaneService.deleteAirplane(id);
             return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
@@ -65,6 +70,7 @@ public class AirplaneController {
             return new ResponseEntity<>(new MessageResponse("Failed to delete airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
 
     // Get all Airplanes
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")

@@ -12,4 +12,5 @@ public interface AirportService {
     void deleteAirport(int airportId);
     List<AirportResponse> getAllAirports();
     Optional<AirportResponse> getAirportById(int airportId);
+	boolean doesAirportExist(int id);
 }

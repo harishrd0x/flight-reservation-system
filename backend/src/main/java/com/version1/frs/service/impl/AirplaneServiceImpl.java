@@ -58,4 +58,10 @@ public class AirplaneServiceImpl implements AirplaneService {
         return airplaneRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Airplane not found"));
     }
+
+    @Override
+    public boolean doesAirplaneExist(Long id) {
+        return airplaneRepository.existsById(id);
+    }
+
 }

@@ -7,6 +7,7 @@ import com.version1.frs.dto.ReviewResponse;
 
 public interface ReviewService {
     ReviewResponse postReview(ReviewRequest request);
-    List<ReviewResponse> getReviewsByFlight(Long flightId);
-    List<ReviewResponse> getAllReviews(); // For homepage display
+    List<ReviewResponse> getReviewsByFlightId(Long flightId);
+    List<ReviewResponse> getReviewsByUserId(Long userId);
+    List<ReviewResponse> getAllReviews();
 }

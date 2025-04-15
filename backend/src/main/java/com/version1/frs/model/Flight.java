@@ -51,59 +51,76 @@ public class Flight {
     private Airport destinationAirport;
 
     // Getters and Setters
-    public Long getFlightId() {
-        return flightId;
-    }
 
-    public void setFlightId(Long flightId) {
-        this.flightId = flightId;
-    }
+	public Long getFlightId() {
+		return flightId;
+	}
 
-    public String getFlightNumber() {
-        return flightNumber;
-    }
+	public void setFlightId(Long flightId) {
+		this.flightId = flightId;
+	}
 
-    public void setFlightNumber(String flightNumber) {
-        this.flightNumber = flightNumber;
-    }
+	public String getFlightNumber() {
+		return flightNumber;
+	}
 
-    public LocalDate getDepartureDate() {
-        return departureDate;
-    }
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
+	}
 
-    public void setDepartureDate(LocalDate departureDate) {
-        this.departureDate = departureDate;
-    }
+	public LocalDate getDepartureDate() {
+		return departureDate;
+	}
 
-    public LocalTime getDepartureTime() {
-        return departureTime;
-    }
+	public void setDepartureDate(LocalDate departureDate) {
+		this.departureDate = departureDate;
+	}
 
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
-    }
+	public LocalTime getDepartureTime() {
+		return departureTime;
+	}
 
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
+	public void setDepartureTime(LocalTime departureTime) {
+		this.departureTime = departureTime;
+	}
 
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
+	public LocalTime getArrivalTime() {
+		return arrivalTime;
+	}
 
-    public Double getPrice() {
-        return price;
-    }
+	public void setArrivalTime(LocalTime arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+	public Double getPrice() {
+		return price;
+	}
 
-    public Airplane getAirplane() {
-        return airplane;
-    }
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
-    public void setAirplane(Airplane airplane) {
-        this.airplane = airplane;
-    }
+	public Airplane getAirplane() {
+		return airplane;
+	}
+
+	public void setAirplane(Airplane airplane) {
+		this.airplane = airplane;
+	}
+
+	public Airport getSourceAirport() {
+		return sourceAirport;
+	}
+
+	public void setSourceAirport(Airport sourceAirport) {
+		this.sourceAirport = sourceAirport;
+	}
+
+	public Airport getDestinationAirport() {
+		return destinationAirport;
+	}
+
+	public void setDestinationAirport(Airport destinationAirport) {
+		this.destinationAirport = destinationAirport;
+	}    
 }

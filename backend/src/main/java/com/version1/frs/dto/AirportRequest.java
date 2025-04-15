@@ -6,19 +6,23 @@ import jakarta.validation.constraints.Size;
 public class AirportRequest {
 
     @NotBlank(message = "Airport name is required")
+    @Size(max = 100, message = "Airport name must not exceed 100 characters")
     private String airportName;
 
     @NotBlank(message = "Airport code is required")
-    @Size(max = 10)
+    @Size(max = 10, message = "Airport code must not exceed 10 characters")
     private String airportCode;
 
     @NotBlank(message = "City is required")
+    @Size(max = 100, message = "City must not exceed 100 characters")
     private String airportCity;
 
     @NotBlank(message = "State is required")
+    @Size(max = 100, message = "State must not exceed 100 characters")
     private String airportState;
 
     @NotBlank(message = "Country is required")
+    @Size(max = 100, message = "Country must not exceed 100 characters")
     private String airportCountry;
 
     // Getters and Setters

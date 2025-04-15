@@ -20,6 +20,8 @@ import com.version1.frs.dto.AirportRequest;
 import com.version1.frs.dto.AirportResponse;
 import com.version1.frs.service.AirportService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/airports")
 @CrossOrigin
@@ -31,7 +33,7 @@ public class AirportController {
     // Add airport (ADMIN only)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<AirportResponse> addAirport(@RequestBody AirportRequest request) {
+    public ResponseEntity<AirportResponse> addAirport(@Valid @RequestBody AirportRequest request) {
         return ResponseEntity.ok(airportService.addAirport(request));
     }
 

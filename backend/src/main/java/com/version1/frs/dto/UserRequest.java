@@ -2,25 +2,35 @@ package com.version1.frs.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-public class UserRegistrationRequest {
+public class UserRequest {
 
-	@NotBlank
+	@NotBlank(message = "Name is required")
+	@Size(max = 100, message = "Name should not exceed 100 characters")
 	private String userName;
 
-	@Email
-	@NotBlank
+	@NotBlank(message = "Email is required")
+	@Email(message = "Email should be valid")
+	@Size(max = 150, message = "Email should not exceed 150 characters")
 	private String userEmail;
 
-	@NotBlank
+	@NotBlank(message = "Gender is required")
+	@Pattern(regexp = "^(Male|Female|Other)$", message = "Gender must be either 'Male', 'Female' or 'Other'")
 	private String userGender;
 
-	@NotBlank
+	@NotBlank(message = "Password is required")
+	@Size(min = 8, message = "Password should have at least 8 characters")
 	private String userPassword;
+	
+	@NotBlank(message = "Role is required")
+	@Size(max = 20, message = "Role should not exceed 20 characters")
+	private String userRole;
 
-	private String userRole; // Optional — default is CUSTOMER
 
 	// Getters and Setters
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -36,11 +46,11 @@ public class UserRegistrationRequest {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
-	
+
 	public String getUserGender() {
 		return userGender;
 	}
-	
+
 	public void setUserGender(String userGender) {
 		this.userGender = userGender;
 	}

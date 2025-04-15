@@ -28,8 +28,8 @@ public class ReviewController {
     // SHARED: Get reviews by flight ID
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping("/flight/{flightId}")
-    public List<ReviewResponse> getReviewsByFlight(@PathVariable Long flightId) {
-        return reviewService.getReviewsByFlight(flightId);
+    public List<ReviewResponse> getReviewsByFlightId(@PathVariable Long flightId) {
+        return reviewService.getReviewsByFlightId(flightId);
     }
 
     // PUBLIC/SHARED: Get all reviews (for homepage display)

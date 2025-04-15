@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.version1.frs.dto.FlightRequest;
 import com.version1.frs.dto.FlightResponse;
 import com.version1.frs.model.Airplane;
+import com.version1.frs.model.Airport;
 import com.version1.frs.model.Flight;
 import com.version1.frs.repository.AirplaneRepository;
+import com.version1.frs.repository.AirportRepository;
 import com.version1.frs.repository.FlightRepository;
 import com.version1.frs.service.FlightService;
 
@@ -23,6 +25,9 @@ public class FlightServiceImpl implements FlightService {
 
     @Autowired
     private AirplaneRepository airplaneRepository;
+
+    @Autowired
+    private AirportRepository airportRepository;
 
     @Override
     public void addFlight(FlightRequest request) {
@@ -36,8 +41,6 @@ public class FlightServiceImpl implements FlightService {
         if (optional.isPresent()) {
             Flight flight = optional.get();
             flight.setFlightNumber(request.getFlightNumber());
-            flight.setSource(request.getSource());
-            flight.setDestination(request.getDestination());
             flight.setDepartureDate(request.getDepartureDate());
             flight.setDepartureTime(request.getDepartureTime());
             flight.setArrivalTime(request.getArrivalTime());
@@ -46,6 +49,14 @@ public class FlightServiceImpl implements FlightService {
             Airplane airplane = airplaneRepository.findById(request.getAirplaneId())
                     .orElseThrow(() -> new RuntimeException("Airplane not found"));
             flight.setAirplane(airplane);
+
+            Airport source = airportRepository.findByAirportId(request.getSourceAirportId())
+                    .orElseThrow(() -> new RuntimeException("Source Airport not found"));
+            flight.setSourceAirport(source);
+
+            Airport destination = airportRepository.findByAirportId(request.getDestinationAirportId())
+                    .orElseThrow(() -> new RuntimeException("Destination Airport not found"));
+            flight.setDestinationAirport(destination);
 
             flightRepository.save(flight);
         }
@@ -72,7 +83,8 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<FlightResponse> searchFlights(String source, String destination, LocalDate date) {
-        return flightRepository.findBySourceAndDestinationAndDepartureDate(source, destination, date)
+        return flightRepository.findBySourceAirport_AirportCodeAndDestinationAirport_AirportCodeAndDepartureDate(
+                source, destination, date)
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
@@ -82,8 +94,6 @@ public class FlightServiceImpl implements FlightService {
     private Flight mapToEntity(FlightRequest request) {
         Flight flight = new Flight();
         flight.setFlightNumber(request.getFlightNumber());
-        flight.setSource(request.getSource());
-        flight.setDestination(request.getDestination());
         flight.setDepartureDate(request.getDepartureDate());
         flight.setDepartureTime(request.getDepartureTime());
         flight.setArrivalTime(request.getArrivalTime());
@@ -93,20 +103,29 @@ public class FlightServiceImpl implements FlightService {
                 .orElseThrow(() -> new RuntimeException("Airplane not found"));
         flight.setAirplane(airplane);
 
+        Airport source = airportRepository.findByAirportId(request.getSourceAirportId())
+                .orElseThrow(() -> new RuntimeException("Source Airport not found"));
+        flight.setSourceAirport(source);
+
+        Airport destination = airportRepository.findByAirportId(request.getDestinationAirportId())
+                .orElseThrow(() -> new RuntimeException("Destination Airport not found"));
+        flight.setDestinationAirport(destination);
+
         return flight;
     }
 
     private FlightResponse mapToResponse(Flight flight) {
         FlightResponse res = new FlightResponse();
-        res.setFlightId(flight.getId());
+        res.setFlightId(flight.getFlightId());
         res.setFlightNumber(flight.getFlightNumber());
-        res.setSource(flight.getSource());
-        res.setDestination(flight.getDestination());
         res.setDepartureDate(flight.getDepartureDate());
         res.setDepartureTime(flight.getDepartureTime());
         res.setArrivalTime(flight.getArrivalTime());
         res.setPrice(flight.getPrice());
-        res.setAirplaneName(flight.getAirplane().getName());
+        res.setAirplaneName(flight.getAirplane().getAirplaneName());
+        res.setSourceAirportCode(flight.getSourceAirport().getAirportCode());  // Updated field
+        res.setDestinationAirportCode(flight.getDestinationAirport().getAirportCode());  // Updated field
         return res;
     }
+
 }

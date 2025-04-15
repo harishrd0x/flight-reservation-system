@@ -6,8 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "TBL_AIRPORTS")
@@ -18,28 +16,18 @@ public class Airport {
 	@Column(name = "AIRPORT_ID")
 	private int airportId;
 
-	@NotBlank
-	@Size(max = 100)
 	@Column(name = "AIRPORT_NAME", nullable = false, length = 100)
 	private String airportName;
 
-	@NotBlank
-	@Size(max = 10)
 	@Column(name = "AIRPORT_CODE", nullable = false, unique = true, length = 10)
 	private String airportCode;
 
-	@NotBlank
-	@Size(max = 100)
 	@Column(name = "AIRPORT_CITY", nullable = false, length = 100)
 	private String airportCity;
 
-	@NotBlank
-	@Size(max = 100)
 	@Column(name = "AIRPORT_STATE", nullable = false, length = 100)
 	private String airportState;
 
-	@NotBlank
-	@Size(max = 100)
 	@Column(name = "AIRPORT_COUNTRY", nullable = false, length = 100)
 	private String airportCountry;
 

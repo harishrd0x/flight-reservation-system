@@ -12,4 +12,8 @@ public interface WalletService {
 	WalletResponse addMoney(WalletRequest request);
 
 	WalletResponse makePayment(WalletRequest request);
+
+	WalletResponse createWallet(WalletRequest request);
+
+	WalletResponse updateWallet(Long walletId, WalletRequest request);
 }

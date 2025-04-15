@@ -19,8 +19,8 @@ public class AirplaneServiceImpl implements AirplaneService {
     @Override
     public String addAirplane(AirplaneRequest request) {
         Airplane airplane = new Airplane();
-        airplane.setName(request.getName());
-        airplane.setModel(request.getModel());
+        airplane.setAirplaneName(request.getAirplaneName());
+        airplane.setAirplaneModel(request.getAirplaneModel());
         airplane.setManufacturer(request.getManufacturer());
         airplane.setCapacity(request.getCapacity());
 
@@ -33,8 +33,8 @@ public class AirplaneServiceImpl implements AirplaneService {
         Airplane airplane = airplaneRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Airplane not found"));
 
-        airplane.setName(request.getName());
-        airplane.setModel(request.getModel());
+        airplane.setAirplaneName(request.getAirplaneName());
+        airplane.setAirplaneModel(request.getAirplaneModel());
         airplane.setManufacturer(request.getManufacturer());
         airplane.setCapacity(request.getCapacity());
 

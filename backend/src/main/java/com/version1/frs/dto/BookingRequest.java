@@ -1,13 +1,22 @@
 package com.version1.frs.dto;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 public class BookingRequest {
 
+    @NotNull(message = "User ID is required")
     private Long userId;
+
+    @NotNull(message = "Flight ID is required")
     private Long flightId;
-//    private int numberOfSeats;
+
+    @Min(value = 1, message = "Total amount must be at least 1")
+    private double totalAmount;
+
+    // No bookingTime: backend should set LocalDateTime.now()
 
     // Getters & Setters
-
     public Long getUserId() {
         return userId;
     }
@@ -24,11 +33,11 @@ public class BookingRequest {
         this.flightId = flightId;
     }
 
-//    public int getNumberOfSeats() {
-//        return numberOfSeats;
-//    }
-//
-//    public void setNumberOfSeats(int numberOfSeats) {
-//        this.numberOfSeats = numberOfSeats;
-//    }
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 }

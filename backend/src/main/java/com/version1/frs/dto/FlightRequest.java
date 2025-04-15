@@ -1,80 +1,104 @@
 package com.version1.frs.dto;
 
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class FlightRequest {
-	private String flightNumber;
-	private String source;
-	private String destination;
-	private LocalDate departureDate;
-	private LocalTime departureTime;
-	private LocalTime arrivalTime;
-	private double price;
-	private Long airplaneId;
 
-	// Getters and Setters
-	public String getFlightNumber() {
-		return flightNumber;
-	}
+    @NotNull(message = "Flight number is required")
+    @Size(max = 20, message = "Flight number can't exceed 20 characters")
+    private String flightNumber;
 
-	public void setFlightNumber(String flightNumber) {
-		this.flightNumber = flightNumber;
-	}
+    @NotNull(message = "Departure date is required")
+    @FutureOrPresent(message = "Departure date must be today or in the future")
+    private LocalDate departureDate;
 
-	public String getSource() {
-		return source;
-	}
+    @NotNull(message = "Departure time is required")
+    private LocalTime departureTime;
 
-	public void setSource(String source) {
-		this.source = source;
-	}
+    @NotNull(message = "Arrival time is required")
+    private LocalTime arrivalTime;
 
-	public String getDestination() {
-		return destination;
-	}
+    @NotNull(message = "Price is required")
+    @Min(value = 1, message = "Price must be at least 1")
+    private Double price;
 
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
+    @NotNull(message = "Airplane ID is required")
+    private Long airplaneId;
 
-	public LocalDate getDepartureDate() {
-		return departureDate;
-	}
+    @NotNull(message = "Source airport ID is required")
+    private Long sourceAirportId;
 
-	public void setDepartureDate(LocalDate departureDate) {
-		this.departureDate = departureDate;
-	}
+    @NotNull(message = "Destination airport ID is required")
+    private Long destinationAirportId;
 
-	public LocalTime getDepartureTime() {
-		return departureTime;
-	}
+    // Getters & Setters
+    public String getFlightNumber() {
+        return flightNumber;
+    }
 
-	public void setDepartureTime(LocalTime departureTime) {
-		this.departureTime = departureTime;
-	}
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
+    }
 
-	public LocalTime getArrivalTime() {
-		return arrivalTime;
-	}
+    public LocalDate getDepartureDate() {
+        return departureDate;
+    }
 
-	public void setArrivalTime(LocalTime arrivalTime) {
-		this.arrivalTime = arrivalTime;
-	}
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
+    }
 
-	public double getPrice() {
-		return price;
-	}
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
 
-	public Long getAirplaneId() {
-		return airplaneId;
-	}
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
 
-	public void setAirplaneId(Long airplaneId) {
-		this.airplaneId = airplaneId;
-	}
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Long getAirplaneId() {
+        return airplaneId;
+    }
+
+    public void setAirplaneId(Long airplaneId) {
+        this.airplaneId = airplaneId;
+    }
+
+    public Long getSourceAirportId() {
+        return sourceAirportId;
+    }
+
+    public void setSourceAirportId(Long sourceAirportId) {
+        this.sourceAirportId = sourceAirportId;
+    }
+
+    public Long getDestinationAirportId() {
+        return destinationAirportId;
+    }
+
+    public void setDestinationAirportId(Long destinationAirportId) {
+        this.destinationAirportId = destinationAirportId;
+    }
 }

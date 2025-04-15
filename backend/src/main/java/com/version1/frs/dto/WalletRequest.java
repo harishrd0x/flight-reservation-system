@@ -1,9 +1,18 @@
 package com.version1.frs.dto;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 public class WalletRequest {
 
+    @NotNull(message = "User ID cannot be null")
     private Long userId;
-    private Double amount;
+
+    @NotNull(message = "Balance cannot be null")
+    @Positive(message = "Balance must be positive")
+    private Double balance;
+
+    // Getters and Setters
 
     public Long getUserId() {
         return userId;
@@ -13,11 +22,11 @@ public class WalletRequest {
         this.userId = userId;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getBalance() {
+        return balance;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 }

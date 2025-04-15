@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.LoginRequest;
-import com.version1.frs.dto.UserRegistrationRequest;
+import com.version1.frs.dto.UserRequest;
 import com.version1.frs.dto.UserResponse;
 import com.version1.frs.model.User;
 import com.version1.frs.model.Wallet;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public String register(UserRegistrationRequest request) {
+    public String register(UserRequest request) {
         if (userRepository.findByUserEmail(request.getUserEmail()) != null) {
             return "Email already registered.";
         }
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         user.setUserPassword(passwordEncoder.encode(request.getUserPassword()));
 
         user.setUserRole(request.getUserRole() != null ? request.getUserRole() : "CUSTOMER");
-
+        
         userRepository.save(user);
         return "Registration successful.";
     }

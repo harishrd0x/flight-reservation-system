@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
         
         Wallet wallet = new Wallet();
         wallet.setUser(user);
+        wallet.setBalance(0.0);
         user.setWallet(wallet); // creating bidirectional link
         
         userRepository.save(user);

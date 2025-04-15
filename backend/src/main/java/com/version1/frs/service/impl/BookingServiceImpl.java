@@ -35,7 +35,7 @@ public class BookingServiceImpl implements BookingService {
         Flight flight = flightRepository.findById(request.getFlightId())
                 .orElseThrow(() -> new RuntimeException("Flight not found"));
 
-        Wallet wallet = walletRepository.findByUser_Id(user.getUserId())
+        Wallet wallet = walletRepository.findByUser_UserId(user.getUserId())
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
 
         double flightPrice = flight.getPrice();

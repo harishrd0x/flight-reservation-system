@@ -40,7 +40,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public WalletResponse getWalletByUserId(Long userId) {
-        Wallet wallet = walletRepository.findByUser_Id(userId)
+        Wallet wallet = walletRepository.findByUser_UserId(userId)
                 .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
         return mapToResponse(wallet);
     }
@@ -79,7 +79,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public WalletResponse addMoney(WalletRequest request) {
         // Get wallet by user ID
-        Wallet wallet = walletRepository.findByUser_Id(request.getUserId())
+        Wallet wallet = walletRepository.findByUser_UserId(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
 
         // Add money to the wallet balance
@@ -93,7 +93,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public WalletResponse makePayment(WalletRequest request) {
         // Get wallet by user ID
-        Wallet wallet = walletRepository.findByUser_Id(request.getUserId())
+        Wallet wallet = walletRepository.findByUser_UserId(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
 
         // Check if the balance is enough for the payment

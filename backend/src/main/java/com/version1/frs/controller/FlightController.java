@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.version1.frs.dto.FlightRequest;
 import com.version1.frs.dto.FlightResponse;
+import com.version1.frs.model.Airport;
 import com.version1.frs.service.FlightService;
 
 import jakarta.validation.Valid;
@@ -59,8 +60,8 @@ public class FlightController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping("/search")
-    public List<FlightResponse> searchFlights(@RequestParam String source,
-                                              @RequestParam String destination,
+    public List<FlightResponse> searchFlights(@RequestParam Airport source,
+                                              @RequestParam Airport destination,
                                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return flightService.searchFlights(source, destination, date);
     }

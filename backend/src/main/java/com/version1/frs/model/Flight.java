@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
-
 @Entity
 @Table(name = "TBL_FLIGHTS")
 public class Flight {

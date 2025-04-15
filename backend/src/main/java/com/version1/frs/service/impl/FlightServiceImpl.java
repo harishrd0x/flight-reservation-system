@@ -82,8 +82,8 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<FlightResponse> searchFlights(String source, String destination, LocalDate date) {
-        return flightRepository.findBySourceAirport_AirportCodeAndDestinationAirport_AirportCodeAndDepartureDate(
+    public List<FlightResponse> searchFlights(Airport source, Airport destination, LocalDate date) {
+        return flightRepository.findBySourceAirportAndDestinationAirportAndDepartureDate(
                 source, destination, date)
                 .stream()
                 .map(this::mapToResponse)

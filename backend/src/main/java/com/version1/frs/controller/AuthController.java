@@ -64,7 +64,7 @@ public class AuthController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User user = userRepository.findByUserEmail(request.getUserEmail());
 
-            String token = jwtUtil.generateToken(user.getUserEmail(), user.getUserRole());
+            String token = jwtUtil.generateToken(user.getUserEmail(), user.getUserRole(), user.getUserId());
             return ResponseEntity.ok(new LoginResponse(token, user.getUserRole()));
 
         } catch (BadCredentialsException ex) {

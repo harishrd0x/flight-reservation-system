@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 
 public class WalletRequest {
 
-    @NotNull(message = "User ID cannot be null")
+//    @NotNull(message = "User ID cannot be null")
     private Long userId;
 
     @NotNull(message = "Balance cannot be null")

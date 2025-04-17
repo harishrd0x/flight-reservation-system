@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class BookingRequest {
 
-    @NotNull(message = "User ID is required")
+//    @NotNull(message = "User ID is required")
     private Long userId;
 
     @NotNull(message = "Flight ID is required")

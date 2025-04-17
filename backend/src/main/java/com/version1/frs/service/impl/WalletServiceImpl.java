@@ -22,21 +22,21 @@ public class WalletServiceImpl implements WalletService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public WalletResponse createWallet(WalletRequest request) {
-        // Validate the user exists
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Create Wallet
-        Wallet wallet = new Wallet();
-        wallet.setUser(user);
-        wallet.setBalance(request.getBalance());
-
-        wallet = walletRepository.save(wallet);
-
-        return mapToResponse(wallet);
-    }
+//    @Override
+//    public WalletResponse createWallet(WalletRequest request) {
+//        // Validate the user exists
+//        User user = userRepository.findById(request.getUserId())
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        // Create Wallet
+//        Wallet wallet = new Wallet();
+//        wallet.setUser(user);
+//        wallet.setBalance(request.getBalance());
+//
+//        wallet = walletRepository.save(wallet);
+//
+//        return mapToResponse(wallet);
+//    }
 
     @Override
     public WalletResponse getWalletByUserId(Long userId) {
@@ -60,26 +60,26 @@ public class WalletServiceImpl implements WalletService {
         }
     }
 
+//    @Override
+//    public WalletResponse createWallet(Long userId) {
+//        // Validate the user exists
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        // Create Wallet
+//        Wallet wallet = new Wallet();
+//        wallet.setUser(user);
+//        wallet.setBalance(0.0); // Default balance is 0 when creating
+//
+//        wallet = walletRepository.save(wallet);
+//
+//        return mapToResponse(wallet);
+//    }
+
     @Override
-    public WalletResponse createWallet(Long userId) {
-        // Validate the user exists
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Create Wallet
-        Wallet wallet = new Wallet();
-        wallet.setUser(user);
-        wallet.setBalance(0.0); // Default balance is 0 when creating
-
-        wallet = walletRepository.save(wallet);
-
-        return mapToResponse(wallet);
-    }
-
-    @Override
-    public WalletResponse addMoney(WalletRequest request) {
+    public WalletResponse addMoney(Long userId, WalletRequest request) {
         // Get wallet by user ID
-        Wallet wallet = walletRepository.findByUser_UserId(request.getUserId())
+        Wallet wallet = walletRepository.findByUser_UserId(userId)
                 .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
 
         // Add money to the wallet balance
@@ -91,9 +91,9 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public WalletResponse makePayment(WalletRequest request) {
+    public WalletResponse makePayment(Long userId, WalletRequest request) {
         // Get wallet by user ID
-        Wallet wallet = walletRepository.findByUser_UserId(request.getUserId())
+        Wallet wallet = walletRepository.findByUser_UserId(userId)
                 .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
 
         // Check if the balance is enough for the payment

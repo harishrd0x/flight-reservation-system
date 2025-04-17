@@ -15,7 +15,7 @@ public class ReviewRequest {
 
     @Min(1)
     @Max(5)
-    private int rating;
+    private Float rating;
 
     @Size(max = 500)
     private String reviewText;
@@ -37,11 +37,11 @@ public class ReviewRequest {
         this.flightId = flightId;
     }
 
-    public int getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

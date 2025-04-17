@@ -29,9 +29,9 @@ public class ReviewServiceImpl implements ReviewService {
     private FlightRepository flightRepository;
 
     @Override
-    public ReviewResponse postReview(ReviewRequest request) {
+    public ReviewResponse postReview(Long userId, ReviewRequest request) {
         // Validate user and flight
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Flight flight = flightRepository.findById(request.getFlightId())
                 .orElseThrow(() -> new RuntimeException("Flight not found"));

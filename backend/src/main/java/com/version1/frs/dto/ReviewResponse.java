@@ -5,7 +5,7 @@ public class ReviewResponse {
     private Long reviewId;
     private Long userId;
     private Long flightId;
-    private int rating;
+    private Float rating;
     private String reviewText;
 
     // Getters and Setters
@@ -33,11 +33,11 @@ public class ReviewResponse {
         this.flightId = flightId;
     }
 
-    public int getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

@@ -27,7 +27,7 @@ public class Review {
     private Flight flight;
 
     @Column(name = "RATING", nullable = false)
-    private int rating;
+    private Float rating;
 
     @Column(name = "REVIEW_TEXT", length = 500)
     private String reviewText;
@@ -57,11 +57,11 @@ public class Review {
         this.flight = flight;
     }
 
-    public int getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

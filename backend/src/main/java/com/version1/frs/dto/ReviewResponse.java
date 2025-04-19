@@ -1,13 +1,14 @@
 package com.version1.frs.dto;
 
 public class ReviewResponse {
+
     private Long reviewId;
     private Long userId;
     private Long flightId;
-    private int rating;
+    private Float rating;
     private String reviewText;
 
-    // Getters & Setters
+    // Getters and Setters
     public Long getReviewId() {
         return reviewId;
     }
@@ -32,11 +33,11 @@ public class ReviewResponse {
         this.flightId = flightId;
     }
 
-    public int getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

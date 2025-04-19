@@ -3,39 +3,46 @@ package com.version1.frs.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class FlightRequest {
-	private String flightNumber;
-	private String source;
-	private String destination;
-	private LocalDate departureDate;
-	private LocalTime departureTime;
-	private LocalTime arrivalTime;
-	private double price;
-	private Long airplaneId;
+import jakarta.validation.constraints.*;
 
-	// Getters and Setters
+public class FlightRequest {
+
+    @NotBlank
+    private String flightNumber;
+
+    @NotNull
+    private LocalDate departureDate;
+
+    @NotNull
+    private LocalTime departureTime;
+
+    @NotNull
+    private LocalDate arrivalDate;
+
+    @NotNull
+    private LocalTime arrivalTime;
+
+    @NotNull
+    @Positive
+    private Double price;
+
+    @NotBlank
+    private String airplaneNumber;
+
+    @NotBlank
+    private String sourceAirportCode;
+
+    @NotBlank
+    private String destinationAirportCode;
+
+    // Getters and Setters
+    
 	public String getFlightNumber() {
 		return flightNumber;
 	}
 
 	public void setFlightNumber(String flightNumber) {
 		this.flightNumber = flightNumber;
-	}
-
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
-	public String getDestination() {
-		return destination;
-	}
-
-	public void setDestination(String destination) {
-		this.destination = destination;
 	}
 
 	public LocalDate getDepartureDate() {
@@ -54,6 +61,14 @@ public class FlightRequest {
 		this.departureTime = departureTime;
 	}
 
+	public LocalDate getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(LocalDate arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+
 	public LocalTime getArrivalTime() {
 		return arrivalTime;
 	}
@@ -62,19 +77,36 @@ public class FlightRequest {
 		this.arrivalTime = arrivalTime;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
-	public Long getAirplaneId() {
-		return airplaneId;
+	public String getAirplaneNumber() {
+		return airplaneNumber;
 	}
 
-	public void setAirplaneId(Long airplaneId) {
-		this.airplaneId = airplaneId;
+	public void setAirplaneNumber(String airplaneNumber) {
+		this.airplaneNumber = airplaneNumber;
 	}
+
+	public String getSourceAirportCode() {
+		return sourceAirportCode;
+	}
+
+	public void setSourceAirportCode(String sourceAirportCode) {
+		this.sourceAirportCode = sourceAirportCode;
+	}
+
+	public String getDestinationAirportCode() {
+		return destinationAirportCode;
+	}
+
+	public void setDestinationAirportCode(String destinationAirportCode) {
+		this.destinationAirportCode = destinationAirportCode;
+	}
+
 }

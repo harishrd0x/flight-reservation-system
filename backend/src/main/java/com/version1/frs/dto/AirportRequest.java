@@ -5,37 +5,41 @@ import jakarta.validation.constraints.Size;
 
 public class AirportRequest {
 
-    @NotBlank(message = "Airport name is required")
-    private String airportName;
-
-    @NotBlank(message = "Airport code is required")
-    @Size(max = 10)
+    @NotBlank(message = "Airport code cannot be blank")
+    @Size(min = 3, max = 10, message = "Airport code must be between 3 and 10 characters")
     private String airportCode;
 
-    @NotBlank(message = "City is required")
+    @NotBlank(message = "Airport name cannot be blank")
+    @Size(min = 2, max = 100, message = "Airport name must be between 2 and 100 characters")
+    private String airportName;
+
+    @NotBlank(message = "City cannot be blank")
+    @Size(min = 2, max = 100, message = "City must be between 2 and 100 characters")
     private String airportCity;
 
-    @NotBlank(message = "State is required")
+    @NotBlank(message = "State cannot be blank")
+    @Size(min = 2, max = 100, message = "State must be between 2 and 100 characters")
     private String airportState;
 
-    @NotBlank(message = "Country is required")
+    @NotBlank(message = "Country cannot be blank")
+    @Size(min = 2, max = 100, message = "Country must be between 2 and 100 characters")
     private String airportCountry;
 
     // Getters and Setters
-    public String getAirportName() {
-        return airportName;
-    }
-
-    public void setAirportName(String airportName) {
-        this.airportName = airportName;
-    }
-
     public String getAirportCode() {
         return airportCode;
     }
 
     public void setAirportCode(String airportCode) {
         this.airportCode = airportCode;
+    }
+
+    public String getAirportName() {
+        return airportName;
+    }
+
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
     }
 
     public String getAirportCity() {

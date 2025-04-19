@@ -1,0 +1,585 @@
+package com.version1.frs.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "TBL_AIRPLANES")
+public class Airplane {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "AIRPLANE_ID")
+	private Long airplaneId;
+
+	@Column(name = "AIRPLANE_NAME", nullable = false)
+	private String airplaneName;
+	
+	@Column(name = "AIRPLANE_NUMBER", nullable = false, unique = true)
+	private String airplaneNumber;
+
+	@Column(name = "AIRPLANE_MODEL", nullable = false)
+	private String airplaneModel;
+
+	@Column(name = "MANUFACTURER", nullable = false)
+	private String manufacturer;
+
+	@Column(name = "CAPACITY", nullable = false)
+	private int capacity;
+
+	// Getters and Setters
+	public Long getAirplaneId() {
+		return airplaneId;
+	}
+
+	public void setAirplaneId(Long airplaneId) {
+		this.airplaneId = airplaneId;
+	}
+
+	public String getAirplaneName() {
+		return airplaneName;
+	}
+
+	public void setAirplaneName(String airplaneName) {
+		this.airplaneName = airplaneName;
+	}
+
+	
+	public String getAirplaneNumber() {
+		return airplaneNumber;
+	}
+
+	public void setAirplaneNumber(String airplaneNumber) {
+		this.airplaneNumber = airplaneNumber;
+	}
+
+	public String getAirplaneModel() {
+		return airplaneModel;
+	}
+
+	public void setAirplaneModel(String airplaneModel) {
+		this.airplaneModel = airplaneModel;
+	}
+
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+}package com.version1.frs.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "TBL_AIRPORTS")
+public class Airport {
+
+    @Id
+    @Column(name = "AIRPORT_CODE", nullable = false, unique = true, length = 10)
+    private String airportCode;
+
+    @Column(name = "AIRPORT_NAME", nullable = false, length = 100)
+    private String airportName;
+
+    @Column(name = "AIRPORT_CITY", nullable = false, length = 100)
+    private String airportCity;
+
+    @Column(name = "AIRPORT_STATE", nullable = false, length = 100)
+    private String airportState;
+
+    @Column(name = "AIRPORT_COUNTRY", nullable = false, length = 100)
+    private String airportCountry;
+
+    // Getters and Setters
+    public String getAirportCode() {
+        return airportCode;
+    }
+
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode;
+    }
+
+    public String getAirportName() {
+        return airportName;
+    }
+
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
+    }
+
+    public String getAirportCity() {
+        return airportCity;
+    }
+
+    public void setAirportCity(String airportCity) {
+        this.airportCity = airportCity;
+    }
+
+    public String getAirportState() {
+        return airportState;
+    }
+
+    public void setAirportState(String airportState) {
+        this.airportState = airportState;
+    }
+
+    public String getAirportCountry() {
+        return airportCountry;
+    }
+
+    public void setAirportCountry(String airportCountry) {
+        this.airportCountry = airportCountry;
+    }
+}
+package com.version1.frs.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "TBL_BOOKINGS")
+public class Booking {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BOOKING_ID")
+    private Long bookingId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FLIGHT_ID", nullable = false)
+    private Flight flight;
+
+    @Column(name = "BOOKING_TIME", nullable = false)
+    private LocalDateTime bookingTime;
+
+    @Column(name = "TOTAL_AMOUNT", nullable = false)
+    private double totalAmount;
+
+    // Getters & Setters
+
+    public Long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
+
+    public LocalDateTime getBookingTime() {
+        return bookingTime;
+    }
+
+    public void setBookingTime(LocalDateTime bookingTime) {
+        this.bookingTime = bookingTime;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+}
+package com.version1.frs.model;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "TBL_FLIGHTS")
+public class Flight {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FLIGHT_ID")
+    private Long flightId;
+
+    @Column(name = "FLIGHT_NUMBER", nullable = false, unique = true)
+    private String flightNumber;
+
+    @Column(name = "DEPARTURE_DATE", nullable = false)
+    private LocalDate departureDate;
+
+    @Column(name = "DEPARTURE_TIME", nullable = false)
+    private LocalTime departureTime;
+
+    @Column(name = "ARRIVAL_DATE", nullable = false)
+    private LocalDate arrivalDate;
+
+    @Column(name = "ARRIVAL_TIME", nullable = false)
+    private LocalTime arrivalTime;
+
+    @Column(name = "PRICE", nullable = false)
+    private Double price;
+
+    @ManyToOne
+    @JoinColumn(name = "AIRPLANE_ID", nullable = false)
+    private Airplane airplane;
+
+    @ManyToOne
+    @JoinColumn(name = "SOURCE_AIRPORT_CODE", nullable = false)
+    private Airport sourceAirport;
+
+    @ManyToOne
+    @JoinColumn(name = "DESTINATION_AIRPORT_CODE", nullable = false)
+    private Airport destinationAirport;
+
+    // Getters and Setters
+    public Long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
+    public LocalDate getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(LocalDate arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Airplane getAirplane() {
+        return airplane;
+    }
+
+    public void setAirplane(Airplane airplane) {
+        this.airplane = airplane;
+    }
+
+    public Airport getSourceAirport() {
+        return sourceAirport;
+    }
+
+    public void setSourceAirport(Airport sourceAirport) {
+        this.sourceAirport = sourceAirport;
+    }
+
+    public Airport getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public void setDestinationAirport(Airport destinationAirport) {
+        this.destinationAirport = destinationAirport;
+    }
+
+    // Helper method to get the source airport as "City (Code)"
+    public String getSourceAirportCityCode() {
+        return sourceAirport.getAirportCity() + " (" + sourceAirport.getAirportCode() + ")";
+    }
+
+    // Helper method to get the destination airport as "City (Code)"
+    public String getDestinationAirportCityCode() {
+        return destinationAirport.getAirportCity() + " (" + destinationAirport.getAirportCode() + ")";
+    }
+}
+package com.version1.frs.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "TBL_REVIEWS")
+public class Review {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "REVIEW_ID")
+    private Long reviewId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "FLIGHT_ID")
+    private Flight flight;
+
+    @Column(name = "RATING", nullable = false)
+    private Float rating;
+
+    @Column(name = "REVIEW_TEXT", length = 500)
+    private String reviewText;
+
+    // Getters and Setters
+    public Long getReviewId() {
+        return reviewId;
+    }
+
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public String getReviewText() {
+        return reviewText;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+}
+package com.version1.frs.model;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+
+@Entity
+@Table(name = "TBL_USERS")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID")
+    private Long userId;
+
+    @Size(max = 100)
+    @Column(name = "USER_NAME", nullable = false, length = 100)
+    private String userName;
+
+    @Column(name = "USER_EMAIL", nullable = false, unique = true, length = 150)
+    private String userEmail;
+
+    @Column(name = "USER_GENDER", nullable = false, length = 10)
+    private String userGender;
+
+    @Column(name = "USER_PASSWORD", nullable = false, length = 255)
+    private String userPassword;
+
+    @Column(name = "USER_ROLE", nullable = false, length = 20)
+    private String userRole;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Wallet wallet;
+
+    // --- Getters and Setters ---
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserGender() {
+        return userGender;
+    }
+
+    public void setUserGender(String userGender) {
+        this.userGender = userGender;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+}
+package com.version1.frs.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "TBL_WALLETS")
+public class Wallet {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "WALLET_ID")
+    private Long walletId;
+
+    @OneToOne
+    @JoinColumn(name = "USER_ID", nullable = false, unique = true)
+    private User user;
+
+    @Column(name = "BALANCE", nullable = false)
+    private Double balance = 0.0;
+
+    
+    // Getters & Setters
+
+	public Long getWalletId() {
+		return walletId;
+	}
+
+	public void setWalletId(Long walletId) {
+		this.walletId = walletId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+    
+}

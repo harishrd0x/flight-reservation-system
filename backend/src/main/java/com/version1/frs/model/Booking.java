@@ -23,9 +23,6 @@ public class Booking {
     @Column(name = "BOOKING_TIME", nullable = false)
     private LocalDateTime bookingTime;
 
-//    @Column(name = "NUMBER_OF_SEATS", nullable = false)
-//    private int numberOfSeats;
-
     @Column(name = "TOTAL_AMOUNT", nullable = false)
     private double totalAmount;
 
@@ -62,14 +59,6 @@ public class Booking {
     public void setBookingTime(LocalDateTime bookingTime) {
         this.bookingTime = bookingTime;
     }
-
-//    public int getNumberOfSeats() {
-//        return numberOfSeats;
-//    }
-//
-//    public void setNumberOfSeats(int numberOfSeats) {
-//        this.numberOfSeats = numberOfSeats;
-//    }
 
     public double getTotalAmount() {
         return totalAmount;

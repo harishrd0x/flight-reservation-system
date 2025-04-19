@@ -5,11 +5,15 @@ import com.version1.frs.dto.WalletResponse;
 
 public interface WalletService {
 
-	WalletResponse createWallet(Long userId);
+//	WalletResponse createWallet(Long userId);
 
 	WalletResponse getWalletByUserId(Long userId);
 
-	WalletResponse addMoney(WalletRequest request);
+	WalletResponse addMoney(Long userId, WalletRequest request);
 
-	WalletResponse makePayment(WalletRequest request);
+	WalletResponse makePayment(Long userId, WalletRequest request);
+
+//	WalletResponse createWallet(WalletRequest request);
+
+	WalletResponse updateWallet(Long walletId, WalletRequest request);
 }

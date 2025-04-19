@@ -29,49 +29,50 @@ public class ReviewServiceImpl implements ReviewService {
     private FlightRepository flightRepository;
 
     @Override
-    public ReviewResponse postReview(ReviewRequest request) {
-    	User user = userRepository.findById(request.getUserId())
+    public ReviewResponse postReview(Long userId, ReviewRequest request) {
+        // Validate user and flight
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         Flight flight = flightRepository.findById(request.getFlightId())
                 .orElseThrow(() -> new RuntimeException("Flight not found"));
 
+        // Create Review
         Review review = new Review();
         review.setUser(user);
         review.setFlight(flight);
         review.setRating(request.getRating());
         review.setReviewText(request.getReviewText());
 
-        Review saved = reviewRepository.save(review);
-        return mapToDto(saved);
+        review = reviewRepository.save(review);
+
+        return mapToResponse(review);
     }
 
     @Override
-    public List<ReviewResponse> getReviewsByFlight(Long flightId) {
-        Flight flight = flightRepository.findById(flightId)
-                .orElseThrow(() -> new RuntimeException("Flight not found"));
+    public List<ReviewResponse> getReviewsByFlightId(Long flightId) {
+        List<Review> reviews = reviewRepository.findByFlight_FlightId(flightId);
+        return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
+    }
 
-        return reviewRepository.findByFlight(flight)
-                .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    @Override
+    public List<ReviewResponse> getReviewsByUserId(Long userId) {
+        List<Review> reviews = reviewRepository.findByUser_UserId(userId);
+        return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
     @Override
     public List<ReviewResponse> getAllReviews() {
-        return reviewRepository.findAll()
-                .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+        List<Review> reviews = reviewRepository.findAll(); // Using JpaRepository's findAll method
+        return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
-
-    private ReviewResponse mapToDto(Review review) {
-        ReviewResponse dto = new ReviewResponse();
-        dto.setReviewId(review.getReviewId());
-        dto.setUserId((long) review.getUser().getUserId());
-        dto.setFlightId(review.getFlight().getId());
-        dto.setRating(review.getRating());
-        dto.setReviewText(review.getReviewText());
-        return dto;
+    
+    private ReviewResponse mapToResponse(Review review) {
+        ReviewResponse res = new ReviewResponse();
+        res.setReviewId(review.getReviewId());
+        res.setUserId(review.getUser().getUserId());
+        res.setFlightId(review.getFlight().getFlightId());
+        res.setRating(review.getRating());
+        res.setReviewText(review.getReviewText());
+        return res;
     }
 }

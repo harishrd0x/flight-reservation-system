@@ -18,7 +18,6 @@ import com.version1.frs.repository.FlightRepository;
 import com.version1.frs.repository.UserRepository;
 import com.version1.frs.repository.WalletRepository;
 import com.version1.frs.service.BookingService;
-import com.version1.frs.service.FlightService;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -27,7 +26,6 @@ public class BookingServiceImpl implements BookingService {
     @Autowired private UserRepository userRepository;
     @Autowired private FlightRepository flightRepository;
     @Autowired private WalletRepository walletRepository;
-    @Autowired private FlightService flightService;
 
     @Override
     public BookingResponse bookFlight(BookingRequest request) {
@@ -37,7 +35,7 @@ public class BookingServiceImpl implements BookingService {
         Flight flight = flightRepository.findById(request.getFlightId())
                 .orElseThrow(() -> new RuntimeException("Flight not found"));
 
-        Wallet wallet = walletRepository.findByUser(user)
+        Wallet wallet = walletRepository.findByUser_UserId(user.getUserId())
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
 
         double flightPrice = flight.getPrice();
@@ -54,13 +52,15 @@ public class BookingServiceImpl implements BookingService {
         booking.setUser(user);
         booking.setFlight(flight);
         booking.setBookingTime(LocalDateTime.now());
+        booking.setTotalAmount(flightPrice);
+
 
         bookingRepository.save(booking);
 
         return new BookingResponse(
                 booking.getBookingId(),
                 user.getUserId(),
-                flight.getId(),
+                flight.getFlightId(),
                 flight.getFlightNumber(),
                 booking.getBookingTime()
         );
@@ -73,7 +73,7 @@ public class BookingServiceImpl implements BookingService {
                 .map(b -> new BookingResponse(
                         b.getBookingId(),
                         b.getUser().getUserId(),
-                        b.getFlight().getId(),
+                        b.getFlight().getFlightId(),
                         b.getFlight().getFlightNumber(),
                         b.getBookingTime()))
                 .collect(Collectors.toList());
@@ -86,7 +86,7 @@ public class BookingServiceImpl implements BookingService {
                 .map(b -> new BookingResponse(
                         b.getBookingId(),
                         b.getUser().getUserId(),
-                        b.getFlight().getId(),
+                        b.getFlight().getFlightId(),
                         b.getFlight().getFlightNumber(),
                         b.getBookingTime()))
                 .collect(Collectors.toList());

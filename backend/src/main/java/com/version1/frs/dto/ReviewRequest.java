@@ -1,14 +1,26 @@
 package com.version1.frs.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class ReviewRequest {
 
+    @NotNull
     private Long userId;
+
+    @NotNull
     private Long flightId;
-    private int rating;
+
+    @Min(1)
+    @Max(5)
+    private Float rating;
+
+    @Size(max = 500)
     private String reviewText;
 
-    // Getters & Setters
-
+    // Getters and Setters
     public Long getUserId() {
         return userId;
     }
@@ -25,11 +37,11 @@ public class ReviewRequest {
         this.flightId = flightId;
     }
 
-    public int getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

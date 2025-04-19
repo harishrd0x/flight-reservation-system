@@ -2,7 +2,6 @@ package com.version1.frs.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,16 +18,10 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FLIGHT_ID")
-    private Long id;
+    private Long flightId;
 
-    @Column(name = "FLIGHT_NUMBER", nullable = false)
+    @Column(name = "FLIGHT_NUMBER", nullable = false, unique = true)
     private String flightNumber;
-
-    @Column(name = "SOURCE", nullable = false)
-    private String source;
-
-    @Column(name = "DESTINATION", nullable = false)
-    private String destination;
 
     @Column(name = "DEPARTURE_DATE", nullable = false)
     private LocalDate departureDate;
@@ -36,25 +29,34 @@ public class Flight {
     @Column(name = "DEPARTURE_TIME", nullable = false)
     private LocalTime departureTime;
 
+    @Column(name = "ARRIVAL_DATE", nullable = false)
+    private LocalDate arrivalDate;
+
     @Column(name = "ARRIVAL_TIME", nullable = false)
     private LocalTime arrivalTime;
 
     @Column(name = "PRICE", nullable = false)
     private Double price;
 
-    // Relationship to airplane
     @ManyToOne
     @JoinColumn(name = "AIRPLANE_ID", nullable = false)
     private Airplane airplane;
 
-    // Getters and Setters
+    @ManyToOne
+    @JoinColumn(name = "SOURCE_AIRPORT_CODE", nullable = false)
+    private Airport sourceAirport;
 
-    public Long getId() {
-        return id;
+    @ManyToOne
+    @JoinColumn(name = "DESTINATION_AIRPORT_CODE", nullable = false)
+    private Airport destinationAirport;
+
+    // Getters and Setters
+    public Long getFlightId() {
+        return flightId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
     }
 
     public String getFlightNumber() {
@@ -63,22 +65,6 @@ public class Flight {
 
     public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     public LocalDate getDepartureDate() {
@@ -95,6 +81,14 @@ public class Flight {
 
     public void setDepartureTime(LocalTime departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(LocalDate arrivalDate) {
+        this.arrivalDate = arrivalDate;
     }
 
     public LocalTime getArrivalTime() {
@@ -119,5 +113,31 @@ public class Flight {
 
     public void setAirplane(Airplane airplane) {
         this.airplane = airplane;
+    }
+
+    public Airport getSourceAirport() {
+        return sourceAirport;
+    }
+
+    public void setSourceAirport(Airport sourceAirport) {
+        this.sourceAirport = sourceAirport;
+    }
+
+    public Airport getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public void setDestinationAirport(Airport destinationAirport) {
+        this.destinationAirport = destinationAirport;
+    }
+
+    // Helper method to get the source airport as "City (Code)"
+    public String getSourceAirportCityCode() {
+        return sourceAirport.getAirportCity() + " (" + sourceAirport.getAirportCode() + ")";
+    }
+
+    // Helper method to get the destination airport as "City (Code)"
+    public String getDestinationAirportCityCode() {
+        return destinationAirport.getAirportCity() + " (" + destinationAirport.getAirportCode() + ")";
     }
 }

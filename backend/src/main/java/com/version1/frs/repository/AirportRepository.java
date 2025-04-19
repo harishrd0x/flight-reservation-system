@@ -7,8 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.version1.frs.model.Airport;
 
-public interface AirportRepository extends JpaRepository<Airport, String> {
-//    boolean existsByAirportCode(String airportCode);  // Check existence by airport code
-//    Optional<Airport> findByAirportCode(String airportCode);  // Find airport by airport code
-//    List<Airport> findByAirport_CityContainingIgnoreCase(String cityName);
+public interface AirportRepository extends JpaRepository<Airport, Long> {
+
+    // Method to find Airport by its unique airportCode (non-primary key)
+    Optional<Airport> findByAirportCode(String airportCode);
+
+    List<Airport> findByAirportCityIgnoreCase(String city);
+
+    List<Airport> findByAirportStateIgnoreCase(String state);
+
+    List<Airport> findByAirportCountryIgnoreCase(String country);
 }

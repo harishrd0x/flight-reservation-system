@@ -1,15 +1,16 @@
 package com.version1.frs.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TBL_AIRPORTS")
 public class Airport {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
+
     @Column(name = "AIRPORT_CODE", nullable = false, unique = true, length = 10)
     private String airportCode;
 
@@ -26,6 +27,14 @@ public class Airport {
     private String airportCountry;
 
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getAirportCode() {
         return airportCode;
     }

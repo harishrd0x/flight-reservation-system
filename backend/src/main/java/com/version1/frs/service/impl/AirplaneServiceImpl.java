@@ -144,6 +144,7 @@ public class AirplaneServiceImpl implements AirplaneService {
 
     private AirplaneResponse mapToResponse(Airplane airplane) {
         AirplaneResponse response = new AirplaneResponse();
+        response.setAirplaneId(airplane.getAirplaneId());
         response.setAirplaneName(airplane.getAirplaneName());
         response.setAirplaneNumber(airplane.getAirplaneNumber());
         response.setAirplaneModel(airplane.getAirplaneModel());

@@ -2,6 +2,7 @@ package com.version1.frs.dto;
 
 public class AirportResponse {
 
+    private Long airportId; // surrogate key
     private String airportCode;
     private String airportName;
     private String airportCity;
@@ -9,7 +10,16 @@ public class AirportResponse {
     private String airportCountry;
 
     // Getters and Setters
-    public String getAirportCode() {
+   
+    public Long getAirportId() {
+		return airportId;
+	}
+
+	public void setAirportId(Long airportId) {
+		this.airportId = airportId;
+	}
+
+	public String getAirportCode() {
         return airportCode;
     }
 

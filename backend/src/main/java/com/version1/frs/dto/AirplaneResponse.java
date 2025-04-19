@@ -2,6 +2,7 @@ package com.version1.frs.dto;
 
 public class AirplaneResponse {
 
+	private Long airplaneId;
     private String airplaneNumber;
     private String airplaneName;
     private String airplaneModel;
@@ -9,6 +10,15 @@ public class AirplaneResponse {
     private int capacity;
 
     // Getters and Setters
+    
+	public Long getAirplaneId() {
+		return airplaneId;
+	}
+
+	public void setAirplaneId(Long airplaneId) {
+		this.airplaneId = airplaneId;
+	}
+	
     public String getAirplaneNumber() {
         return airplaneNumber;
     }

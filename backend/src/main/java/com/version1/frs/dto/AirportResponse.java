@@ -1,61 +1,51 @@
 package com.version1.frs.dto;
 
 public class AirportResponse {
-	private int airportId;
-	private String airportName;
-	private String airportCode;
-	private String airportCity;
-	private String airportState;
-	private String airportCountry;
 
-	// Getters and Setters
+    private String airportCode;
+    private String airportName;
+    private String airportCity;
+    private String airportState;
+    private String airportCountry;
 
-	public int getAirportId() {
-		return airportId;
-	}
+    // Getters and Setters
+    public String getAirportCode() {
+        return airportCode;
+    }
 
-	public void setAirportId(int airportId) {
-		this.airportId = airportId;
-	}
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode;
+    }
 
-	public String getAirportName() {
-		return airportName;
-	}
+    public String getAirportName() {
+        return airportName;
+    }
 
-	public void setAirportName(String airportName) {
-		this.airportName = airportName;
-	}
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
+    }
 
-	public String getAirportCode() {
-		return airportCode;
-	}
+    public String getAirportCity() {
+        return airportCity;
+    }
 
-	public void setAirportCode(String airportCode) {
-		this.airportCode = airportCode;
-	}
+    public void setAirportCity(String airportCity) {
+        this.airportCity = airportCity;
+    }
 
-	public String getAirportCity() {
-		return airportCity;
-	}
+    public String getAirportState() {
+        return airportState;
+    }
 
-	public void setAirportCity(String airportCity) {
-		this.airportCity = airportCity;
-	}
+    public void setAirportState(String airportState) {
+        this.airportState = airportState;
+    }
 
-	public String getAirportState() {
-		return airportState;
-	}
+    public String getAirportCountry() {
+        return airportCountry;
+    }
 
-	public void setAirportState(String airportState) {
-		this.airportState = airportState;
-	}
-
-	public String getAirportCountry() {
-		return airportCountry;
-	}
-
-	public void setAirportCountry(String airportCountry) {
-		this.airportCountry = airportCountry;
-	}
-
+    public void setAirportCountry(String airportCountry) {
+        this.airportCountry = airportCountry;
+    }
 }

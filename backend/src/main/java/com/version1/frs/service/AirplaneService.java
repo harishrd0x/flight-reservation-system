@@ -1,20 +1,34 @@
 package com.version1.frs.service;
 
 import java.util.List;
-
 import com.version1.frs.dto.AirplaneRequest;
-import com.version1.frs.model.Airplane;
+import com.version1.frs.dto.AirplaneResponse;
 
 public interface AirplaneService {
-	String addAirplane(AirplaneRequest request);
 
-	String updateAirplane(Long id, AirplaneRequest request);
+    // -------------------- Create --------------------
+    AirplaneResponse addAirplane(AirplaneRequest request);
 
-	String deleteAirplane(Long id);
+    // -------------------- Read --------------------
+    List<AirplaneResponse> getAllAirplanes();
+    AirplaneResponse getAirplaneById(Long id);
+    AirplaneResponse getAirplaneByNumber(String airplaneNumber);
 
-	List<Airplane> getAllAirplanes();
+    // -------------------- Update --------------------
+    AirplaneResponse updateAirplane(Long id, AirplaneRequest request); // Using ID
+    AirplaneResponse updateAirplane(String airplaneNumber, AirplaneRequest request); // Using airplaneNumber
 
-	Airplane getAirplaneById(Long id);
+    // -------------------- Delete --------------------
+    String deleteAirplane(Long id); // Using ID
+    String deleteAirplane(String airplaneNumber); // Using airplaneNumber
 
-	boolean doesAirplaneExist(Long id);
+    // -------------------- Validation --------------------
+    boolean airplaneNumberExists(String airplaneNumber);
+
+    // -------------------- Search / Filters --------------------
+    List<AirplaneResponse> searchByName(String keyword);
+    List<AirplaneResponse> filterByManufacturer(String manufacturer);
+    List<AirplaneResponse> filterByModel(String model);
+    List<AirplaneResponse> findByCapacityGreaterThanEqual(int minCapacity);
+    List<AirplaneResponse> findByCapacityBetween(int min, int max);
 }

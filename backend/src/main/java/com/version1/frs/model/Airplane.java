@@ -18,6 +18,9 @@ public class Airplane {
 
 	@Column(name = "AIRPLANE_NAME", nullable = false)
 	private String airplaneName;
+	
+	@Column(name = "AIRPLANE_NUMBER", nullable = false, unique = true)
+	private String airplaneNumber;
 
 	@Column(name = "AIRPLANE_MODEL", nullable = false)
 	private String airplaneModel;
@@ -43,6 +46,15 @@ public class Airplane {
 
 	public void setAirplaneName(String airplaneName) {
 		this.airplaneName = airplaneName;
+	}
+
+	
+	public String getAirplaneNumber() {
+		return airplaneNumber;
+	}
+
+	public void setAirplaneNumber(String airplaneNumber) {
+		this.airplaneNumber = airplaneNumber;
 	}
 
 	public String getAirplaneModel() {

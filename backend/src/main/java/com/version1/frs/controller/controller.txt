@@ -1,0 +1,794 @@
+//package com.version1.frs.controller;
+//
+//import java.util.List;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+//
+//import com.version1.frs.dto.BookingResponse;
+//import com.version1.frs.dto.ReviewResponse;
+//import com.version1.frs.dto.UserResponse;
+//import com.version1.frs.dto.WalletResponse;
+//import com.version1.frs.service.BookingService;
+//import com.version1.frs.service.ReviewService;
+//import com.version1.frs.service.UserService;
+//import com.version1.frs.service.WalletService;
+//
+//@RestController
+//@RequestMapping("/api/admin")
+//@PreAuthorize("hasRole('ADMIN')")
+//public class AdminController {
+//
+//    @Autowired private BookingService bookingService;
+//    @Autowired private UserService userService;
+//    @Autowired private ReviewService reviewService;
+//    @Autowired private WalletService walletService;
+//
+//    @GetMapping("/users")
+//    public List<UserResponse> viewAllUsers() {
+//        return userService.getAllUsers();
+//    }
+//
+//    @GetMapping("/reviews")
+//    public List<ReviewResponse> viewAllReviews() {
+//        return reviewService.getAllReviews();
+//    }
+//
+//    @GetMapping("/wallet/{userId}")
+//    public ResponseEntity<WalletResponse> viewUserWallet(@PathVariable Long userId) {
+//        return ResponseEntity.ok(walletService.getWalletByUserId(userId));
+//    }
+//    
+//    @GetMapping("/bookings")
+//    public ResponseEntity<List<BookingResponse>> getAllBookings() {
+//        return ResponseEntity.ok(bookingService.getAllBookings());
+//    }
+//}//package com.version1.frs.controller;
+//
+//import java.util.List;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.PutMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+//
+//import com.version1.frs.dto.FlightRequest;
+//import com.version1.frs.dto.FlightResponse;
+//import com.version1.frs.service.FlightService;
+//
+//@RestController
+//@RequestMapping("/api/admin/flights")
+//@PreAuthorize("hasRole('ADMIN')")
+//public class AdminFlightController {
+//
+//    @Autowired
+//    private FlightService flightService;
+//
+//    @PostMapping
+//    public ResponseEntity<String> addFlight(@RequestBody FlightRequest request) {
+//        flightService.addFlight(request);
+//        return ResponseEntity.ok("Flight added successfully.");
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<String> updateFlight(@PathVariable String flightNumber, @RequestBody FlightRequest request) {
+//        flightService.updateFlight(flightNumber, request);
+//        return ResponseEntity.ok("Flight updated successfully.");
+//    }
+//
+//    @DeleteMapping("/{flightNumber}")
+//    public ResponseEntity<String> deleteFlight(@PathVariable String flightNumber) {
+//        flightService.deleteFlight(flightNumber);
+//        return ResponseEntity.ok("Flight deleted successfully.");
+//    }
+//
+//    @GetMapping
+//    public ResponseEntity<List<FlightResponse>> getAllFlights() {
+//        return ResponseEntity.ok(flightService.getAllFlights());
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<FlightResponse> getFlightById(@PathVariable String flightNumber) {
+//        return ResponseEntity.ok(flightService.getFlightByFlightNumber(flightNumber));
+//    }
+//}//package com.version1.frs.controller;
+//
+//import java.util.List;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.web.bind.annotation.CrossOrigin;
+//import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.PutMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+//
+//import com.version1.frs.dto.AirplaneRequest;
+//import com.version1.frs.model.Airplane;
+//import com.version1.frs.service.AirplaneService;
+//
+//import jakarta.validation.Valid;
+//
+//@RestController
+//@RequestMapping("/api/airplanes")
+//@CrossOrigin
+//public class AirplaneController {
+//
+//    @Autowired
+//    private AirplaneService airplaneService;
+//
+//    // Add Airplane
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping
+//    public ResponseEntity<Object> addAirplane(@Valid @RequestBody AirplaneRequest request) {
+//        try {
+//            String result = airplaneService.addAirplane(request);
+//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to create airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    // Update Airplane
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PutMapping("/{airplaneNumber}")
+//    public ResponseEntity<Object> updateAirplane(@PathVariable String airplaneNumber, @RequestBody AirplaneRequest request) {
+//        try {
+//            String result = airplaneService.updateAirplane(airplaneNumber, request);
+//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to update airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    // Delete Airplane
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @DeleteMapping("/{airplaneNumber}")
+//    public ResponseEntity<Object> deleteAirplane(@PathVariable String airplaneNumber) {
+//        boolean exists = airplaneService.doesAirplaneExist(airplaneNumber);
+//        
+//        if (!exists) {
+//            return new ResponseEntity<>(new MessageResponse("Airplane not found."), HttpStatus.NOT_FOUND);
+//        }
+//
+//        try {
+//            String result = airplaneService.deleteAirplane(airplaneNumber);
+//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to delete airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    // Get all Airplanes
+//    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+//    @GetMapping
+//    public ResponseEntity<Object> getAllAirplanes() {
+//        try {
+//            List<Airplane> airplanes = airplaneService.getAllAirplanes();
+//            if (airplanes.isEmpty()) {
+//                return new ResponseEntity<>(new MessageResponse("No airplanes found"), HttpStatus.NOT_FOUND);
+//            }
+//            return ResponseEntity.ok(airplanes);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airplanes: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    // Get Airplane by Airplane Number
+//    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+//    @GetMapping("/{airplaneNumber}")
+//    public ResponseEntity<Object> getAirplaneByAirplaneNumber(@PathVariable String airplaneNumber) {
+//        try {
+//            Airplane airplane = airplaneService.getAirplaneByAirplaneNumber(airplaneNumber);
+//            if (airplane == null) {
+//                return new ResponseEntity<>(new MessageResponse("Airplane not found"), HttpStatus.NOT_FOUND);
+//            }
+//            return ResponseEntity.ok(airplane);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airplane: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    // MessageResponse class to standardize responses
+//    public static class MessageResponse {
+//        private String message;
+//
+//        public MessageResponse(String message) {
+//            this.message = message;
+//        }
+//
+//        public String getMessage() {
+//            return message;
+//        }
+//
+//        public void setMessage(String message) {
+//            this.message = message;
+//        }
+//    }
+//}
+//package com.version1.frs.controller;
+//
+//import java.util.List;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.web.bind.annotation.CrossOrigin;
+//import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.PutMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+//
+//import com.version1.frs.dto.AirportRequest;
+//import com.version1.frs.model.Airport;
+//import com.version1.frs.service.AirportService;
+//
+//import jakarta.validation.Valid;
+//
+//@RestController
+//@RequestMapping("/api/airports")
+//@CrossOrigin
+//public class AirportController {
+//
+//    @Autowired
+//    private AirportService airportService;
+//
+//    // Add Airport
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping
+//    public ResponseEntity<Object> addAirport(@Valid @RequestBody AirportRequest request) {
+//        try {
+//            String result = airportService.addAirport(request);
+//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to create airport: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    // Update Airport
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PutMapping("/{airportCode}")
+//    public ResponseEntity<Object> updateAirport(@PathVariable String airportCode, @RequestBody AirportRequest request) {
+//        try {
+//            String result = airportService.updateAirport(airportCode, request);
+//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to update airport: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    // Delete Airport
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @DeleteMapping("/{airportCode}")
+//    public ResponseEntity<Object> deleteAirport(@PathVariable String airportCode) {
+//        try {
+//            String result = airportService.deleteAirport(airportCode);
+//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to delete airport: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    // Get All Airports
+//    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+//    @GetMapping
+//    public ResponseEntity<Object> getAllAirports() {
+//        try {
+//            List<Airport> airports = airportService.getAllAirports();
+//            if (airports.isEmpty()) {
+//                return new ResponseEntity<>(new MessageResponse("No airports found"), HttpStatus.NOT_FOUND);
+//            }
+//            return ResponseEntity.ok(airports);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airports: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    // Get Airport by Code
+//    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+//    @GetMapping("/{airportCode}")
+//    public ResponseEntity<Object> getAirportByCode(@PathVariable String airportCode) {
+//        try {
+//            Airport airport = airportService.getAirportByCode(airportCode);
+//            if (airport == null) {
+//                return new ResponseEntity<>(new MessageResponse("Airport not found"), HttpStatus.NOT_FOUND);
+//            }
+//            return ResponseEntity.ok(airport);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airport: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    // MessageResponse class to standardize responses
+//    public static class MessageResponse {
+//        private String message;
+//
+//        public MessageResponse(String message) {
+//            this.message = message;
+//        }
+//
+//        public String getMessage() {
+//            return message;
+//        }
+//
+//        public void setMessage(String message) {
+//            this.message = message;
+//        }
+//    }
+//}
+package com.version1.frs.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.version1.frs.dto.LoginRequest;
+import com.version1.frs.dto.LoginResponse;
+import com.version1.frs.dto.UserRequest;
+import com.version1.frs.model.User;
+import com.version1.frs.repository.UserRepository;
+import com.version1.frs.security.JwtUtil;
+import com.version1.frs.service.UserService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api")
+@CrossOrigin
+public class AuthController {
+
+    @Autowired
+    private AuthenticationManager authManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
+
+    // Register endpoint
+    @PostMapping("/register")
+    public ResponseEntity<Object> register(@Valid @RequestBody UserRequest request) {
+        try {
+            String message = userService.register(request);
+            return new ResponseEntity<>(new MessageResponse(message), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new MessageResponse("Registration failed: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Login endpoint
+    @SuppressWarnings("unused")
+	@PostMapping("/login")
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest request) {
+        try {
+            Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUserEmail(), request.getUserPassword())
+            );
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = userRepository.findByUserEmail(request.getUserEmail());
+
+            String token = jwtUtil.generateToken(user.getUserEmail(), user.getUserRole(), user.getUserId());
+            return ResponseEntity.ok(new LoginResponse(token, user.getUserRole()));
+
+        } catch (BadCredentialsException ex) {
+            return new ResponseEntity<>(new MessageResponse("Invalid email or password"), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new MessageResponse("Login failed: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Response wrapper for consistent frontend handling
+    public static class MessageResponse {
+        private String message;
+
+        public MessageResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
+}
+package com.version1.frs.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.version1.frs.dto.BookingRequest;
+import com.version1.frs.dto.BookingResponse;
+import com.version1.frs.service.BookingService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/bookings")
+public class BookingController {
+
+    @Autowired
+    private BookingService bookingService;
+
+    // Book flight (CUSTOMER only)
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @PostMapping
+    public ResponseEntity<BookingResponse> bookFlight(@Valid @RequestBody BookingRequest request) {
+        return ResponseEntity.ok(bookingService.bookFlight(request));
+    }
+
+    // View all bookings of a user (CUSTOMER only)
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BookingResponse>> getUserBookings(@PathVariable int userId) {
+        return ResponseEntity.ok(bookingService.getBookingsByUser(userId));
+    }
+
+    // View all bookings (ADMIN only)
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<List<BookingResponse>> getAllBookings() {
+        return ResponseEntity.ok(bookingService.getAllBookings());
+    }
+}//package com.version1.frs.controller;
+//
+//import java.time.LocalDate;
+//import java.util.List;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.format.annotation.DateTimeFormat;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.web.bind.annotation.*;
+//
+//import com.version1.frs.dto.FlightRequest;
+//import com.version1.frs.dto.FlightResponse;
+//import com.version1.frs.service.FlightService;
+//
+//@RestController
+//@RequestMapping("/api/flights")
+//public class FlightController {
+//
+//    @Autowired
+//    private FlightService flightService;
+//
+//    @PostMapping
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<FlightResponse> addFlight(@RequestBody FlightRequest request) {
+//        FlightResponse createdFlight = flightService.addFlight(request);
+//        return new ResponseEntity<>(createdFlight, HttpStatus.CREATED);
+//    }
+//
+//    @GetMapping
+//    public ResponseEntity<List<FlightResponse>> getAllFlights() {
+//        return ResponseEntity.ok(flightService.getAllFlights());
+//    }
+//
+//    @GetMapping("/{flightNumber}")
+//    public ResponseEntity<FlightResponse> getFlightByFlightNumber(@PathVariable String flightNumber) {
+//        return ResponseEntity.ok(flightService.getFlightByFlightNumber(flightNumber));
+//    }
+//
+//    @PutMapping("/{flightNumber}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<FlightResponse> updateFlight(
+//            @PathVariable String flightNumber,
+//            @RequestBody FlightRequest request) {
+//        FlightResponse updatedFlight = flightService.updateFlight(flightNumber, request);
+//        return ResponseEntity.ok(updatedFlight);
+//    }
+//
+//    @DeleteMapping("/{flightNumber}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<String> deleteFlight(@PathVariable String flightNumber) {
+//        flightService.deleteFlight(flightNumber);
+//        return ResponseEntity.ok("Flight deleted successfully");
+//    }
+//
+//    @GetMapping("/search")
+//    public ResponseEntity<List<FlightResponse>> searchFlights(
+//            @RequestParam String sourceCity,
+//            @RequestParam String destinationCity,
+//            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+//
+//        if (date == null) {
+//            date = LocalDate.now();
+//        }
+//
+//        return ResponseEntity.ok(flightService.searchFlights(sourceCity, destinationCity, date));
+//    }
+//}
+//package com.version1.frs.controller;
+//
+//import com.version1.frs.dto.LoginRequest;
+//import com.version1.frs.dto.LoginResponse;
+//import com.version1.frs.model.User;
+//import com.version1.frs.repository.UserRepository;
+//import com.version1.frs.security.JwtUtil;
+//
+//import jakarta.validation.Valid;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.BadCredentialsException;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.web.bind.annotation.*;
+//
+//@RestController
+//@RequestMapping("/api")
+//@CrossOrigin
+//public class LoginController {
+//
+//    @Autowired
+//    private AuthenticationManager authManager;
+//
+//    @Autowired
+//    private JwtUtil jwtUtil;
+//
+//    @Autowired
+//    private UserRepository userRepository;
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+//        try {
+//            Authentication authentication = authManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                    request.getUserEmail(), request.getUserPassword()
+//                )
+//            );
+//
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//
+//            // Fetch user to get user role
+//            User user = userRepository.findByUserEmail(request.getUserEmail());
+//            if (user == null) {
+//                return ResponseEntity.status(404).body("User not found.");
+//            }
+//
+//            String token = jwtUtil.generateToken(user.getUserEmail(), user.getUserRole());
+//            return ResponseEntity.ok(new LoginResponse(token, user.getUserRole()));
+//        } catch (BadCredentialsException ex) {
+//            return ResponseEntity.status(401).body("Invalid email or password");
+//        }
+//    }
+//}//package com.version1.frs.controller;
+//
+//import com.version1.frs.dto.UserRegistrationRequest;
+//import com.version1.frs.service.UserService;
+//import jakarta.validation.Valid;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.web.bind.annotation.*;
+//
+//@RestController
+//@RequestMapping("/api")
+//@CrossOrigin
+//public class RegistrationController {
+//
+//    @Autowired
+//    private UserService userService;
+//
+//    // Anyone can register
+//    @PostMapping("/register")
+//    public ResponseEntity<String> register(@Valid @RequestBody UserRegistrationRequest request) {
+//        String result = userService.register(request);
+//        if (result.equalsIgnoreCase("Registration successful.")) {
+//            return ResponseEntity.ok(result);
+//        } else {
+//            return ResponseEntity.badRequest().body(result);
+//        }
+//    }
+///*
+//    // Optional: Only admin can create another admin
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/admin/register")
+//    public ResponseEntity<String> registerAdmin(@Valid @RequestBody UserRegistrationRequest request) {
+//        request.setUserRole("ADMIN");
+//        return ResponseEntity.ok(userService.register(request));
+//    }
+//*/
+//}package com.version1.frs.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.version1.frs.dto.ReviewRequest;
+import com.version1.frs.dto.ReviewResponse;
+import com.version1.frs.security.UserDetailsImpl;
+import com.version1.frs.service.ReviewService;
+
+@RestController
+@RequestMapping("/api/reviews")
+public class ReviewController {
+
+    @Autowired
+    private ReviewService reviewService;
+
+    // CUSTOMER: Post a review
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @PostMapping
+    public ResponseEntity<ReviewResponse> postReview(
+            @RequestBody ReviewRequest request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        Long userId = userDetails.getId(); // get authenticated customer ID
+        ReviewResponse saved = reviewService.postReview(userId, request);
+
+        return ResponseEntity.ok(saved);
+    }
+
+
+    // SHARED: Get reviews by flight ID
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @GetMapping("/flight/{flightId}")
+    public List<ReviewResponse> getReviewsByFlightId(@PathVariable Long flightId) {
+        return reviewService.getReviewsByFlightId(flightId);
+    }
+    
+    // get reviews by customer id
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/my")
+    public List<ReviewResponse> getReviewsByCurrentCustomer(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        Long userId = userDetails.getId();
+        return reviewService.getReviewsByUserId(userId);
+    }
+
+
+    // PUBLIC/SHARED: Get all reviews (for homepage display)
+    @GetMapping
+    public List<ReviewResponse> getAllReviews() {
+        return reviewService.getAllReviews();
+    }
+}package com.version1.frs.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.version1.frs.dto.UserResponse;
+import com.version1.frs.service.UserService;
+
+@RestController
+@RequestMapping("/api/users")
+@CrossOrigin
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    // Admin can view all users
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public List<UserResponse> getAllUsers() {
+        return userService.getAllUsers();
+    }
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
+        UserResponse user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
+}package com.version1.frs.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.version1.frs.dto.WalletRequest;
+import com.version1.frs.dto.WalletResponse;
+import com.version1.frs.security.UserDetailsImpl;
+import com.version1.frs.service.WalletService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/wallet")
+@CrossOrigin
+public class WalletController {
+
+	@Autowired
+	private WalletService walletService;
+
+	// View wallet
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@GetMapping
+	public ResponseEntity<WalletResponse> getWallet(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+		// No need to manually extract user ID from the token
+		Long userId = userDetails.getId(); // Assuming getId() method exists in your UserDetailsImpl
+		WalletResponse response = walletService.getWalletByUserId(userId);
+		return ResponseEntity.ok(response);
+	}
+
+	// Add money
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@PostMapping("/add")
+	public ResponseEntity<WalletResponse> addMoney(@Valid @RequestBody WalletRequest request,
+			@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+		WalletResponse response = walletService.addMoney(userDetails.getId(), request);
+
+		return ResponseEntity.ok(response);
+	}
+}

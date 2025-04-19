@@ -3,7 +3,6 @@ package com.version1.frs.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,13 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.version1.frs.dto.AirplaneRequest;
-import com.version1.frs.model.Airplane;
+import com.version1.frs.dto.AirplaneResponse;
 import com.version1.frs.service.AirplaneService;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/airplanes")
@@ -30,92 +28,85 @@ public class AirplaneController {
     @Autowired
     private AirplaneService airplaneService;
 
-    // Add Airplane
+    // CREATE
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Object> addAirplane(@Valid @RequestBody AirplaneRequest request) {
-        try {
-            airplaneService.addAirplane(request);
-            return new ResponseEntity<>(new MessageResponse("Airplane created successfully"), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new MessageResponse("Failed to create airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<AirplaneResponse> addAirplane(@RequestBody AirplaneRequest airplaneRequest) {
+        return ResponseEntity.ok(airplaneService.addAirplane(airplaneRequest));
     }
 
-    // Update Airplane
+    // READ - All
+    @GetMapping
+    public ResponseEntity<List<AirplaneResponse>> getAllAirplanes() {
+        return ResponseEntity.ok(airplaneService.getAllAirplanes());
+    }
+
+    // READ - By ID
+    @GetMapping("/{id}")
+    public ResponseEntity<AirplaneResponse> getAirplaneById(@PathVariable Long id) {
+        return ResponseEntity.ok(airplaneService.getAirplaneById(id));
+    }
+
+    // READ - By Number
+    @GetMapping("/number/{airplaneNumber}")
+    public ResponseEntity<AirplaneResponse> getAirplaneByNumber(@PathVariable String airplaneNumber) {
+        return ResponseEntity.ok(airplaneService.getAirplaneByNumber(airplaneNumber));
+    }
+
+    // UPDATE - By ID
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateAirplane(@PathVariable Long id, @RequestBody AirplaneRequest request) {
-        try {
-            String result = airplaneService.updateAirplane(id, request);
-            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new MessageResponse("Failed to update airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<AirplaneResponse> updateAirplaneById(
+            @PathVariable Long id,
+            @RequestBody AirplaneRequest airplaneRequest) {
+        return ResponseEntity.ok(airplaneService.updateAirplane(id, airplaneRequest));
     }
 
+    // UPDATE - By Number
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/number/{airplaneNumber}")
+    public ResponseEntity<AirplaneResponse> updateAirplaneByNumber(
+            @PathVariable String airplaneNumber,
+            @RequestBody AirplaneRequest request) {
+        return ResponseEntity.ok(airplaneService.updateAirplane(airplaneNumber, request));
+    }
+
+    // DELETE - By ID
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteAirplane(@PathVariable Long id) {
-        boolean exists = airplaneService.doesAirplaneExist(id);
-        
-        if (!exists) {
-            return new ResponseEntity<>(new MessageResponse("Airplane not found."), HttpStatus.NOT_FOUND);
-        }
-
-        try {
-            String result = airplaneService.deleteAirplane(id);
-            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new MessageResponse("Failed to delete airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<String> deleteAirplaneById(@PathVariable Long id) {
+        airplaneService.deleteAirplane(id);
+        return ResponseEntity.ok("Airplane deleted successfully");
     }
 
-
-    // Get all Airplanes
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-    @GetMapping
-    public ResponseEntity<Object> getAllAirplanes() {
-        try {
-            List<Airplane> airplanes = airplaneService.getAllAirplanes();
-            if (airplanes.isEmpty()) {
-                return new ResponseEntity<>(new MessageResponse("No airplanes found"), HttpStatus.NOT_FOUND);
-            }
-            return ResponseEntity.ok(airplanes);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airplanes: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    // DELETE - By Number
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/number/{airplaneNumber}")
+    public ResponseEntity<String> deleteAirplaneByNumber(@PathVariable String airplaneNumber) {
+        return ResponseEntity.ok(airplaneService.deleteAirplane(airplaneNumber));
     }
 
-    // Get Airplane by ID
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getAirplaneById(@PathVariable Long id) {
-        try {
-            Airplane airplane = airplaneService.getAirplaneById(id);
-            if (airplane == null) {
-                return new ResponseEntity<>(new MessageResponse("Airplane not found"), HttpStatus.NOT_FOUND);
-            }
-            return ResponseEntity.ok(airplane);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airplane: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    // VALIDATION - Exists by number
+    @GetMapping("/exists/{airplaneNumber}")
+    public ResponseEntity<Boolean> airplaneNumberExists(@PathVariable String airplaneNumber) {
+        return ResponseEntity.ok(airplaneService.airplaneNumberExists(airplaneNumber));
     }
 
-    // MessageResponse class to standardize responses
-    public static class MessageResponse {
-        private String message;
+    // SEARCH - By name keyword
+    @GetMapping("/search")
+    public ResponseEntity<List<AirplaneResponse>> searchByName(@RequestParam String keyword) {
+        return ResponseEntity.ok(airplaneService.searchByName(keyword));
+    }
 
-        public MessageResponse(String message) {
-            this.message = message;
-        }
+    // FILTER - By manufacturer
+    @GetMapping("/filter/manufacturer/{manufacturer}")
+    public ResponseEntity<List<AirplaneResponse>> filterByManufacturer(@PathVariable String manufacturer) {
+        return ResponseEntity.ok(airplaneService.filterByManufacturer(manufacturer));
+    }
 
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
+    // FILTER - By model
+    @GetMapping("/filter/model/{model}")
+    public ResponseEntity<List<AirplaneResponse>> filterByModel(@PathVariable String model) {
+        return ResponseEntity.ok(airplaneService.filterByModel(model));
     }
 }

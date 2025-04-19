@@ -1,75 +1,69 @@
-package com.version1.frs.controller;
-
-import java.time.LocalDate;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.version1.frs.dto.FlightRequest;
-import com.version1.frs.dto.FlightResponse;
-import com.version1.frs.model.Airport;
-import com.version1.frs.service.FlightService;
-
-import jakarta.validation.Valid;
-
-@RestController
-@RequestMapping("/api/flights")
-public class FlightController {
-
-    @Autowired
-    private FlightService flightService;
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
-    public ResponseEntity<String> addFlight(@Valid @RequestBody FlightRequest request) {
-        flightService.addFlight(request);
-        return ResponseEntity.ok("Flight added successfully.");
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateFlight(@PathVariable Long id, @RequestBody FlightRequest request) {
-        flightService.updateFlight(id, request);
-        return ResponseEntity.ok("Flight updated successfully.");
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFlight(@PathVariable Long id) {
-        flightService.deleteFlight(id);
-        return ResponseEntity.ok("Flight deleted successfully.");
-    }
-
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-    @GetMapping
-    public List<FlightResponse> getAllFlights() {
-        return flightService.getAllFlights();
-    }
-
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-    @GetMapping("/search")
-    public List<FlightResponse> searchFlights(@RequestParam Airport source,
-                                              @RequestParam Airport destination,
-                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return flightService.searchFlights(source, destination, date);
-    }
-
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-    @GetMapping("/{id}")
-    public ResponseEntity<FlightResponse> getFlightById(@PathVariable Long id) {
-        FlightResponse flight = flightService.getFlightById(id);
-        return ResponseEntity.ok(flight);
-    }
-}
+//package com.version1.frs.controller;
+//
+//import java.time.LocalDate;
+//import java.util.List;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.format.annotation.DateTimeFormat;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.web.bind.annotation.*;
+//
+//import com.version1.frs.dto.FlightRequest;
+//import com.version1.frs.dto.FlightResponse;
+//import com.version1.frs.service.FlightService;
+//
+//@RestController
+//@RequestMapping("/api/flights")
+//public class FlightController {
+//
+//    @Autowired
+//    private FlightService flightService;
+//
+//    @PostMapping
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<FlightResponse> addFlight(@RequestBody FlightRequest request) {
+//        FlightResponse createdFlight = flightService.addFlight(request);
+//        return new ResponseEntity<>(createdFlight, HttpStatus.CREATED);
+//    }
+//
+//    @GetMapping
+//    public ResponseEntity<List<FlightResponse>> getAllFlights() {
+//        return ResponseEntity.ok(flightService.getAllFlights());
+//    }
+//
+//    @GetMapping("/{flightNumber}")
+//    public ResponseEntity<FlightResponse> getFlightByFlightNumber(@PathVariable String flightNumber) {
+//        return ResponseEntity.ok(flightService.getFlightByFlightNumber(flightNumber));
+//    }
+//
+//    @PutMapping("/{flightNumber}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<FlightResponse> updateFlight(
+//            @PathVariable String flightNumber,
+//            @RequestBody FlightRequest request) {
+//        FlightResponse updatedFlight = flightService.updateFlight(flightNumber, request);
+//        return ResponseEntity.ok(updatedFlight);
+//    }
+//
+//    @DeleteMapping("/{flightNumber}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<String> deleteFlight(@PathVariable String flightNumber) {
+//        flightService.deleteFlight(flightNumber);
+//        return ResponseEntity.ok("Flight deleted successfully");
+//    }
+//
+//    @GetMapping("/search")
+//    public ResponseEntity<List<FlightResponse>> searchFlights(
+//            @RequestParam String sourceCity,
+//            @RequestParam String destinationCity,
+//            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+//
+//        if (date == null) {
+//            date = LocalDate.now();
+//        }
+//
+//        return ResponseEntity.ok(flightService.searchFlights(sourceCity, destinationCity, date));
+//    }
+//}

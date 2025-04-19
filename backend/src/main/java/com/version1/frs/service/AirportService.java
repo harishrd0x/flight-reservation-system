@@ -1,16 +1,20 @@
-package com.version1.frs.service;
-
-import java.util.List;
-import java.util.Optional;
-
-import com.version1.frs.dto.AirportRequest;
-import com.version1.frs.dto.AirportResponse;
-
-public interface AirportService {
-    AirportResponse addAirport(AirportRequest request);
-    AirportResponse updateAirport(int airportId, AirportRequest request);
-    void deleteAirport(int airportId);
-    List<AirportResponse> getAllAirports();
-    Optional<AirportResponse> getAirportById(int airportId);
-	boolean doesAirportExist(int id);
-}
+//package com.version1.frs.service;
+//
+//import java.util.List;
+//
+//import com.version1.frs.dto.AirportRequest;
+//import com.version1.frs.model.Airport;
+//
+//public interface AirportService {
+//    String addAirport(AirportRequest request);
+//
+//    String updateAirport(String airportCode, AirportRequest request);
+//
+//    String deleteAirport(String airportCode);
+//
+//    List<Airport> getAllAirports();
+//
+//    Airport getAirportByCode(String airportCode);
+//
+//    boolean doesAirportExist(String airportCode);
+//}

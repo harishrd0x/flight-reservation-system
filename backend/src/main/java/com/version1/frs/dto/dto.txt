@@ -1,0 +1,881 @@
+package com.version1.frs.dto;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public class AirplaneRequest {
+
+    @NotBlank(message = "Airplane number cannot be blank")
+    @Size(min = 2, max = 50, message = "Airplane number must be between 2 and 50 characters")
+    private String airplaneNumber;
+
+    @NotBlank(message = "Airplane name cannot be blank")
+    @Size(min = 2, max = 100, message = "Airplane name must be between 2 and 100 characters")
+    private String airplaneName;
+
+    @NotBlank(message = "Airplane model cannot be blank")
+    @Size(min = 2, max = 50, message = "Airplane model must be between 2 and 50 characters")
+    private String airplaneModel;
+
+    @NotBlank(message = "Manufacturer cannot be blank")
+    @Size(min = 2, max = 100, message = "Manufacturer name must be between 2 and 100 characters")
+    private String manufacturer;
+
+    @Min(value = 1, message = "Capacity must be at least 1")
+    private int capacity;
+
+    // Getters and Setters
+    public String getAirplaneNumber() {
+        return airplaneNumber;
+    }
+    public void setAirplaneNumber(String airplaneNumber) {
+        this.airplaneNumber = airplaneNumber;
+    }
+
+    public String getAirplaneName() {
+        return airplaneName;
+    }
+
+    public void setAirplaneName(String airplaneName) {
+        this.airplaneName = airplaneName;
+    }
+
+    public String getAirplaneModel() {
+        return airplaneModel;
+    }
+
+    public void setAirplaneModel(String airplaneModel) {
+        this.airplaneModel = airplaneModel;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+}
+package com.version1.frs.dto;
+
+public class AirplaneResponse {
+
+    private String airplaneNumber;
+    private String airplaneName;
+    private String airplaneModel;
+    private String manufacturer;
+    private int capacity;
+
+    // Getters and Setters
+    public String getAirplaneNumber() {
+        return airplaneNumber;
+    }
+
+    public void setAirplaneNumber(String airplaneNumber) {
+        this.airplaneNumber = airplaneNumber;
+    }
+
+    public String getAirplaneName() {
+        return airplaneName;
+    }
+
+    public void setAirplaneName(String airplaneName) {
+        this.airplaneName = airplaneName;
+    }
+
+    public String getAirplaneModel() {
+        return airplaneModel;
+    }
+
+    public void setAirplaneModel(String airplaneModel) {
+        this.airplaneModel = airplaneModel;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+}
+package com.version1.frs.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public class AirportRequest {
+
+    @NotBlank(message = "Airport code cannot be blank")
+    @Size(min = 3, max = 10, message = "Airport code must be between 3 and 10 characters")
+    private String airportCode;
+
+    @NotBlank(message = "Airport name cannot be blank")
+    @Size(min = 2, max = 100, message = "Airport name must be between 2 and 100 characters")
+    private String airportName;
+
+    @NotBlank(message = "City cannot be blank")
+    @Size(min = 2, max = 100, message = "City must be between 2 and 100 characters")
+    private String airportCity;
+
+    @NotBlank(message = "State cannot be blank")
+    @Size(min = 2, max = 100, message = "State must be between 2 and 100 characters")
+    private String airportState;
+
+    @NotBlank(message = "Country cannot be blank")
+    @Size(min = 2, max = 100, message = "Country must be between 2 and 100 characters")
+    private String airportCountry;
+
+    // Getters and Setters
+    public String getAirportCode() {
+        return airportCode;
+    }
+
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode;
+    }
+
+    public String getAirportName() {
+        return airportName;
+    }
+
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
+    }
+
+    public String getAirportCity() {
+        return airportCity;
+    }
+
+    public void setAirportCity(String airportCity) {
+        this.airportCity = airportCity;
+    }
+
+    public String getAirportState() {
+        return airportState;
+    }
+
+    public void setAirportState(String airportState) {
+        this.airportState = airportState;
+    }
+
+    public String getAirportCountry() {
+        return airportCountry;
+    }
+
+    public void setAirportCountry(String airportCountry) {
+        this.airportCountry = airportCountry;
+    }
+}
+package com.version1.frs.dto;
+
+public class AirportResponse {
+
+    private String airportCode;
+    private String airportName;
+    private String airportCity;
+    private String airportState;
+    private String airportCountry;
+
+    // Getters and Setters
+    public String getAirportCode() {
+        return airportCode;
+    }
+
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode;
+    }
+
+    public String getAirportName() {
+        return airportName;
+    }
+
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
+    }
+
+    public String getAirportCity() {
+        return airportCity;
+    }
+
+    public void setAirportCity(String airportCity) {
+        this.airportCity = airportCity;
+    }
+
+    public String getAirportState() {
+        return airportState;
+    }
+
+    public void setAirportState(String airportState) {
+        this.airportState = airportState;
+    }
+
+    public String getAirportCountry() {
+        return airportCountry;
+    }
+
+    public void setAirportCountry(String airportCountry) {
+        this.airportCountry = airportCountry;
+    }
+}
+package com.version1.frs.dto;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
+public class BookingRequest {
+
+//    @NotNull(message = "User ID is required")
+    private Long userId;
+
+    @NotNull(message = "Flight ID is required")
+    private Long flightId;
+
+    @Min(value = 1, message = "Total amount must be at least 1")
+    private double totalAmount;
+
+    // No bookingTime: backend should set LocalDateTime.now()
+
+    // Getters & Setters
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+}
+package com.version1.frs.dto;
+
+import java.time.LocalDateTime;
+
+public class BookingResponse {
+    private Long bookingId;
+    private Long userId;
+    private Long flightId;
+    private String flightNumber;
+    private LocalDateTime bookingTime;
+
+    public BookingResponse(Long bookingId, Long userId, Long flightId, String flightNumber, LocalDateTime bookingTime) {
+        this.bookingId = bookingId;
+        this.userId = userId;
+        this.flightId = flightId;
+        this.flightNumber = flightNumber;
+        this.bookingTime = bookingTime;
+    }
+
+    // Getters & Setters
+    public Long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
+    public LocalDateTime getBookingTime() {
+        return bookingTime;
+    }
+
+    public void setBookingTime(LocalDateTime bookingTime) {
+        this.bookingTime = bookingTime;
+    }
+}package com.version1.frs.dto;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import jakarta.validation.constraints.*;
+
+public class FlightRequest {
+
+    @NotBlank
+    private String flightNumber;
+
+    @NotNull
+    private LocalDate departureDate;
+
+    @NotNull
+    private LocalTime departureTime;
+
+    @NotNull
+    private LocalDate arrivalDate;
+
+    @NotNull
+    private LocalTime arrivalTime;
+
+    @NotNull
+    @Positive
+    private Double price;
+
+    @NotBlank
+    private String airplaneNumber;
+
+    @NotBlank
+    private String sourceAirportCode;
+
+    @NotBlank
+    private String destinationAirportCode;
+
+    // Getters and Setters
+    
+	public String getFlightNumber() {
+		return flightNumber;
+	}
+
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
+	}
+
+	public LocalDate getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(LocalDate departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public LocalTime getDepartureTime() {
+		return departureTime;
+	}
+
+	public void setDepartureTime(LocalTime departureTime) {
+		this.departureTime = departureTime;
+	}
+
+	public LocalDate getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(LocalDate arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+
+	public LocalTime getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(LocalTime arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public String getAirplaneNumber() {
+		return airplaneNumber;
+	}
+
+	public void setAirplaneNumber(String airplaneNumber) {
+		this.airplaneNumber = airplaneNumber;
+	}
+
+	public String getSourceAirportCode() {
+		return sourceAirportCode;
+	}
+
+	public void setSourceAirportCode(String sourceAirportCode) {
+		this.sourceAirportCode = sourceAirportCode;
+	}
+
+	public String getDestinationAirportCode() {
+		return destinationAirportCode;
+	}
+
+	public void setDestinationAirportCode(String destinationAirportCode) {
+		this.destinationAirportCode = destinationAirportCode;
+	}
+
+}
+package com.version1.frs.dto;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class FlightResponse {
+
+	private String flightNumber;
+	private LocalDate departureDate;
+	private LocalTime departureTime;
+	private LocalDate arrivalDate;
+	private LocalTime arrivalTime;
+	private Double price;
+	private String airplaneNumber;
+	private String sourceAirportCode;
+	private String destinationAirportCode;
+
+	// Default constructor
+	public FlightResponse() {
+	}
+
+	// Constructor with select fields
+	public FlightResponse(String flightNumber, String sourceAirportCode, String destinationAirportCode,
+			LocalDate departureDate, LocalDate arrivalDate) {
+		this.flightNumber = flightNumber;
+		this.sourceAirportCode = sourceAirportCode;
+		this.destinationAirportCode = destinationAirportCode;
+		this.departureDate = departureDate;
+		this.arrivalDate = arrivalDate;
+	}
+
+	// Getters and Setters
+	public String getFlightNumber() {
+		return flightNumber;
+	}
+
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
+	}
+
+	public LocalDate getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(LocalDate departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public LocalTime getDepartureTime() {
+		return departureTime;
+	}
+
+	public void setDepartureTime(LocalTime departureTime) {
+		this.departureTime = departureTime;
+	}
+
+	public LocalDate getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(LocalDate arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+
+	public LocalTime getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(LocalTime arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public String getAirplaneNumber() {
+		return airplaneNumber;
+	}
+
+	public void setAirplaneNumber(String airplaneNumber) {
+		this.airplaneNumber = airplaneNumber;
+	}
+
+	public String getSourceAirportCode() {
+		return sourceAirportCode;
+	}
+
+	public void setSourceAirportCode(String sourceAirportCode) {
+		this.sourceAirportCode = sourceAirportCode;
+	}
+
+	public String getDestinationAirportCode() {
+		return destinationAirportCode;
+	}
+
+	public void setDestinationAirportCode(String destinationAirportCode) {
+		this.destinationAirportCode = destinationAirportCode;
+	}
+}
+package com.version1.frs.dto;
+
+public class LoginRequest {
+    private String userEmail;
+    private String userPassword;
+
+    // Getters & Setters
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+}package com.version1.frs.dto;
+
+public class LoginResponse {
+    private String token;
+    private String role;
+
+    public LoginResponse() {
+    }
+
+    public LoginResponse(String token, String role) {
+        this.token = token;
+        this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+}package com.version1.frs.dto;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+public class ReviewRequest {
+
+    @NotNull
+    private Long userId;
+
+    @NotNull
+    private Long flightId;
+
+    @Min(1)
+    @Max(5)
+    private Float rating;
+
+    @Size(max = 500)
+    private String reviewText;
+
+    // Getters and Setters
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public String getReviewText() {
+        return reviewText;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+}package com.version1.frs.dto;
+
+public class ReviewResponse {
+
+    private Long reviewId;
+    private Long userId;
+    private Long flightId;
+    private Float rating;
+    private String reviewText;
+
+    // Getters and Setters
+    public Long getReviewId() {
+        return reviewId;
+    }
+
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public String getReviewText() {
+        return reviewText;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+}
+package com.version1.frs.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+public class UserRequest {
+
+	@NotBlank(message = "Name is required")
+	@Size(max = 100, message = "Name should not exceed 100 characters")
+	private String userName;
+
+	@NotBlank(message = "Email is required")
+	@Email(message = "Email should be valid")
+	@Size(max = 150, message = "Email should not exceed 150 characters")
+	private String userEmail;
+
+	@NotBlank(message = "Gender is required")
+	@Pattern(regexp = "^(Male|Female|Other)$", message = "Gender must be either 'Male', 'Female' or 'Other'")
+	private String userGender;
+
+	@NotBlank(message = "Password is required")
+	@Size(min = 8, message = "Password should have at least 8 characters")
+	private String userPassword;
+	
+	@NotBlank(message = "Role is required")
+	@Size(max = 20, message = "Role should not exceed 20 characters")
+	private String userRole;
+
+
+	// Getters and Setters
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getUserGender() {
+		return userGender;
+	}
+
+	public void setUserGender(String userGender) {
+		this.userGender = userGender;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+}
+package com.version1.frs.dto;
+
+public class UserResponse {
+    private long userId;
+    private String userName;
+    private String userEmail;
+    private String userGender;
+    private String userRole;
+
+    // Getters & Setters
+    public long getUserId() {
+        return userId;
+    }
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserGender() {
+        return userGender;
+    }
+    public void setUserGender(String userGender) {
+        this.userGender = userGender;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+}package com.version1.frs.dto;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+public class WalletRequest {
+	
+    @NotNull(message = "Balance cannot be null")
+    @Positive(message = "Balance must be positive")
+    private Double balance;
+
+    // Getters and Setters
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+}
+package com.version1.frs.dto;
+
+public class WalletResponse {
+
+    private Long walletId;
+    private Long userId;
+    private Double balance;
+
+    public Long getWalletId() {
+        return walletId;
+    }
+
+    public void setWalletId(Long walletId) {
+        this.walletId = walletId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+}

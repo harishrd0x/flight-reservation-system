@@ -1,6 +1,7 @@
 package com.version1.frs.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.version1.frs.dto.LoginRequest;
 import com.version1.frs.dto.UserRequest;
@@ -9,14 +10,16 @@ import com.version1.frs.model.User;
 
 public interface UserService {
 
-	List<UserResponse> getAllUsers();
+    List<UserResponse> getAllUsers();
 
-	// Register a new user (admin or customer)
-	String register(UserRequest request);
+    String register(UserRequest request);
 
-	// Authenticate and return user (used internally for login)
+    Optional<UserResponse> getUserById(Long id);
+
+    UserResponse updateUser(UserRequest userRequest);
+
+    void deleteAccount();
+
 	User authenticate(LoginRequest request);
-	
-	UserResponse getUserById(Long id);
 
 }

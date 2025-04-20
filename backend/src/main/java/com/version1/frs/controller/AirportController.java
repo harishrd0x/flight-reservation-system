@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.version1.frs.dto.AirportRequest;
 import com.version1.frs.dto.AirportResponse;
+import com.version1.frs.model.Airport;
 import com.version1.frs.service.AirportService;
 
 import jakarta.validation.Valid;
@@ -88,6 +89,13 @@ public class AirportController {
         } catch (Exception e) {
             return new ResponseEntity<>(new MessageResponse("Failed to retrieve airport: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @GetMapping("/search")
+    public List<Airport> searchAirports(@RequestParam String query) {
+        return airportService.searchAirports(query);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")

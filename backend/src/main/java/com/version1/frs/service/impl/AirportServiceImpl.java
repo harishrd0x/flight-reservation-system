@@ -87,7 +87,10 @@ public class AirportServiceImpl implements AirportService {
                 .orElseThrow(() -> new RuntimeException("Airport not found with code: " + airportCode));
         return mapToResponse(airport);
     }
-
+    
+    public List<Airport> searchAirports(String query) {
+        return airportRepository.searchAirports(query);
+    }
 
     @Override
     public List<AirportResponse> filterByCity(String city) {
@@ -136,7 +139,6 @@ public class AirportServiceImpl implements AirportService {
 	    return airportRepository.findByAirportCode(airportCode).isPresent();
 	}
 
-
 	@Override
 	public List<AirportResponse> filterAirportsByState(String state) {
 	    return airportRepository.findByAirportStateIgnoreCase(state).stream()
@@ -150,5 +152,4 @@ public class AirportServiceImpl implements AirportService {
 	            .map(this::mapToResponse)
 	            .collect(Collectors.toList());
 	}
-
 }

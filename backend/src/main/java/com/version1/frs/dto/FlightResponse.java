@@ -1,104 +1,89 @@
 package com.version1.frs.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.math.BigDecimal;
 
 public class FlightResponse {
 
-	private String flightNumber;
-	private LocalDate departureDate;
-	private LocalTime departureTime;
-	private LocalDate arrivalDate;
-	private LocalTime arrivalTime;
-	private Double price;
-	private String airplaneNumber;
-	private String sourceAirportCode;
-	private String destinationAirportCode;
+    private Long id;
+    private String airline;
+    private String departureTime;
+    private String arrivalTime;
+    private Long fromAirportId;
+    private String fromAirportName;
+    private Long toAirportId;
+    private String toAirportName;
+    private BigDecimal price;
 
-	// Default constructor
-	public FlightResponse() {
-	}
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-	// Constructor with select fields
-	public FlightResponse(String flightNumber, String sourceAirportCode, String destinationAirportCode,
-			LocalDate departureDate, LocalDate arrivalDate) {
-		this.flightNumber = flightNumber;
-		this.sourceAirportCode = sourceAirportCode;
-		this.destinationAirportCode = destinationAirportCode;
-		this.departureDate = departureDate;
-		this.arrivalDate = arrivalDate;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	// Getters and Setters
-	public String getFlightNumber() {
-		return flightNumber;
-	}
+    public String getAirline() {
+        return airline;
+    }
 
-	public void setFlightNumber(String flightNumber) {
-		this.flightNumber = flightNumber;
-	}
+    public void setAirline(String airline) {
+        this.airline = airline;
+    }
 
-	public LocalDate getDepartureDate() {
-		return departureDate;
-	}
+    public String getDepartureTime() {
+        return departureTime;
+    }
 
-	public void setDepartureDate(LocalDate departureDate) {
-		this.departureDate = departureDate;
-	}
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
 
-	public LocalTime getDepartureTime() {
-		return departureTime;
-	}
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
 
-	public void setDepartureTime(LocalTime departureTime) {
-		this.departureTime = departureTime;
-	}
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
 
-	public LocalDate getArrivalDate() {
-		return arrivalDate;
-	}
+    public Long getFromAirportId() {
+        return fromAirportId;
+    }
 
-	public void setArrivalDate(LocalDate arrivalDate) {
-		this.arrivalDate = arrivalDate;
-	}
+    public void setFromAirportId(Long fromAirportId) {
+        this.fromAirportId = fromAirportId;
+    }
 
-	public LocalTime getArrivalTime() {
-		return arrivalTime;
-	}
+    public String getFromAirportName() {
+        return fromAirportName;
+    }
 
-	public void setArrivalTime(LocalTime arrivalTime) {
-		this.arrivalTime = arrivalTime;
-	}
+    public void setFromAirportName(String fromAirportName) {
+        this.fromAirportName = fromAirportName;
+    }
 
-	public Double getPrice() {
-		return price;
-	}
+    public Long getToAirportId() {
+        return toAirportId;
+    }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public void setToAirportId(Long toAirportId) {
+        this.toAirportId = toAirportId;
+    }
 
-	public String getAirplaneNumber() {
-		return airplaneNumber;
-	}
+    public String getToAirportName() {
+        return toAirportName;
+    }
 
-	public void setAirplaneNumber(String airplaneNumber) {
-		this.airplaneNumber = airplaneNumber;
-	}
+    public void setToAirportName(String toAirportName) {
+        this.toAirportName = toAirportName;
+    }
 
-	public String getSourceAirportCode() {
-		return sourceAirportCode;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public void setSourceAirportCode(String sourceAirportCode) {
-		this.sourceAirportCode = sourceAirportCode;
-	}
-
-	public String getDestinationAirportCode() {
-		return destinationAirportCode;
-	}
-
-	public void setDestinationAirportCode(String destinationAirportCode) {
-		this.destinationAirportCode = destinationAirportCode;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 }

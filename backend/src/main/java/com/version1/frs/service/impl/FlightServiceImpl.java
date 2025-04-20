@@ -1,147 +1,119 @@
-//package com.version1.frs.service.impl;
-//
-//import java.time.LocalDate;
-//import java.util.Collections;
-//import java.util.List;
-//import java.util.Set;
-//import java.util.stream.Collectors;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import com.version1.frs.dto.FlightRequest;
-//import com.version1.frs.dto.FlightResponse;
-//import com.version1.frs.model.Airplane;
-//import com.version1.frs.model.Airport;
-//import com.version1.frs.model.Flight;
-//import com.version1.frs.repository.AirplaneRepository;
-//import com.version1.frs.repository.AirportRepository;
-//import com.version1.frs.repository.FlightRepository;
-//import com.version1.frs.service.FlightService;
-//
-//@Service
-//public class FlightServiceImpl implements FlightService {
-//
-//    @Autowired
-//    private FlightRepository flightRepository;
-//
-//    @Autowired
-//    private AirplaneRepository airplaneRepository;
-//
-//    @Autowired
-//    private AirportRepository airportRepository;
-//
-//    @Override
-//    public FlightResponse addFlight(FlightRequest request) {
-//        Airplane airplane = airplaneRepository.findByAirplaneNumber(request.getAirplaneNumber())
-//            .orElseThrow(() -> new RuntimeException("Airplane not found"));
-//
-//        Airport sourceAirport = airportRepository.findByAirportCode(request.getSourceAirportCode())
-//            .orElseThrow(() -> new RuntimeException("Source airport not found"));
-//
-//        Airport destinationAirport = airportRepository.findByAirportCode(request.getDestinationAirportCode())
-//            .orElseThrow(() -> new RuntimeException("Destination airport not found"));
-//
-//        Flight flight = new Flight();
-//        flight.setFlightNumber(request.getFlightNumber());
-//        flight.setDepartureDate(request.getDepartureDate());
-//        flight.setDepartureTime(request.getDepartureTime());
-//        flight.setArrivalDate(request.getArrivalDate());
-//        flight.setArrivalTime(request.getArrivalTime());
-//        flight.setPrice(request.getPrice());
-//        flight.setAirplane(airplane);
-//        flight.setSourceAirport(sourceAirport);
-//        flight.setDestinationAirport(destinationAirport);
-//
-//        flightRepository.save(flight);
-//        return mapToResponse(flight);
-//    }
-//
-//    @Override
-//    public FlightResponse updateFlight(String flightNumber, FlightRequest request) {
-//        Flight flight = flightRepository.findByFlightNumber(flightNumber)
-//            .orElseThrow(() -> new RuntimeException("Flight not found"));
-//
-//        Airplane airplane = airplaneRepository.findByAirplaneNumber(request.getAirplaneNumber())
-//            .orElseThrow(() -> new RuntimeException("Airplane not found"));
-//
-//        Airport sourceAirport = airportRepository.findByAirportCode(request.getSourceAirportCode())
-//            .orElseThrow(() -> new RuntimeException("Source airport not found"));
-//
-//        Airport destinationAirport = airportRepository.findByAirportCode(request.getDestinationAirportCode())
-//            .orElseThrow(() -> new RuntimeException("Destination airport not found"));
-//
-//        flight.setDepartureDate(request.getDepartureDate());
-//        flight.setDepartureTime(request.getDepartureTime());
-//        flight.setArrivalDate(request.getArrivalDate());
-//        flight.setArrivalTime(request.getArrivalTime());
-//        flight.setPrice(request.getPrice());
-//        flight.setAirplane(airplane);
-//        flight.setSourceAirport(sourceAirport);
-//        flight.setDestinationAirport(destinationAirport);
-//
-//        flightRepository.save(flight);
-//        return mapToResponse(flight);
-//    }
-//
-//    @Override
-//    public void deleteFlight(String flightNumber) {
-//        Flight flight = flightRepository.findByFlightNumber(flightNumber)
-//            .orElseThrow(() -> new RuntimeException("Flight not found"));
-//        flightRepository.delete(flight);
-//    }
-//
-//    @Override
-//    public List<FlightResponse> getAllFlights() {
-//        return flightRepository.findAll().stream()
-//            .map(this::mapToResponse)
-//            .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public FlightResponse getFlightByFlightNumber(String flightNumber) {
-//        Flight flight = flightRepository.findByFlightNumber(flightNumber)
-//            .orElseThrow(() -> new RuntimeException("Flight not found"));
-//        return mapToResponse(flight);
-//    }
-//
-//    @Override
-//    public List<FlightResponse> searchFlights(String sourceCity, String destinationCity, LocalDate date) {
-//        List<Airport> sourceAirports = airportRepository.findByNameContainingIgnoreCase(sourceCity);
-//        List<Airport> destAirports = airportRepository.findByNameContainingIgnoreCase(destinationCity);
-//
-//        if (sourceAirports.isEmpty() || destAirports.isEmpty()) {
-//            return Collections.emptyList();
-//        }
-//
-//        Set<String> sourceCodes = sourceAirports.stream().map(Airport::getAirportCode).collect(Collectors.toSet());
-//        Set<String> destCodes = destAirports.stream().map(Airport::getAirportCode).collect(Collectors.toSet());
-//
-//        List<Flight> flights;
-//        if (date != null) {
-//            flights = flightRepository.findBySourceAirport_AirportCodeInAndDestinationAirport_AirportCodeInAndDepartureDate(
-//                sourceCodes, destCodes, date
-//            );
-//        } else {
-//            flights = flightRepository.findBySourceAirport_AirportCodeInAndDestinationAirport_AirportCodeIn(
-//                sourceCodes, destCodes
-//            );
-//        }
-//
-//        return flights.stream().map(this::mapToResponse).collect(Collectors.toList());
-//    }
-//
-//    private FlightResponse mapToResponse(Flight flight) {
-//        FlightResponse response = new FlightResponse();
-//        response.setFlightNumber(flight.getFlightNumber());
-//        response.setDepartureDate(flight.getDepartureDate());
-//        response.setDepartureTime(flight.getDepartureTime());
-//        response.setArrivalDate(flight.getArrivalDate());
-//        response.setArrivalTime(flight.getArrivalTime());
-//        response.setPrice(flight.getPrice());
-//        response.setAirplaneNumber(flight.getAirplane().getAirplaneNumber());
-//        response.setSourceAirportCode(flight.getSourceAirport().getAirportCode());
-//        response.setDestinationAirportCode(flight.getDestinationAirport().getAirportCode());
-//        return response;
-//    }
-//}
+package com.version1.frs.service.impl;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.version1.frs.dto.FlightRequest;
+import com.version1.frs.dto.FlightResponse;
+import com.version1.frs.model.Airplane;
+import com.version1.frs.model.Airport;
+import com.version1.frs.model.Flight;
+import com.version1.frs.repository.AirplaneRepository;
+import com.version1.frs.repository.AirportRepository;
+import com.version1.frs.repository.FlightRepository;
+import com.version1.frs.service.FlightService;
+
+@Service
+public class FlightServiceImpl implements FlightService {
+
+    @Autowired
+    private FlightRepository flightRepository;
+
+    @Autowired
+    private AirplaneRepository airplaneRepository;
+    
+    @Autowired
+    private AirportRepository airportRepository;
+
+    @Override
+    public FlightResponse addFlight(FlightRequest flightRequest) {
+        // Fetch airplane entity
+        Airplane airplane = airplaneRepository.findById(flightRequest.getAirplaneId())
+                .orElseThrow(() -> new IllegalArgumentException("Airplane not found"));
+
+        // Fetch from and to airport entities
+        Airport fromAirport = airportRepository.findById(flightRequest.getDepartureAirportId())
+                .orElseThrow(() -> new IllegalArgumentException("Departure airport not found"));
+        
+        Airport toAirport = airportRepository.findById(flightRequest.getArrivalAirportId())
+                .orElseThrow(() -> new IllegalArgumentException("Arrival airport not found"));
+
+        // Create the flight entity and set values
+        Flight flight = new Flight();
+        flight.setAirplane(airplane);
+        flight.setDepartureTime(flightRequest.getDepartureTime());
+        flight.setArrivalTime(flightRequest.getArrivalTime());
+        flight.setFromAirport(fromAirport);  // Use the Airport object, not just the ID
+        flight.setToAirport(toAirport);      // Use the Airport object, not just the ID
+        flight.setPrice(flightRequest.getPrice());
+        flight.setAirline(flightRequest.getAirline());
+
+        flightRepository.save(flight);
+
+        return mapToDto(flight);
+    }
+
+    @Override
+    public List<FlightResponse> getAllFlights() {
+        return flightRepository.findAll().stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public FlightResponse getFlightById(Long id) {
+        Flight flight = flightRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Flight not found"));
+        return mapToDto(flight);
+    }
+    
+    @Override
+    public void deleteFlight(Long id) {
+        Flight flight = flightRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Flight not found with id: " + id));
+        flightRepository.delete(flight);
+    }
+    @Override
+    public List<FlightResponse> searchFlights(Long sourceId, Long destinationId, LocalDate date) {
+        LocalDateTime startOfDay = null, endOfDay = null;
+        if (date != null) {
+            startOfDay = date.atStartOfDay();
+            endOfDay   = date.atTime(23, 59, 59);
+        }
+
+        List<Flight> flights = flightRepository.searchFlights(
+            sourceId, destinationId, startOfDay, endOfDay
+        );
+
+        return flights.stream()
+                      .map(this::mapToDto)
+                      .collect(Collectors.toList());
+    }
+
+
+
+    private FlightResponse mapToDto(Flight flight) {
+        FlightResponse response = new FlightResponse();
+        response.setId(flight.getId());
+        response.setAirline(flight.getAirline());
+        response.setDepartureTime(flight.getDepartureTime().toString());
+        response.setArrivalTime(flight.getArrivalTime().toString());
+
+        // Map airport data (name or code)
+        response.setFromAirportId(flight.getFromAirport().getId());
+        response.setFromAirportName(flight.getFromAirport().getAirportName());  // Retrieve the airport name
+
+        response.setToAirportId(flight.getToAirport().getId());
+        response.setToAirportName(flight.getToAirport().getAirportName());  // Retrieve the airport name
+
+        response.setPrice(flight.getPrice());  // If you need to convert BigDecimal to Double
+
+        return response;
+    }
+
+}

@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.WalletRequest;
 import com.version1.frs.dto.WalletResponse;
-import com.version1.frs.model.User;
 import com.version1.frs.model.Wallet;
-import com.version1.frs.repository.UserRepository;
 import com.version1.frs.repository.WalletRepository;
 import com.version1.frs.service.WalletService;
 
@@ -18,9 +16,6 @@ public class WalletServiceImpl implements WalletService {
 
     @Autowired
     private WalletRepository walletRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
 //    @Override
 //    public WalletResponse createWallet(WalletRequest request) {
@@ -83,7 +78,8 @@ public class WalletServiceImpl implements WalletService {
                 .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
 
         // Add money to the wallet balance
-        wallet.setBalance(wallet.getBalance() + request.getBalance());
+        wallet.setBalance(wallet.getBalance().add(request.getBalance()));
+
 
         wallet = walletRepository.save(wallet);
 
@@ -97,12 +93,13 @@ public class WalletServiceImpl implements WalletService {
                 .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
 
         // Check if the balance is enough for the payment
-        if (wallet.getBalance() < request.getBalance()) {
+    	if (wallet.getBalance().compareTo(request.getBalance()) < 0) {
             throw new RuntimeException("Insufficient balance for the payment");
         }
 
         // Deduct the payment from wallet balance
-        wallet.setBalance(wallet.getBalance() - request.getBalance());
+        wallet.setBalance(wallet.getBalance().subtract(request.getBalance()));
+
 
         wallet = walletRepository.save(wallet);
 

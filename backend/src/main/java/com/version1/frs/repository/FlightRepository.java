@@ -21,4 +21,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			""")
 	List<Flight> searchFlights(@Param("sourceId") Long sourceId, @Param("destinationId") Long destinationId,
 			@Param("startOfDay") LocalDateTime startOfDay, @Param("endOfDay") LocalDateTime endOfDay);
+	
+	List<Flight> findByDepartureTimeAfter(LocalDateTime now);
+
 }

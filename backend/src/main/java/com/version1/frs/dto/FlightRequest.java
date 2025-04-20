@@ -1,112 +1,87 @@
 package com.version1.frs.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 
 public class FlightRequest {
 
-    @NotBlank
-    private String flightNumber;
+    @NotNull(message = "Airplane is required")
+    private Long airplaneId;
 
-    @NotNull
-    private LocalDate departureDate;
+    @NotNull(message = "Departure time is required")
+    private LocalDateTime departureTime;
 
-    @NotNull
-    private LocalTime departureTime;
+    @NotNull(message = "Arrival time is required")
+    private LocalDateTime arrivalTime;
 
-    @NotNull
-    private LocalDate arrivalDate;
+    @NotNull(message = "Departure airport ID is required")
+    private Long departureAirportId;
 
-    @NotNull
-    private LocalTime arrivalTime;
+    @NotNull(message = "Arrival airport ID is required")
+    private Long arrivalAirportId;
 
-    @NotNull
-    @Positive
-    private Double price;
+    @NotNull(message = "Price is required")
+    private BigDecimal price;
 
-    @NotBlank
-    private String airplaneNumber;
-
-    @NotBlank
-    private String sourceAirportCode;
-
-    @NotBlank
-    private String destinationAirportCode;
+    @NotNull(message = "Airline is required")
+    private String airline;
 
     // Getters and Setters
-    
-	public String getFlightNumber() {
-		return flightNumber;
-	}
+    public Long getAirplaneId() {
+        return airplaneId;
+    }
 
-	public void setFlightNumber(String flightNumber) {
-		this.flightNumber = flightNumber;
-	}
+    public void setAirplaneId(Long airplaneId) {
+        this.airplaneId = airplaneId;
+    }
 
-	public LocalDate getDepartureDate() {
-		return departureDate;
-	}
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
+    }
 
-	public void setDepartureDate(LocalDate departureDate) {
-		this.departureDate = departureDate;
-	}
+    public void setDepartureTime(LocalDateTime departureTime) {
+        this.departureTime = departureTime;
+    }
 
-	public LocalTime getDepartureTime() {
-		return departureTime;
-	}
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
 
-	public void setDepartureTime(LocalTime departureTime) {
-		this.departureTime = departureTime;
-	}
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
 
-	public LocalDate getArrivalDate() {
-		return arrivalDate;
-	}
+    public Long getDepartureAirportId() {
+        return departureAirportId;
+    }
 
-	public void setArrivalDate(LocalDate arrivalDate) {
-		this.arrivalDate = arrivalDate;
-	}
+    public void setDepartureAirportId(Long departureAirportId) {
+        this.departureAirportId = departureAirportId;
+    }
 
-	public LocalTime getArrivalTime() {
-		return arrivalTime;
-	}
+    public Long getArrivalAirportId() {
+        return arrivalAirportId;
+    }
 
-	public void setArrivalTime(LocalTime arrivalTime) {
-		this.arrivalTime = arrivalTime;
-	}
+    public void setArrivalAirportId(Long arrivalAirportId) {
+        this.arrivalAirportId = arrivalAirportId;
+    }
 
-	public Double getPrice() {
-		return price;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-	public String getAirplaneNumber() {
-		return airplaneNumber;
-	}
+    public String getAirline() {
+        return airline;
+    }
 
-	public void setAirplaneNumber(String airplaneNumber) {
-		this.airplaneNumber = airplaneNumber;
-	}
-
-	public String getSourceAirportCode() {
-		return sourceAirportCode;
-	}
-
-	public void setSourceAirportCode(String sourceAirportCode) {
-		this.sourceAirportCode = sourceAirportCode;
-	}
-
-	public String getDestinationAirportCode() {
-		return destinationAirportCode;
-	}
-
-	public void setDestinationAirportCode(String destinationAirportCode) {
-		this.destinationAirportCode = destinationAirportCode;
-	}
-
+    public void setAirline(String airline) {
+        this.airline = airline;
+    }
 }

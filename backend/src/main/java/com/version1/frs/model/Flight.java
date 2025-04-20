@@ -1,143 +1,116 @@
 package com.version1.frs.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
 
 @Entity
 @Table(name = "TBL_FLIGHTS")
 public class Flight {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FLIGHT_ID")
-    private Long flightId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-    @Column(name = "FLIGHT_NUMBER", nullable = false, unique = true)
-    private String flightNumber;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AIRPLANE_ID", nullable = false)
+	private Airplane airplane;
 
-    @Column(name = "DEPARTURE_DATE", nullable = false)
-    private LocalDate departureDate;
+	@Column(name = "DEPARTURE_TIME", nullable = false)
+	private LocalDateTime departureTime;
 
-    @Column(name = "DEPARTURE_TIME", nullable = false)
-    private LocalTime departureTime;
+	@Column(name = "ARRIVAL_TIME", nullable = false)
+	private LocalDateTime arrivalTime;
 
-    @Column(name = "ARRIVAL_DATE", nullable = false)
-    private LocalDate arrivalDate;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "FROM_AIRPORT_ID", nullable = false)
+	private Airport fromAirport;
 
-    @Column(name = "ARRIVAL_TIME", nullable = false)
-    private LocalTime arrivalTime;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TO_AIRPORT_ID", nullable = false)
+	private Airport toAirport;
 
-    @Column(name = "PRICE", nullable = false)
-    private Double price;
+	@Column(name = "PRICE", nullable = false)
+	@DecimalMin(value = "0.0", inclusive = false)
+	private BigDecimal price;
 
-    @ManyToOne
-    @JoinColumn(name = "AIRPLANE_ID", nullable = false)
-    private Airplane airplane;
+	@Column(name = "AIRLINE", nullable = false)
+	private String airline; // Airline as a string (name)
 
-    @ManyToOne
-    @JoinColumn(name = "SOURCE_AIRPORT_CODE", nullable = false)
-    private Airport sourceAirport;
+	// Getters and Setters
 
-    @ManyToOne
-    @JoinColumn(name = "DESTINATION_AIRPORT_CODE", nullable = false)
-    private Airport destinationAirport;
+	public Long getId() {
+		return id;
+	}
 
-    // Getters and Setters
-    public Long getFlightId() {
-        return flightId;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setFlightId(Long flightId) {
-        this.flightId = flightId;
-    }
+	public Airplane getAirplane() {
+		return airplane;
+	}
 
-    public String getFlightNumber() {
-        return flightNumber;
-    }
+	public void setAirplane(Airplane airplane) {
+		this.airplane = airplane;
+	}
 
-    public void setFlightNumber(String flightNumber) {
-        this.flightNumber = flightNumber;
-    }
+	public LocalDateTime getDepartureTime() {
+		return departureTime;
+	}
 
-    public LocalDate getDepartureDate() {
-        return departureDate;
-    }
+	public void setDepartureTime(LocalDateTime departureTime) {
+		this.departureTime = departureTime;
+	}
 
-    public void setDepartureDate(LocalDate departureDate) {
-        this.departureDate = departureDate;
-    }
+	public LocalDateTime getArrivalTime() {
+		return arrivalTime;
+	}
 
-    public LocalTime getDepartureTime() {
-        return departureTime;
-    }
+	public void setArrivalTime(LocalDateTime arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
 
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
-    }
+	public Airport getFromAirport() {
+		return fromAirport;
+	}
 
-    public LocalDate getArrivalDate() {
-        return arrivalDate;
-    }
+	public void setFromAirport(Airport fromAirport) {
+		this.fromAirport = fromAirport;
+	}
 
-    public void setArrivalDate(LocalDate arrivalDate) {
-        this.arrivalDate = arrivalDate;
-    }
+	public Airport getToAirport() {
+		return toAirport;
+	}
 
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
+	public void setToAirport(Airport toAirport) {
+		this.toAirport = toAirport;
+	}
 
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    public Double getPrice() {
-        return price;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+	public String getAirline() {
+		return airline;
+	}
 
-    public Airplane getAirplane() {
-        return airplane;
-    }
-
-    public void setAirplane(Airplane airplane) {
-        this.airplane = airplane;
-    }
-
-    public Airport getSourceAirport() {
-        return sourceAirport;
-    }
-
-    public void setSourceAirport(Airport sourceAirport) {
-        this.sourceAirport = sourceAirport;
-    }
-
-    public Airport getDestinationAirport() {
-        return destinationAirport;
-    }
-
-    public void setDestinationAirport(Airport destinationAirport) {
-        this.destinationAirport = destinationAirport;
-    }
-
-    // Helper method to get the source airport as "City (Code)"
-    public String getSourceAirportCityCode() {
-        return sourceAirport.getAirportCity() + " (" + sourceAirport.getAirportCode() + ")";
-    }
-
-    // Helper method to get the destination airport as "City (Code)"
-    public String getDestinationAirportCityCode() {
-        return destinationAirport.getAirportCity() + " (" + destinationAirport.getAirportCode() + ")";
-    }
+	public void setAirline(String airline) {
+		this.airline = airline;
+	}
 }

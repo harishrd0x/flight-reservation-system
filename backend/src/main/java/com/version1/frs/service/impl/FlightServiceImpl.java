@@ -60,15 +60,21 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<FlightResponse> getAllFlights() {
-        return flightRepository.findAll().stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    	return flightRepository.findByDepartureTimeAfter(LocalDateTime.now()).stream()
+    	        .map(this::mapToDto)
+    	        .collect(Collectors.toList());
     }
 
     @Override
     public FlightResponse getFlightById(Long id) {
         Flight flight = flightRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Flight not found"));
+
+        // Check if the flight's departure time is in the future (not expired)
+        if (flight.getDepartureTime().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("This flight has already expired.");
+        }
+
         return mapToDto(flight);
     }
     
@@ -78,6 +84,7 @@ public class FlightServiceImpl implements FlightService {
             .orElseThrow(() -> new RuntimeException("Flight not found with id: " + id));
         flightRepository.delete(flight);
     }
+    
     @Override
     public List<FlightResponse> searchFlights(Long sourceId, Long destinationId, LocalDate date) {
         LocalDateTime startOfDay = null, endOfDay = null;
@@ -90,10 +97,16 @@ public class FlightServiceImpl implements FlightService {
             sourceId, destinationId, startOfDay, endOfDay
         );
 
+        // Filter out past flights in the service layer
+        flights = flights.stream()
+                         .filter(flight -> flight.getDepartureTime().isAfter(LocalDateTime.now()))
+                         .collect(Collectors.toList());
+
         return flights.stream()
                       .map(this::mapToDto)
                       .collect(Collectors.toList());
     }
+
 
 
 

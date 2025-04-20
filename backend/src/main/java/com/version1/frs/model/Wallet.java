@@ -1,6 +1,15 @@
 package com.version1.frs.model;
 
-import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_WALLETS")
@@ -16,7 +25,7 @@ public class Wallet {
     private User user;
 
     @Column(name = "BALANCE", nullable = false)
-    private Double balance = 0.0;
+    private BigDecimal balance;
 
     
     // Getters & Setters
@@ -37,11 +46,11 @@ public class Wallet {
 		this.user = user;
 	}
 
-	public Double getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Double balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 

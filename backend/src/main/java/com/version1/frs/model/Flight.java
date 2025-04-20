@@ -41,6 +41,7 @@ public class Flight {
 	@JoinColumn(name = "TO_AIRPORT_ID", nullable = false)
 	private Airport toAirport;
 
+
 	@Column(name = "PRICE", nullable = false)
 	@DecimalMin(value = "0.0", inclusive = false)
 	private BigDecimal price;

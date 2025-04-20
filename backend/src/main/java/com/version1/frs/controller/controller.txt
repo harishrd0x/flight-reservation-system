@@ -1,794 +1,370 @@
-//package com.version1.frs.controller;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.version1.frs.dto.BookingResponse;
-//import com.version1.frs.dto.ReviewResponse;
-//import com.version1.frs.dto.UserResponse;
-//import com.version1.frs.dto.WalletResponse;
-//import com.version1.frs.service.BookingService;
-//import com.version1.frs.service.ReviewService;
-//import com.version1.frs.service.UserService;
-//import com.version1.frs.service.WalletService;
-//
-//@RestController
-//@RequestMapping("/api/admin")
-//@PreAuthorize("hasRole('ADMIN')")
-//public class AdminController {
-//
-//    @Autowired private BookingService bookingService;
-//    @Autowired private UserService userService;
-//    @Autowired private ReviewService reviewService;
-//    @Autowired private WalletService walletService;
-//
-//    @GetMapping("/users")
-//    public List<UserResponse> viewAllUsers() {
-//        return userService.getAllUsers();
-//    }
-//
-//    @GetMapping("/reviews")
-//    public List<ReviewResponse> viewAllReviews() {
-//        return reviewService.getAllReviews();
-//    }
-//
-//    @GetMapping("/wallet/{userId}")
-//    public ResponseEntity<WalletResponse> viewUserWallet(@PathVariable Long userId) {
-//        return ResponseEntity.ok(walletService.getWalletByUserId(userId));
-//    }
-//    
-//    @GetMapping("/bookings")
-//    public ResponseEntity<List<BookingResponse>> getAllBookings() {
-//        return ResponseEntity.ok(bookingService.getAllBookings());
-//    }
-//}//package com.version1.frs.controller;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.DeleteMapping;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.PutMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.version1.frs.dto.FlightRequest;
-//import com.version1.frs.dto.FlightResponse;
-//import com.version1.frs.service.FlightService;
-//
-//@RestController
-//@RequestMapping("/api/admin/flights")
-//@PreAuthorize("hasRole('ADMIN')")
-//public class AdminFlightController {
-//
-//    @Autowired
-//    private FlightService flightService;
-//
-//    @PostMapping
-//    public ResponseEntity<String> addFlight(@RequestBody FlightRequest request) {
-//        flightService.addFlight(request);
-//        return ResponseEntity.ok("Flight added successfully.");
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<String> updateFlight(@PathVariable String flightNumber, @RequestBody FlightRequest request) {
-//        flightService.updateFlight(flightNumber, request);
-//        return ResponseEntity.ok("Flight updated successfully.");
-//    }
-//
-//    @DeleteMapping("/{flightNumber}")
-//    public ResponseEntity<String> deleteFlight(@PathVariable String flightNumber) {
-//        flightService.deleteFlight(flightNumber);
-//        return ResponseEntity.ok("Flight deleted successfully.");
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<List<FlightResponse>> getAllFlights() {
-//        return ResponseEntity.ok(flightService.getAllFlights());
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<FlightResponse> getFlightById(@PathVariable String flightNumber) {
-//        return ResponseEntity.ok(flightService.getFlightByFlightNumber(flightNumber));
-//    }
-//}//package com.version1.frs.controller;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.CrossOrigin;
-//import org.springframework.web.bind.annotation.DeleteMapping;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.PutMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.version1.frs.dto.AirplaneRequest;
-//import com.version1.frs.model.Airplane;
-//import com.version1.frs.service.AirplaneService;
-//
-//import jakarta.validation.Valid;
-//
-//@RestController
-//@RequestMapping("/api/airplanes")
-//@CrossOrigin
-//public class AirplaneController {
-//
-//    @Autowired
-//    private AirplaneService airplaneService;
-//
-//    // Add Airplane
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping
-//    public ResponseEntity<Object> addAirplane(@Valid @RequestBody AirplaneRequest request) {
-//        try {
-//            String result = airplaneService.addAirplane(request);
-//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to create airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    // Update Airplane
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PutMapping("/{airplaneNumber}")
-//    public ResponseEntity<Object> updateAirplane(@PathVariable String airplaneNumber, @RequestBody AirplaneRequest request) {
-//        try {
-//            String result = airplaneService.updateAirplane(airplaneNumber, request);
-//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to update airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    // Delete Airplane
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @DeleteMapping("/{airplaneNumber}")
-//    public ResponseEntity<Object> deleteAirplane(@PathVariable String airplaneNumber) {
-//        boolean exists = airplaneService.doesAirplaneExist(airplaneNumber);
-//        
-//        if (!exists) {
-//            return new ResponseEntity<>(new MessageResponse("Airplane not found."), HttpStatus.NOT_FOUND);
-//        }
-//
-//        try {
-//            String result = airplaneService.deleteAirplane(airplaneNumber);
-//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to delete airplane: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    // Get all Airplanes
-//    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-//    @GetMapping
-//    public ResponseEntity<Object> getAllAirplanes() {
-//        try {
-//            List<Airplane> airplanes = airplaneService.getAllAirplanes();
-//            if (airplanes.isEmpty()) {
-//                return new ResponseEntity<>(new MessageResponse("No airplanes found"), HttpStatus.NOT_FOUND);
-//            }
-//            return ResponseEntity.ok(airplanes);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airplanes: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    // Get Airplane by Airplane Number
-//    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-//    @GetMapping("/{airplaneNumber}")
-//    public ResponseEntity<Object> getAirplaneByAirplaneNumber(@PathVariable String airplaneNumber) {
-//        try {
-//            Airplane airplane = airplaneService.getAirplaneByAirplaneNumber(airplaneNumber);
-//            if (airplane == null) {
-//                return new ResponseEntity<>(new MessageResponse("Airplane not found"), HttpStatus.NOT_FOUND);
-//            }
-//            return ResponseEntity.ok(airplane);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airplane: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    // MessageResponse class to standardize responses
-//    public static class MessageResponse {
-//        private String message;
-//
-//        public MessageResponse(String message) {
-//            this.message = message;
-//        }
-//
-//        public String getMessage() {
-//            return message;
-//        }
-//
-//        public void setMessage(String message) {
-//            this.message = message;
-//        }
-//    }
-//}
-//package com.version1.frs.controller;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.CrossOrigin;
-//import org.springframework.web.bind.annotation.DeleteMapping;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.PutMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.version1.frs.dto.AirportRequest;
-//import com.version1.frs.model.Airport;
-//import com.version1.frs.service.AirportService;
-//
-//import jakarta.validation.Valid;
-//
-//@RestController
-//@RequestMapping("/api/airports")
-//@CrossOrigin
-//public class AirportController {
-//
-//    @Autowired
-//    private AirportService airportService;
-//
-//    // Add Airport
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping
-//    public ResponseEntity<Object> addAirport(@Valid @RequestBody AirportRequest request) {
-//        try {
-//            String result = airportService.addAirport(request);
-//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to create airport: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    // Update Airport
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PutMapping("/{airportCode}")
-//    public ResponseEntity<Object> updateAirport(@PathVariable String airportCode, @RequestBody AirportRequest request) {
-//        try {
-//            String result = airportService.updateAirport(airportCode, request);
-//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to update airport: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    // Delete Airport
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @DeleteMapping("/{airportCode}")
-//    public ResponseEntity<Object> deleteAirport(@PathVariable String airportCode) {
-//        try {
-//            String result = airportService.deleteAirport(airportCode);
-//            return new ResponseEntity<>(new MessageResponse(result), HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to delete airport: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    // Get All Airports
-//    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-//    @GetMapping
-//    public ResponseEntity<Object> getAllAirports() {
-//        try {
-//            List<Airport> airports = airportService.getAllAirports();
-//            if (airports.isEmpty()) {
-//                return new ResponseEntity<>(new MessageResponse("No airports found"), HttpStatus.NOT_FOUND);
-//            }
-//            return ResponseEntity.ok(airports);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airports: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    // Get Airport by Code
-//    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-//    @GetMapping("/{airportCode}")
-//    public ResponseEntity<Object> getAirportByCode(@PathVariable String airportCode) {
-//        try {
-//            Airport airport = airportService.getAirportByCode(airportCode);
-//            if (airport == null) {
-//                return new ResponseEntity<>(new MessageResponse("Airport not found"), HttpStatus.NOT_FOUND);
-//            }
-//            return ResponseEntity.ok(airport);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new MessageResponse("Failed to retrieve airport: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    // MessageResponse class to standardize responses
-//    public static class MessageResponse {
-//        private String message;
-//
-//        public MessageResponse(String message) {
-//            this.message = message;
-//        }
-//
-//        public String getMessage() {
-//            return message;
-//        }
-//
-//        public void setMessage(String message) {
-//            this.message = message;
-//        }
-//    }
-//}
-package com.version1.frs.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
 
-import com.version1.frs.dto.LoginRequest;
-import com.version1.frs.dto.LoginResponse;
-import com.version1.frs.dto.UserRequest;
-import com.version1.frs.model.User;
-import com.version1.frs.repository.UserRepository;
-import com.version1.frs.security.JwtUtil;
-import com.version1.frs.service.UserService;
+[32m :: Spring Boot :: [39m              [2m (v3.4.4)[0;39m
 
-import jakarta.validation.Valid;
+[2m2025-04-21T03:27:43.877+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mcom.version1.frs.BackendApplication     [0;39m [2m:[0;39m Starting BackendApplication using Java 17.0.12 with PID 15172 (C:\React Workspace\flight-reservation-system\backend\target\classes started by admin in C:\React Workspace\flight-reservation-system\backend)
+[2m2025-04-21T03:27:43.880+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mcom.version1.frs.BackendApplication     [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2025-04-21T03:27:43.970+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.b.devtools.restart.ChangeableUrls   [0;39m [2m:[0;39m The Class-Path manifest attribute in C:\Users\admin\.m2\repository\org\glassfish\hk2\hk2\3.0.6\hk2-3.0.6.jar referenced one or more files that do not exist: file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/hk2-utils.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/jakarta.annotation-api.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/jakarta.inject-api.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/hk2-api.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/aopalliance-repackaged.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/hk2-core.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/hk2-locator.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/javassist.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/hk2-runlevel.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/class-model.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/asm.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/asm-analysis.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/asm-commons.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/asm-tree.jar,file:/C:/Users/admin/.m2/repository/org/glassfish/hk2/hk2/3.0.6/asm-util.jar
+[2m2025-04-21T03:27:43.970+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.b.devtools.restart.ChangeableUrls   [0;39m [2m:[0;39m The Class-Path manifest attribute in C:\Users\admin\.m2\repository\com\oracle\database\jdbc\ojdbc11\23.5.0.24.07\ojdbc11-23.5.0.24.07.jar referenced one or more files that do not exist: file:/C:/Users/admin/.m2/repository/com/oracle/database/jdbc/ojdbc11/23.5.0.24.07/oraclepki.jar
+[2m2025-04-21T03:27:43.970+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2m2025-04-21T03:27:43.970+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2m2025-04-21T03:27:44.776+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2025-04-21T03:27:44.846+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 60 ms. Found 6 JPA repository interfaces.
+[2m2025-04-21T03:27:45.948+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port 1212 (http)
+[2m2025-04-21T03:27:45.960+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2025-04-21T03:27:45.960+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/10.1.39]
+[2m2025-04-21T03:27:46.021+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
+[2m2025-04-21T03:27:46.022+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mw.s.c.ServletWebServerApplicationContext[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 2050 ms
+[2m2025-04-21T03:27:46.267+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2025-04-21T03:27:46.335+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate ORM core version 6.6.11.Final
+[2m2025-04-21T03:27:46.377+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.h.c.internal.RegionFactoryInitiator   [0;39m [2m:[0;39m HHH000026: Second-level cache disabled
+[2m2025-04-21T03:27:46.657+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2025-04-21T03:27:46.690+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
+[2m2025-04-21T03:27:47.079+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@66d3a96a
+[2m2025-04-21T03:27:47.081+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
+[2m2025-04-21T03:27:47.323+05:30[0;39m [33m WARN[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[2m2025-04-21T03:27:47.460+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36morg.hibernate.orm.connections.pooling   [0;39m [2m:[0;39m HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2m2025-04-21T03:27:48.637+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: alter table tbl_flights add constraint FKkyxu5vr80xe0eyoi0r7aok1q foreign key (from_airport_id) references tbl_airports
+[2m2025-04-21T03:27:49.287+05:30[0;39m [33m WARN[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.h.t.s.i.ExceptionHandlerLoggedImpl    [0;39m [2m:[0;39m GenerationTarget encountered exception accepting command : Error executing DDL "alter table tbl_flights add constraint FKkyxu5vr80xe0eyoi0r7aok1q foreign key (from_airport_id) references tbl_airports" via JDBC [ORA-02267: column type incompatible with referenced column type
 
-@RestController
-@RequestMapping("/api")
-@CrossOrigin
-public class AuthController {
+https://docs.oracle.com/error-help/db/ora-02267/]
 
-    @Autowired
-    private AuthenticationManager authManager;
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table tbl_flights add constraint FKkyxu5vr80xe0eyoi0r7aok1q foreign key (from_airport_id) references tbl_airports" via JDBC [ORA-02267: column type incompatible with referenced column type
 
-    @Autowired
-    private JwtUtil jwtUtil;
+https://docs.oracle.com/error-help/db/ora-02267/]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:448) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:269) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:112) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1859) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:691) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:513) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1361) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1711) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1460) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1609) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1555) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:785) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:768) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1445) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1667) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1555) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:785) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:768) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1445) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:174) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:169) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:154) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:87) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:271) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:245) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4467) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:870) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:437) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:128) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:107) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:517) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:219) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:193) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:167) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:621) ~[spring-context-6.2.5.jar:6.2.5]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.4.jar:3.4.4]
+	at com.version1.frs.BackendApplication.main(BackendApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.4.jar:3.4.4]
+Caused by: java.sql.SQLSyntaxErrorException: ORA-02267: column type incompatible with referenced column type
 
-    @Autowired
-    private UserRepository userRepository;
+https://docs.oracle.com/error-help/db/ora-02267/
+	at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:709) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:609) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1347) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:1100) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:408) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:499) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:190) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CStatement.executeForRows(T4CStatement.java:1399) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatement.executeSQLStatement(OracleStatement.java:2008) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1621) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatement.executeInternal(OracleStatement.java:2686) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatement.execute(OracleStatement.java:2635) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatementWrapper.execute(OracleStatementWrapper.java:336) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	... 126 common frames omitted
+Caused by: oracle.jdbc.OracleDatabaseException: ORA-02267: column type incompatible with referenced column type
 
-    @Autowired
-    private UserService userService;
+	at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:717) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	... 141 common frames omitted
 
-    // Register endpoint
-    @PostMapping("/register")
-    public ResponseEntity<Object> register(@Valid @RequestBody UserRequest request) {
-        try {
-            String message = userService.register(request);
-            return new ResponseEntity<>(new MessageResponse(message), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new MessageResponse("Registration failed: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
-    }
+Hibernate: alter table tbl_flights add constraint FKov2kadedh7skmow3rqac7k48 foreign key (to_airport_id) references tbl_airports
+[2m2025-04-21T03:27:49.299+05:30[0;39m [33m WARN[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.h.t.s.i.ExceptionHandlerLoggedImpl    [0;39m [2m:[0;39m GenerationTarget encountered exception accepting command : Error executing DDL "alter table tbl_flights add constraint FKov2kadedh7skmow3rqac7k48 foreign key (to_airport_id) references tbl_airports" via JDBC [ORA-02267: column type incompatible with referenced column type
 
-    // Login endpoint
-    @SuppressWarnings("unused")
-	@PostMapping("/login")
-    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest request) {
-        try {
-            Authentication authentication = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUserEmail(), request.getUserPassword())
-            );
+https://docs.oracle.com/error-help/db/ora-02267/]
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            User user = userRepository.findByUserEmail(request.getUserEmail());
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table tbl_flights add constraint FKov2kadedh7skmow3rqac7k48 foreign key (to_airport_id) references tbl_airports" via JDBC [ORA-02267: column type incompatible with referenced column type
 
-            String token = jwtUtil.generateToken(user.getUserEmail(), user.getUserRole(), user.getUserId());
-            return ResponseEntity.ok(new LoginResponse(token, user.getUserRole()));
+https://docs.oracle.com/error-help/db/ora-02267/]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:448) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:269) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:112) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1859) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:691) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:513) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1361) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1711) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1460) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1609) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1555) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:785) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:768) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1445) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1667) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1555) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:785) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:768) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1445) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.5.jar:6.2.5]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:174) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:169) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:154) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:87) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:271) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:245) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4467) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:870) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:437) ~[tomcat-embed-core-10.1.39.jar:10.1.39]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:128) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:107) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:517) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:219) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:193) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:167) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:621) ~[spring-context-6.2.5.jar:6.2.5]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.4.jar:3.4.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.4.jar:3.4.4]
+	at com.version1.frs.BackendApplication.main(BackendApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.4.jar:3.4.4]
+Caused by: java.sql.SQLSyntaxErrorException: ORA-02267: column type incompatible with referenced column type
 
-        } catch (BadCredentialsException ex) {
-            return new ResponseEntity<>(new MessageResponse("Invalid email or password"), HttpStatus.UNAUTHORIZED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new MessageResponse("Login failed: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+https://docs.oracle.com/error-help/db/ora-02267/
+	at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:709) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:609) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1347) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:1100) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:408) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:499) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:190) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.T4CStatement.executeForRows(T4CStatement.java:1399) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatement.executeSQLStatement(OracleStatement.java:2008) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1621) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatement.executeInternal(OracleStatement.java:2686) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatement.execute(OracleStatement.java:2635) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at oracle.jdbc.driver.OracleStatementWrapper.execute(OracleStatementWrapper.java:336) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.6.11.Final.jar:6.6.11.Final]
+	... 126 common frames omitted
+Caused by: oracle.jdbc.OracleDatabaseException: ORA-02267: column type incompatible with referenced column type
 
-    // Response wrapper for consistent frontend handling
-    public static class MessageResponse {
-        private String message;
+	at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:717) ~[ojdbc11-23.5.0.24.07.jar:23.5.0.24.07]
+	... 141 common frames omitted
 
-        public MessageResponse(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-    }
-}
-package com.version1.frs.controller;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.version1.frs.dto.BookingRequest;
-import com.version1.frs.dto.BookingResponse;
-import com.version1.frs.service.BookingService;
-
-import jakarta.validation.Valid;
-
-@RestController
-@RequestMapping("/api/bookings")
-public class BookingController {
-
-    @Autowired
-    private BookingService bookingService;
-
-    // Book flight (CUSTOMER only)
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @PostMapping
-    public ResponseEntity<BookingResponse> bookFlight(@Valid @RequestBody BookingRequest request) {
-        return ResponseEntity.ok(bookingService.bookFlight(request));
-    }
-
-    // View all bookings of a user (CUSTOMER only)
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<BookingResponse>> getUserBookings(@PathVariable int userId) {
-        return ResponseEntity.ok(bookingService.getBookingsByUser(userId));
-    }
-
-    // View all bookings (ADMIN only)
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
-    public ResponseEntity<List<BookingResponse>> getAllBookings() {
-        return ResponseEntity.ok(bookingService.getAllBookings());
-    }
-}//package com.version1.frs.controller;
-//
-//import java.time.LocalDate;
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.format.annotation.DateTimeFormat;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.*;
-//
-//import com.version1.frs.dto.FlightRequest;
-//import com.version1.frs.dto.FlightResponse;
-//import com.version1.frs.service.FlightService;
-//
-//@RestController
-//@RequestMapping("/api/flights")
-//public class FlightController {
-//
-//    @Autowired
-//    private FlightService flightService;
-//
-//    @PostMapping
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<FlightResponse> addFlight(@RequestBody FlightRequest request) {
-//        FlightResponse createdFlight = flightService.addFlight(request);
-//        return new ResponseEntity<>(createdFlight, HttpStatus.CREATED);
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<List<FlightResponse>> getAllFlights() {
-//        return ResponseEntity.ok(flightService.getAllFlights());
-//    }
-//
-//    @GetMapping("/{flightNumber}")
-//    public ResponseEntity<FlightResponse> getFlightByFlightNumber(@PathVariable String flightNumber) {
-//        return ResponseEntity.ok(flightService.getFlightByFlightNumber(flightNumber));
-//    }
-//
-//    @PutMapping("/{flightNumber}")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<FlightResponse> updateFlight(
-//            @PathVariable String flightNumber,
-//            @RequestBody FlightRequest request) {
-//        FlightResponse updatedFlight = flightService.updateFlight(flightNumber, request);
-//        return ResponseEntity.ok(updatedFlight);
-//    }
-//
-//    @DeleteMapping("/{flightNumber}")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<String> deleteFlight(@PathVariable String flightNumber) {
-//        flightService.deleteFlight(flightNumber);
-//        return ResponseEntity.ok("Flight deleted successfully");
-//    }
-//
-//    @GetMapping("/search")
-//    public ResponseEntity<List<FlightResponse>> searchFlights(
-//            @RequestParam String sourceCity,
-//            @RequestParam String destinationCity,
-//            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-//
-//        if (date == null) {
-//            date = LocalDate.now();
-//        }
-//
-//        return ResponseEntity.ok(flightService.searchFlights(sourceCity, destinationCity, date));
-//    }
-//}
-//package com.version1.frs.controller;
-//
-//import com.version1.frs.dto.LoginRequest;
-//import com.version1.frs.dto.LoginResponse;
-//import com.version1.frs.model.User;
-//import com.version1.frs.repository.UserRepository;
-//import com.version1.frs.security.JwtUtil;
-//
-//import jakarta.validation.Valid;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.BadCredentialsException;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.web.bind.annotation.*;
-//
-//@RestController
-//@RequestMapping("/api")
-//@CrossOrigin
-//public class LoginController {
-//
-//    @Autowired
-//    private AuthenticationManager authManager;
-//
-//    @Autowired
-//    private JwtUtil jwtUtil;
-//
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
-//        try {
-//            Authentication authentication = authManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                    request.getUserEmail(), request.getUserPassword()
-//                )
-//            );
-//
-//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//
-//            // Fetch user to get user role
-//            User user = userRepository.findByUserEmail(request.getUserEmail());
-//            if (user == null) {
-//                return ResponseEntity.status(404).body("User not found.");
-//            }
-//
-//            String token = jwtUtil.generateToken(user.getUserEmail(), user.getUserRole());
-//            return ResponseEntity.ok(new LoginResponse(token, user.getUserRole()));
-//        } catch (BadCredentialsException ex) {
-//            return ResponseEntity.status(401).body("Invalid email or password");
-//        }
-//    }
-//}//package com.version1.frs.controller;
-//
-//import com.version1.frs.dto.UserRegistrationRequest;
-//import com.version1.frs.service.UserService;
-//import jakarta.validation.Valid;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.*;
-//
-//@RestController
-//@RequestMapping("/api")
-//@CrossOrigin
-//public class RegistrationController {
-//
-//    @Autowired
-//    private UserService userService;
-//
-//    // Anyone can register
-//    @PostMapping("/register")
-//    public ResponseEntity<String> register(@Valid @RequestBody UserRegistrationRequest request) {
-//        String result = userService.register(request);
-//        if (result.equalsIgnoreCase("Registration successful.")) {
-//            return ResponseEntity.ok(result);
-//        } else {
-//            return ResponseEntity.badRequest().body(result);
-//        }
-//    }
-///*
-//    // Optional: Only admin can create another admin
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping("/admin/register")
-//    public ResponseEntity<String> registerAdmin(@Valid @RequestBody UserRegistrationRequest request) {
-//        request.setUserRole("ADMIN");
-//        return ResponseEntity.ok(userService.register(request));
-//    }
-//*/
-//}package com.version1.frs.controller;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.version1.frs.dto.ReviewRequest;
-import com.version1.frs.dto.ReviewResponse;
-import com.version1.frs.security.UserDetailsImpl;
-import com.version1.frs.service.ReviewService;
-
-@RestController
-@RequestMapping("/api/reviews")
-public class ReviewController {
-
-    @Autowired
-    private ReviewService reviewService;
-
-    // CUSTOMER: Post a review
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @PostMapping
-    public ResponseEntity<ReviewResponse> postReview(
-            @RequestBody ReviewRequest request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        Long userId = userDetails.getId(); // get authenticated customer ID
-        ReviewResponse saved = reviewService.postReview(userId, request);
-
-        return ResponseEntity.ok(saved);
-    }
-
-
-    // SHARED: Get reviews by flight ID
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
-    @GetMapping("/flight/{flightId}")
-    public List<ReviewResponse> getReviewsByFlightId(@PathVariable Long flightId) {
-        return reviewService.getReviewsByFlightId(flightId);
-    }
-    
-    // get reviews by customer id
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @GetMapping("/my")
-    public List<ReviewResponse> getReviewsByCurrentCustomer(
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        Long userId = userDetails.getId();
-        return reviewService.getReviewsByUserId(userId);
-    }
-
-
-    // PUBLIC/SHARED: Get all reviews (for homepage display)
-    @GetMapping
-    public List<ReviewResponse> getAllReviews() {
-        return reviewService.getAllReviews();
-    }
-}package com.version1.frs.controller;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.version1.frs.dto.UserResponse;
-import com.version1.frs.service.UserService;
-
-@RestController
-@RequestMapping("/api/users")
-@CrossOrigin
-public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    // Admin can view all users
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
-    public List<UserResponse> getAllUsers() {
-        return userService.getAllUsers();
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
-        UserResponse user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
-    }
-
-}package com.version1.frs.controller;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.version1.frs.dto.WalletRequest;
-import com.version1.frs.dto.WalletResponse;
-import com.version1.frs.security.UserDetailsImpl;
-import com.version1.frs.service.WalletService;
-
-import jakarta.validation.Valid;
-
-@RestController
-@RequestMapping("/api/wallet")
-@CrossOrigin
-public class WalletController {
-
-	@Autowired
-	private WalletService walletService;
-
-	// View wallet
-	@PreAuthorize("hasRole('CUSTOMER')")
-	@GetMapping
-	public ResponseEntity<WalletResponse> getWallet(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-		// No need to manually extract user ID from the token
-		Long userId = userDetails.getId(); // Assuming getId() method exists in your UserDetailsImpl
-		WalletResponse response = walletService.getWalletByUserId(userId);
-		return ResponseEntity.ok(response);
-	}
-
-	// Add money
-	@PreAuthorize("hasRole('CUSTOMER')")
-	@PostMapping("/add")
-	public ResponseEntity<WalletResponse> addMoney(@Valid @RequestBody WalletRequest request,
-			@AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-		WalletResponse response = walletService.addMoney(userDetails.getId(), request);
-
-		return ResponseEntity.ok(response);
-	}
-}
+[2m2025-04-21T03:27:49.312+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2025-04-21T03:27:49.799+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.d.j.r.query.QueryEnhancerFactory    [0;39m [2m:[0;39m Hibernate is in classpath; If applicable, HQL parser will be used.
+[2m2025-04-21T03:27:50.522+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mr$InitializeUserDetailsManagerConfigurer[0;39m [2m:[0;39m Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+[2m2025-04-21T03:27:50.962+05:30[0;39m [33m WARN[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2m2025-04-21T03:27:51.426+05:30[0;39m [32mDEBUG[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+[2m2025-04-21T03:27:51.777+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.b.a.h2.H2ConsoleAutoConfiguration   [0;39m [2m:[0;39m H2 console available at '/h2-console'. Database available at 'jdbc:oracle:thin:@//localhost:1522/xe'
+[2m2025-04-21T03:27:51.894+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36m.w.s.a.s.AnnotationActionEndpointMapping[0;39m [2m:[0;39m Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+[2m2025-04-21T03:27:51.945+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.b.d.a.OptionalLiveReloadServer      [0;39m [2m:[0;39m LiveReload server is running on port 35729
+[2m2025-04-21T03:27:52.002+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port 1212 (http) with context path '/'
+[2m2025-04-21T03:27:52.019+05:30[0;39m [32m INFO[0;39m [35m15172[0;39m [2m--- [backend] [  restartedMain] [0;39m[36mcom.version1.frs.BackendApplication     [0;39m [2m:[0;39m Started BackendApplication in 8.659 seconds (process running for 9.405)

@@ -1,7 +1,17 @@
 package com.version1.frs.model;
 
-import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_BOOKINGS")
@@ -24,7 +34,7 @@ public class Booking {
     private LocalDateTime bookingTime;
 
     @Column(name = "TOTAL_AMOUNT", nullable = false)
-    private double totalAmount;
+    private BigDecimal totalAmount;
 
     // Getters & Setters
 
@@ -60,11 +70,11 @@ public class Booking {
         this.bookingTime = bookingTime;
     }
 
-    public double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 }

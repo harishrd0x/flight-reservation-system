@@ -1,10 +1,12 @@
 package com.version1.frs.dto;
 
+import java.math.BigDecimal;
+
 public class WalletResponse {
 
     private Long walletId;
     private Long userId;
-    private Double balance;
+    private BigDecimal  balance;
 
     public Long getWalletId() {
         return walletId;
@@ -22,11 +24,11 @@ public class WalletResponse {
         this.userId = userId;
     }
 
-    public Double getBalance() {
+    public BigDecimal  getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal  balance) {
         this.balance = balance;
     }
 }

@@ -1,23 +1,26 @@
 package com.version1.frs.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class BookingResponse {
     private Long bookingId;
-    private Long userId;
+    private Long customerId;
     private Long flightId;
-    private String flightNumber;
     private LocalDateTime bookingTime;
+    private BigDecimal totalAmount;
+    
 
-    public BookingResponse(Long bookingId, Long userId, Long flightId, String flightNumber, LocalDateTime bookingTime) {
+    public BookingResponse() {}
+
+    public BookingResponse(Long bookingId, Long customerId, Long flightId, LocalDateTime bookingTime, BigDecimal totalAmount) {
         this.bookingId = bookingId;
-        this.userId = userId;
+        this.customerId = customerId;
         this.flightId = flightId;
-        this.flightNumber = flightNumber;
         this.bookingTime = bookingTime;
+        this.totalAmount = totalAmount;
     }
 
-    // Getters & Setters
     public Long getBookingId() {
         return bookingId;
     }
@@ -26,12 +29,12 @@ public class BookingResponse {
         this.bookingId = bookingId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Long getFlightId() {
@@ -42,14 +45,6 @@ public class BookingResponse {
         this.flightId = flightId;
     }
 
-    public String getFlightNumber() {
-        return flightNumber;
-    }
-
-    public void setFlightNumber(String flightNumber) {
-        this.flightNumber = flightNumber;
-    }
-
     public LocalDateTime getBookingTime() {
         return bookingTime;
     }
@@ -57,4 +52,13 @@ public class BookingResponse {
     public void setBookingTime(LocalDateTime bookingTime) {
         this.bookingTime = bookingTime;
     }
+
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+    
 }

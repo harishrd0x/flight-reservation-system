@@ -1,5 +1,6 @@
 package com.version1.frs.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
         Wallet wallet = new Wallet();
         wallet.setUser(user);
-        wallet.setBalance(0.0);
+        wallet.setBalance(BigDecimal.ZERO);
         user.setWallet(wallet); // creating bidirectional link
 
         userRepository.save(user);

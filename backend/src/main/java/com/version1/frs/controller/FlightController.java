@@ -27,8 +27,6 @@ import com.version1.frs.service.FlightService;
 @CrossOrigin
 public class FlightController {
 
-	// AUTHORIZATION IS PENDING..
-
 	@Autowired
 	private FlightService flightService;
 
@@ -38,11 +36,13 @@ public class FlightController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(flightService.addFlight(flightRequest));
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
 	@GetMapping
 	public ResponseEntity<List<FlightResponse>> getAllFlights() {
 		return ResponseEntity.ok(flightService.getAllFlights());
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
 	@GetMapping("/{id}")
 	public ResponseEntity<FlightResponse> getFlightById(@PathVariable Long id) {
 		return ResponseEntity.ok(flightService.getFlightById(id));
@@ -59,7 +59,7 @@ public class FlightController {
 		}
 	}
 
-	// Endpoint for searching flights
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
 	@GetMapping("/search")
 	public ResponseEntity<List<FlightResponse>> searchFlights(@RequestParam(required = false) Long sourceId,
 			@RequestParam(required = false) Long destinationId,
@@ -70,5 +70,4 @@ public class FlightController {
 		List<FlightResponse> flights = flightService.searchFlights(sourceId, destinationId, date);
 		return ResponseEntity.ok(flights);
 	}
-
 }

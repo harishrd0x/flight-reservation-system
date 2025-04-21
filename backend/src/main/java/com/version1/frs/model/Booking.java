@@ -13,68 +13,144 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Entity class representing a booking in the system. This class maps to the
+ * 'TBL_BOOKINGS' table in the database.
+ */
 @Entity
 @Table(name = "TBL_BOOKINGS")
 public class Booking {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BOOKING_ID")
-    private Long bookingId;
+	// -------------------- Fields --------------------
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID", nullable = false)
-    private User user;
+	/**
+	 * Unique identifier for the booking. Mapped to the 'BOOKING_ID' column in the
+	 * database.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "BOOKING_ID")
+	private Long bookingId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FLIGHT_ID", nullable = false)
-    private Flight flight;
+	/**
+	 * User who made the booking. Represents a many-to-one relationship with the
+	 * {@link User} entity. Mapped to the 'USER_ID' column in the database.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID", nullable = false)
+	private User user;
 
-    @Column(name = "BOOKING_TIME", nullable = false)
-    private LocalDateTime bookingTime;
+	/**
+	 * Flight that is booked. Represents a many-to-one relationship with the
+	 * {@link Flight} entity. Mapped to the 'FLIGHT_ID' column in the database.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "FLIGHT_ID", nullable = false)
+	private Flight flight;
 
-    @Column(name = "TOTAL_AMOUNT", nullable = false)
-    private BigDecimal totalAmount;
+	/**
+	 * The time when the booking was made. Mapped to the 'BOOKING_TIME' column in
+	 * the database.
+	 */
+	@Column(name = "BOOKING_TIME", nullable = false)
+	private LocalDateTime bookingTime;
 
-    // Getters & Setters
+	/**
+	 * The total amount for the booking. Mapped to the 'TOTAL_AMOUNT' column in the
+	 * database.
+	 */
+	@Column(name = "TOTAL_AMOUNT", nullable = false)
+	private BigDecimal totalAmount;
 
-    public Long getBookingId() {
-        return bookingId;
-    }
+	// -------------------- Getters and Setters --------------------
 
-    public void setBookingId(Long bookingId) {
-        this.bookingId = bookingId;
-    }
+	/**
+	 * Gets the unique identifier for the booking.
+	 * 
+	 * @return the booking ID
+	 */
+	public Long getBookingId() {
+		return bookingId;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	/**
+	 * Sets the unique identifier for the booking.
+	 * 
+	 * @param bookingId the booking ID to set
+	 */
+	public void setBookingId(Long bookingId) {
+		this.bookingId = bookingId;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	/**
+	 * Gets the user who made the booking.
+	 * 
+	 * @return the user who made the booking
+	 */
+	public User getUser() {
+		return user;
+	}
 
-    public Flight getFlight() {
-        return flight;
-    }
+	/**
+	 * Sets the user who made the booking.
+	 * 
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
-    }
+	/**
+	 * Gets the flight that is booked.
+	 * 
+	 * @return the booked flight
+	 */
+	public Flight getFlight() {
+		return flight;
+	}
 
-    public LocalDateTime getBookingTime() {
-        return bookingTime;
-    }
+	/**
+	 * Sets the flight that is booked.
+	 * 
+	 * @param flight the flight to set
+	 */
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
 
-    public void setBookingTime(LocalDateTime bookingTime) {
-        this.bookingTime = bookingTime;
-    }
+	/**
+	 * Gets the booking time.
+	 * 
+	 * @return the time when the booking was made
+	 */
+	public LocalDateTime getBookingTime() {
+		return bookingTime;
+	}
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
+	/**
+	 * Sets the booking time.
+	 * 
+	 * @param bookingTime the booking time to set
+	 */
+	public void setBookingTime(LocalDateTime bookingTime) {
+		this.bookingTime = bookingTime;
+	}
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
+	/**
+	 * Gets the total amount for the booking.
+	 * 
+	 * @return the total amount for the booking
+	 */
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	/**
+	 * Sets the total amount for the booking.
+	 * 
+	 * @param totalAmount the total amount to set
+	 */
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 }

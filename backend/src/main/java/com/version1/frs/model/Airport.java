@@ -1,77 +1,171 @@
 package com.version1.frs.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+/**
+ * Entity class representing an Airport in the system. This class maps to the
+ * 'TBL_AIRPORTS' table in the database.
+ */
 @Entity
 @Table(name = "TBL_AIRPORTS")
 public class Airport {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Long id;
+	// -------------------- Fields --------------------
 
-    @Column(name = "AIRPORT_CODE", nullable = false, unique = true, length = 10)
-    private String airportCode;
+	/**
+	 * Unique identifier for the airport. Mapped to the 'ID' column in the database.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Long id;
 
-    @Column(name = "AIRPORT_NAME", nullable = false, length = 100)
-    private String airportName;
+	/**
+	 * Unique airport code (e.g., IATA code). Mapped to the 'AIRPORT_CODE' column in
+	 * the database. This value must be unique for each airport.
+	 */
+	@Column(name = "AIRPORT_CODE", nullable = false, unique = true, length = 10)
+	private String airportCode;
 
-    @Column(name = "AIRPORT_CITY", nullable = false, length = 100)
-    private String airportCity;
+	/**
+	 * Name of the airport. Mapped to the 'AIRPORT_NAME' column in the database.
+	 */
+	@Column(name = "AIRPORT_NAME", nullable = false, length = 100)
+	private String airportName;
 
-    @Column(name = "AIRPORT_STATE", nullable = false, length = 100)
-    private String airportState;
+	/**
+	 * City where the airport is located. Mapped to the 'AIRPORT_CITY' column in the
+	 * database.
+	 */
+	@Column(name = "AIRPORT_CITY", nullable = false, length = 100)
+	private String airportCity;
 
-    @Column(name = "AIRPORT_COUNTRY", nullable = false, length = 100)
-    private String airportCountry;
+	/**
+	 * State where the airport is located. Mapped to the 'AIRPORT_STATE' column in
+	 * the database.
+	 */
+	@Column(name = "AIRPORT_STATE", nullable = false, length = 100)
+	private String airportState;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * Country where the airport is located. Mapped to the 'AIRPORT_COUNTRY' column
+	 * in the database.
+	 */
+	@Column(name = "AIRPORT_COUNTRY", nullable = false, length = 100)
+	private String airportCountry;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	// -------------------- Getters and Setters --------------------
 
-    public String getAirportCode() {
-        return airportCode;
-    }
+	/**
+	 * Gets the unique identifier of the airport.
+	 * 
+	 * @return the airport ID
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    public void setAirportCode(String airportCode) {
-        this.airportCode = airportCode;
-    }
+	/**
+	 * Sets the unique identifier for the airport.
+	 * 
+	 * @param id the airport ID to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getAirportName() {
-        return airportName;
-    }
+	/**
+	 * Gets the airport code (e.g., IATA code).
+	 * 
+	 * @return the airport code
+	 */
+	public String getAirportCode() {
+		return airportCode;
+	}
 
-    public void setAirportName(String airportName) {
-        this.airportName = airportName;
-    }
+	/**
+	 * Sets the airport code (e.g., IATA code).
+	 * 
+	 * @param airportCode the airport code to set
+	 */
+	public void setAirportCode(String airportCode) {
+		this.airportCode = airportCode;
+	}
 
-    public String getAirportCity() {
-        return airportCity;
-    }
+	/**
+	 * Gets the name of the airport.
+	 * 
+	 * @return the airport name
+	 */
+	public String getAirportName() {
+		return airportName;
+	}
 
-    public void setAirportCity(String airportCity) {
-        this.airportCity = airportCity;
-    }
+	/**
+	 * Sets the name of the airport.
+	 * 
+	 * @param airportName the airport name to set
+	 */
+	public void setAirportName(String airportName) {
+		this.airportName = airportName;
+	}
 
-    public String getAirportState() {
-        return airportState;
-    }
+	/**
+	 * Gets the city where the airport is located.
+	 * 
+	 * @return the airport city
+	 */
+	public String getAirportCity() {
+		return airportCity;
+	}
 
-    public void setAirportState(String airportState) {
-        this.airportState = airportState;
-    }
+	/**
+	 * Sets the city where the airport is located.
+	 * 
+	 * @param airportCity the airport city to set
+	 */
+	public void setAirportCity(String airportCity) {
+		this.airportCity = airportCity;
+	}
 
-    public String getAirportCountry() {
-        return airportCountry;
-    }
+	/**
+	 * Gets the state where the airport is located.
+	 * 
+	 * @return the airport state
+	 */
+	public String getAirportState() {
+		return airportState;
+	}
 
-    public void setAirportCountry(String airportCountry) {
-        this.airportCountry = airportCountry;
-    }
+	/**
+	 * Sets the state where the airport is located.
+	 * 
+	 * @param airportState the airport state to set
+	 */
+	public void setAirportState(String airportState) {
+		this.airportState = airportState;
+	}
+
+	/**
+	 * Gets the country where the airport is located.
+	 * 
+	 * @return the airport country
+	 */
+	public String getAirportCountry() {
+		return airportCountry;
+	}
+
+	/**
+	 * Sets the country where the airport is located.
+	 * 
+	 * @param airportCountry the airport country to set
+	 */
+	public void setAirportCountry(String airportCountry) {
+		this.airportCountry = airportCountry;
+	}
 }

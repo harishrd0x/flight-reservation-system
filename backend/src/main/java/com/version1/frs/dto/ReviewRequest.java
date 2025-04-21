@@ -2,6 +2,7 @@ package com.version1.frs.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -18,7 +19,9 @@ public class ReviewRequest {
     private Float rating;
 
     @Size(max = 500)
+    @NotBlank(message = "Review text cannot be empty")
     private String reviewText;
+
 
     // Getters and Setters
     public Long getUserId() {

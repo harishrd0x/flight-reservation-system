@@ -17,75 +17,110 @@ import com.version1.frs.repository.ReviewRepository;
 import com.version1.frs.repository.UserRepository;
 import com.version1.frs.service.ReviewService;
 
+/**
+ * Implementation of the {@link ReviewService} interface. Provides methods for
+ * managing flight reviews, including posting, retrieving, and mapping reviews.
+ */
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+	@Autowired
+	private ReviewRepository reviewRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Autowired
-    private FlightRepository flightRepository;
-    
-    @Autowired
-    private BookingRepository bookingRepository;
+	@Autowired
+	private FlightRepository flightRepository;
 
-    @Override
-    public ReviewResponse postReview(Long userId, ReviewRequest request) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+	@Autowired
+	private BookingRepository bookingRepository;
 
-        // Check if user is a customer
-        if (user.getUserRole() == null || !user.getUserRole().equalsIgnoreCase("CUSTOMER")) {
-            throw new RuntimeException("Only customers can post reviews");
-        }
+	/**
+	 * Posts a new review for a flight by a customer.
+	 * 
+	 * @param userId  the ID of the user posting the review
+	 * @param request the review request object containing review details
+	 * @return the posted review as a {@link ReviewResponse} DTO
+	 * @throws RuntimeException if the user is not found, not a customer, or has not
+	 *                          booked the flight
+	 */
+	@Override
+	public ReviewResponse postReview(Long userId, ReviewRequest request) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-        Flight flight = flightRepository.findById(request.getFlightId())
-            .orElseThrow(() -> new RuntimeException("Flight not found"));
+		// Check if user is a customer
+		if (user.getUserRole() == null || !user.getUserRole().equalsIgnoreCase("CUSTOMER")) {
+			throw new RuntimeException("Only customers can post reviews");
+		}
 
-        // Check if the user actually booked this flight
-        boolean hasBooked = bookingRepository.existsByUser_UserIdAndFlight_Id(userId, flight.getId());
-        if (!hasBooked) {
-            throw new RuntimeException("You can only review flights you have booked.");
-        }
+		Flight flight = flightRepository.findById(request.getFlightId())
+				.orElseThrow(() -> new RuntimeException("Flight not found"));
 
-        Review review = new Review();
-        review.setUser(user);
-        review.setFlight(flight);
-        review.setRating(request.getRating());
-        review.setReviewText(request.getReviewText());
+		// Check if the user actually booked this flight
+		boolean hasBooked = bookingRepository.existsByUser_UserIdAndFlight_Id(userId, flight.getId());
+		if (!hasBooked) {
+			throw new RuntimeException("You can only review flights you have booked.");
+		}
 
-        review = reviewRepository.save(review);
-        return mapToResponse(review);
-    }
+		Review review = new Review();
+		review.setUser(user);
+		review.setFlight(flight);
+		review.setRating(request.getRating());
+		review.setReviewText(request.getReviewText());
 
-    @Override
-    public List<ReviewResponse> getReviewsByFlightId(Long flightId) {
-        List<Review> reviews = reviewRepository.findByFlight_Id(flightId);
-        return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
-    }
+		review = reviewRepository.save(review);
+		return mapToResponse(review);
+	}
 
-    @Override
-    public List<ReviewResponse> getReviewsByUserId(Long userId) {
-        List<Review> reviews = reviewRepository.findByUser_UserId(userId);
-        return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
-    }
+	/**
+	 * Retrieves all reviews for a specific flight.
+	 * 
+	 * @param flightId the ID of the flight whose reviews are to be fetched
+	 * @return a list of {@link ReviewResponse} DTOs for the specified flight
+	 */
+	@Override
+	public List<ReviewResponse> getReviewsByFlightId(Long flightId) {
+		List<Review> reviews = reviewRepository.findByFlight_Id(flightId);
+		return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
+	}
 
-    @Override
-    public List<ReviewResponse> getAllReviews() {
-        List<Review> reviews = reviewRepository.findAll(); // Using JpaRepository's findAll method
-        return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
-    }
-    
-    private ReviewResponse mapToResponse(Review review) {
-        ReviewResponse res = new ReviewResponse();
-        res.setReviewId(review.getReviewId());
-        res.setUserId(review.getUser().getUserId());
-        res.setFlightId(review.getFlight().getId());
-        res.setRating(review.getRating());
-        res.setReviewText(review.getReviewText());
-        return res;
-    }
+	/**
+	 * Retrieves all reviews posted by a specific user.
+	 * 
+	 * @param userId the ID of the user whose reviews are to be fetched
+	 * @return a list of {@link ReviewResponse} DTOs for the specified user
+	 */
+	@Override
+	public List<ReviewResponse> getReviewsByUserId(Long userId) {
+		List<Review> reviews = reviewRepository.findByUser_UserId(userId);
+		return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
+	}
+
+	/**
+	 * Retrieves all reviews from the system.
+	 * 
+	 * @return a list of all {@link ReviewResponse} DTOs
+	 */
+	@Override
+	public List<ReviewResponse> getAllReviews() {
+		List<Review> reviews = reviewRepository.findAll(); // Using JpaRepository's findAll method
+		return reviews.stream().map(this::mapToResponse).collect(Collectors.toList());
+	}
+
+	/**
+	 * Maps a {@link Review} entity to a {@link ReviewResponse} DTO.
+	 * 
+	 * @param review the review entity to convert
+	 * @return the corresponding {@link ReviewResponse} DTO
+	 */
+	private ReviewResponse mapToResponse(Review review) {
+		ReviewResponse res = new ReviewResponse();
+		res.setReviewId(review.getReviewId());
+		res.setUserId(review.getUser().getUserId());
+		res.setFlightId(review.getFlight().getId());
+		res.setRating(review.getRating());
+		res.setReviewText(review.getReviewText());
+		return res;
+	}
 }

@@ -11,106 +11,115 @@ import com.version1.frs.model.Wallet;
 import com.version1.frs.repository.WalletRepository;
 import com.version1.frs.service.WalletService;
 
+/**
+ * Implementation of the {@link WalletService} interface. Provides methods to
+ * manage wallets, including retrieving wallet information, updating balances,
+ * adding money, and making payments.
+ */
 @Service
 public class WalletServiceImpl implements WalletService {
 
-    @Autowired
-    private WalletRepository walletRepository;
+	@Autowired
+	private WalletRepository walletRepository;
 
-//    @Override
-//    public WalletResponse createWallet(WalletRequest request) {
-//        // Validate the user exists
-//        User user = userRepository.findById(request.getUserId())
-//                .orElseThrow(() -> new RuntimeException("User not found"));
-//
-//        // Create Wallet
-//        Wallet wallet = new Wallet();
-//        wallet.setUser(user);
-//        wallet.setBalance(request.getBalance());
-//
-//        wallet = walletRepository.save(wallet);
-//
-//        return mapToResponse(wallet);
-//    }
+	/**
+	 * Retrieves the wallet information for a user by their user ID.
+	 * 
+	 * @param userId the ID of the user whose wallet is being fetched
+	 * @return the {@link WalletResponse} DTO containing wallet details
+	 * @throws RuntimeException if the wallet is not found for the user
+	 */
+	@Override
+	public WalletResponse getWalletByUserId(Long userId) {
+		Wallet wallet = walletRepository.findByUser_UserId(userId)
+				.orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
+		return mapToResponse(wallet);
+	}
 
-    @Override
-    public WalletResponse getWalletByUserId(Long userId) {
-        Wallet wallet = walletRepository.findByUser_UserId(userId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
-        return mapToResponse(wallet);
-    }
+	/**
+	 * Updates the wallet balance for a specific wallet ID.
+	 * 
+	 * @param walletId the ID of the wallet to update
+	 * @param request  the {@link WalletRequest} containing the new balance to set
+	 * @return the updated {@link WalletResponse} DTO
+	 * @throws RuntimeException if the wallet is not found
+	 */
+	@Override
+	public WalletResponse updateWallet(Long walletId, WalletRequest request) {
+		Optional<Wallet> optionalWallet = walletRepository.findById(walletId);
+		if (optionalWallet.isPresent()) {
+			Wallet wallet = optionalWallet.get();
+			wallet.setBalance(request.getBalance());
 
-    @Override
-    public WalletResponse updateWallet(Long walletId, WalletRequest request) {
-        Optional<Wallet> optionalWallet = walletRepository.findById(walletId);
-        if (optionalWallet.isPresent()) {
-            Wallet wallet = optionalWallet.get();
-            wallet.setBalance(request.getBalance());
+			wallet = walletRepository.save(wallet);
 
-            wallet = walletRepository.save(wallet);
+			return mapToResponse(wallet);
+		} else {
+			throw new RuntimeException("Wallet not found");
+		}
+	}
 
-            return mapToResponse(wallet);
-        } else {
-            throw new RuntimeException("Wallet not found");
-        }
-    }
+	/**
+	 * Adds money to a user's wallet.
+	 * 
+	 * @param userId  the ID of the user whose wallet is being updated
+	 * @param request the {@link WalletRequest} containing the amount to add
+	 * @return the updated {@link WalletResponse} DTO
+	 * @throws RuntimeException if the wallet is not found for the user
+	 */
+	@Override
+	public WalletResponse addMoney(Long userId, WalletRequest request) {
+		// Get wallet by user ID
+		Wallet wallet = walletRepository.findByUser_UserId(userId)
+				.orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
 
-//    @Override
-//    public WalletResponse createWallet(Long userId) {
-//        // Validate the user exists
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new RuntimeException("User not found"));
-//
-//        // Create Wallet
-//        Wallet wallet = new Wallet();
-//        wallet.setUser(user);
-//        wallet.setBalance(0.0); // Default balance is 0 when creating
-//
-//        wallet = walletRepository.save(wallet);
-//
-//        return mapToResponse(wallet);
-//    }
+		// Add money to the wallet balance
+		wallet.setBalance(wallet.getBalance().add(request.getBalance()));
 
-    @Override
-    public WalletResponse addMoney(Long userId, WalletRequest request) {
-        // Get wallet by user ID
-        Wallet wallet = walletRepository.findByUser_UserId(userId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
+		wallet = walletRepository.save(wallet);
 
-        // Add money to the wallet balance
-        wallet.setBalance(wallet.getBalance().add(request.getBalance()));
+		return mapToResponse(wallet);
+	}
 
+	/**
+	 * Makes a payment by deducting money from the user's wallet.
+	 * 
+	 * @param userId  the ID of the user whose wallet is being used for payment
+	 * @param request the {@link WalletRequest} containing the amount to be deducted
+	 * @return the updated {@link WalletResponse} DTO
+	 * @throws RuntimeException if the wallet is not found or if there is
+	 *                          insufficient balance
+	 */
+	@Override
+	public WalletResponse makePayment(Long userId, WalletRequest request) {
+		// Get wallet by user ID
+		Wallet wallet = walletRepository.findByUser_UserId(userId)
+				.orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
 
-        wallet = walletRepository.save(wallet);
+		// Check if the balance is enough for the payment
+		if (wallet.getBalance().compareTo(request.getBalance()) < 0) {
+			throw new RuntimeException("Insufficient balance for the payment");
+		}
 
-        return mapToResponse(wallet);
-    }
+		// Deduct the payment from wallet balance
+		wallet.setBalance(wallet.getBalance().subtract(request.getBalance()));
 
-    @Override
-    public WalletResponse makePayment(Long userId, WalletRequest request) {
-        // Get wallet by user ID
-        Wallet wallet = walletRepository.findByUser_UserId(userId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found for the user"));
+		wallet = walletRepository.save(wallet);
 
-        // Check if the balance is enough for the payment
-    	if (wallet.getBalance().compareTo(request.getBalance()) < 0) {
-            throw new RuntimeException("Insufficient balance for the payment");
-        }
+		return mapToResponse(wallet);
+	}
 
-        // Deduct the payment from wallet balance
-        wallet.setBalance(wallet.getBalance().subtract(request.getBalance()));
-
-
-        wallet = walletRepository.save(wallet);
-
-        return mapToResponse(wallet);
-    }
-
-    private WalletResponse mapToResponse(Wallet wallet) {
-        WalletResponse res = new WalletResponse();
-        res.setWalletId(wallet.getWalletId());
-        res.setUserId(wallet.getUser().getUserId());
-        res.setBalance(wallet.getBalance());
-        return res;
-    }
+	/**
+	 * Maps a {@link Wallet} entity to a {@link WalletResponse} DTO.
+	 * 
+	 * @param wallet the wallet entity to convert
+	 * @return the corresponding {@link WalletResponse} DTO
+	 */
+	private WalletResponse mapToResponse(Wallet wallet) {
+		WalletResponse res = new WalletResponse();
+		res.setWalletId(wallet.getWalletId());
+		res.setUserId(wallet.getUser().getUserId());
+		res.setBalance(wallet.getBalance());
+		return res;
+	}
 }

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 Version 1
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.version1.frs.controller;
 
 import java.util.List;
@@ -20,93 +36,162 @@ import com.version1.frs.dto.AirplaneRequest;
 import com.version1.frs.dto.AirplaneResponse;
 import com.version1.frs.service.AirplaneService;
 
+/**
+ * Controller for managing airplane entities. Handles all HTTP endpoints related
+ * to airplane creation, retrieval, updating, deletion, validation, and
+ * filtering.
+ * 
+ * Base URL: /api/airplanes
+ */
 @RestController
 @RequestMapping("/api/airplanes")
 @CrossOrigin
 public class AirplaneController {
 
-    @Autowired
-    private AirplaneService airplaneService;
+	@Autowired
+	private AirplaneService airplaneService;
 
-    // CREATE
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
-    public ResponseEntity<AirplaneResponse> addAirplane(@RequestBody AirplaneRequest airplaneRequest) {
-        return ResponseEntity.ok(airplaneService.addAirplane(airplaneRequest));
-    }
+	/**
+	 * Adds a new airplane to the system. Only accessible by users with ADMIN role.
+	 *
+	 * @param airplaneRequest the airplane data to add
+	 * @return the added airplane's response object
+	 */
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping
+	public ResponseEntity<AirplaneResponse> addAirplane(@RequestBody AirplaneRequest airplaneRequest) {
+		return ResponseEntity.ok(airplaneService.addAirplane(airplaneRequest));
+	}
 
-    // READ - All
-    @GetMapping
-    public ResponseEntity<List<AirplaneResponse>> getAllAirplanes() {
-        return ResponseEntity.ok(airplaneService.getAllAirplanes());
-    }
+	/**
+	 * Retrieves all airplanes in the system.
+	 *
+	 * @return list of all airplane response objects
+	 */
+	@GetMapping
+	public ResponseEntity<List<AirplaneResponse>> getAllAirplanes() {
+		return ResponseEntity.ok(airplaneService.getAllAirplanes());
+	}
 
-    // READ - By ID
-    @GetMapping("/{id}")
-    public ResponseEntity<AirplaneResponse> getAirplaneById(@PathVariable Long id) {
-        return ResponseEntity.ok(airplaneService.getAirplaneById(id));
-    }
+	/**
+	 * Retrieves an airplane by its unique ID.
+	 *
+	 * @param id the ID of the airplane
+	 * @return the airplane response object
+	 */
+	@GetMapping("/{id}")
+	public ResponseEntity<AirplaneResponse> getAirplaneById(@PathVariable Long id) {
+		return ResponseEntity.ok(airplaneService.getAirplaneById(id));
+	}
 
-    // READ - By Number
-    @GetMapping("/number/{airplaneNumber}")
-    public ResponseEntity<AirplaneResponse> getAirplaneByNumber(@PathVariable String airplaneNumber) {
-        return ResponseEntity.ok(airplaneService.getAirplaneByNumber(airplaneNumber));
-    }
+	/**
+	 * Retrieves an airplane by its unique airplane number.
+	 *
+	 * @param airplaneNumber the airplane number
+	 * @return the airplane response object
+	 */
+	@GetMapping("/number/{airplaneNumber}")
+	public ResponseEntity<AirplaneResponse> getAirplaneByNumber(@PathVariable String airplaneNumber) {
+		return ResponseEntity.ok(airplaneService.getAirplaneByNumber(airplaneNumber));
+	}
 
-    // UPDATE - By ID
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{id}")
-    public ResponseEntity<AirplaneResponse> updateAirplaneById(
-            @PathVariable Long id,
-            @RequestBody AirplaneRequest airplaneRequest) {
-        return ResponseEntity.ok(airplaneService.updateAirplane(id, airplaneRequest));
-    }
+	/**
+	 * Updates an existing airplane using its ID. Only accessible by users with
+	 * ADMIN role.
+	 *
+	 * @param id              the ID of the airplane to update
+	 * @param airplaneRequest the updated airplane data
+	 * @return the updated airplane response object
+	 */
+	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping("/{id}")
+	public ResponseEntity<AirplaneResponse> updateAirplaneById(@PathVariable Long id,
+			@RequestBody AirplaneRequest airplaneRequest) {
+		return ResponseEntity.ok(airplaneService.updateAirplane(id, airplaneRequest));
+	}
 
-    // UPDATE - By Number
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/number/{airplaneNumber}")
-    public ResponseEntity<AirplaneResponse> updateAirplaneByNumber(
-            @PathVariable String airplaneNumber,
-            @RequestBody AirplaneRequest request) {
-        return ResponseEntity.ok(airplaneService.updateAirplane(airplaneNumber, request));
-    }
+	/**
+	 * Updates an existing airplane using its airplane number. Only accessible by
+	 * users with ADMIN role.
+	 *
+	 * @param airplaneNumber the airplane number to update
+	 * @param request        the updated airplane data
+	 * @return the updated airplane response object
+	 */
+	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping("/number/{airplaneNumber}")
+	public ResponseEntity<AirplaneResponse> updateAirplaneByNumber(@PathVariable String airplaneNumber,
+			@RequestBody AirplaneRequest request) {
+		return ResponseEntity.ok(airplaneService.updateAirplane(airplaneNumber, request));
+	}
 
-    // DELETE - By ID
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAirplaneById(@PathVariable Long id) {
-        airplaneService.deleteAirplane(id);
-        return ResponseEntity.ok("Airplane deleted successfully");
-    }
+	/**
+	 * Deletes an airplane using its ID. Only accessible by users with ADMIN role.
+	 *
+	 * @param id the ID of the airplane to delete
+	 * @return confirmation message
+	 */
+	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteAirplaneById(@PathVariable Long id) {
+		airplaneService.deleteAirplane(id);
+		return ResponseEntity.ok("Airplane deleted successfully");
+	}
 
-    // DELETE - By Number
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/number/{airplaneNumber}")
-    public ResponseEntity<String> deleteAirplaneByNumber(@PathVariable String airplaneNumber) {
-        return ResponseEntity.ok(airplaneService.deleteAirplane(airplaneNumber));
-    }
+	/**
+	 * Deletes an airplane using its airplane number. Only accessible by users with
+	 * ADMIN role.
+	 *
+	 * @param airplaneNumber the airplane number to delete
+	 * @return confirmation message
+	 */
+	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/number/{airplaneNumber}")
+	public ResponseEntity<String> deleteAirplaneByNumber(@PathVariable String airplaneNumber) {
+		return ResponseEntity.ok(airplaneService.deleteAirplane(airplaneNumber));
+	}
 
-    // VALIDATION - Exists by number
-    @GetMapping("/exists/{airplaneNumber}")
-    public ResponseEntity<Boolean> airplaneNumberExists(@PathVariable String airplaneNumber) {
-        return ResponseEntity.ok(airplaneService.airplaneNumberExists(airplaneNumber));
-    }
+	/**
+	 * Checks if an airplane exists by its number.
+	 *
+	 * @param airplaneNumber the airplane number to validate
+	 * @return true if airplane exists, false otherwise
+	 */
+	@GetMapping("/exists/{airplaneNumber}")
+	public ResponseEntity<Boolean> airplaneNumberExists(@PathVariable String airplaneNumber) {
+		return ResponseEntity.ok(airplaneService.airplaneNumberExists(airplaneNumber));
+	}
 
-    // SEARCH - By name keyword
-    @GetMapping("/search")
-    public ResponseEntity<List<AirplaneResponse>> searchByName(@RequestParam String keyword) {
-        return ResponseEntity.ok(airplaneService.searchByName(keyword));
-    }
+	/**
+	 * Searches airplanes by a partial or full name keyword.
+	 *
+	 * @param keyword the keyword to search for
+	 * @return list of matching airplanes
+	 */
+	@GetMapping("/search")
+	public ResponseEntity<List<AirplaneResponse>> searchByName(@RequestParam String keyword) {
+		return ResponseEntity.ok(airplaneService.searchByName(keyword));
+	}
 
-    // FILTER - By manufacturer
-    @GetMapping("/filter/manufacturer/{manufacturer}")
-    public ResponseEntity<List<AirplaneResponse>> filterByManufacturer(@PathVariable String manufacturer) {
-        return ResponseEntity.ok(airplaneService.filterByManufacturer(manufacturer));
-    }
+	/**
+	 * Filters airplanes by their manufacturer.
+	 *
+	 * @param manufacturer the manufacturer name
+	 * @return list of matching airplanes
+	 */
+	@GetMapping("/filter/manufacturer/{manufacturer}")
+	public ResponseEntity<List<AirplaneResponse>> filterByManufacturer(@PathVariable String manufacturer) {
+		return ResponseEntity.ok(airplaneService.filterByManufacturer(manufacturer));
+	}
 
-    // FILTER - By model
-    @GetMapping("/filter/model/{model}")
-    public ResponseEntity<List<AirplaneResponse>> filterByModel(@PathVariable String model) {
-        return ResponseEntity.ok(airplaneService.filterByModel(model));
-    }
+	/**
+	 * Filters airplanes by their model.
+	 *
+	 * @param model the model name
+	 * @return list of matching airplanes
+	 */
+	@GetMapping("/filter/model/{model}")
+	public ResponseEntity<List<AirplaneResponse>> filterByModel(@PathVariable String model) {
+		return ResponseEntity.ok(airplaneService.filterByModel(model));
+	}
 }

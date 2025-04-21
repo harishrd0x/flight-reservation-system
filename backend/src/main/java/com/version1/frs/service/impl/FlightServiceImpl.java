@@ -18,115 +18,154 @@ import com.version1.frs.repository.AirportRepository;
 import com.version1.frs.repository.FlightRepository;
 import com.version1.frs.service.FlightService;
 
+/**
+ * Implementation of the {@link FlightService} interface. Provides methods for
+ * managing flight entities, including adding, retrieving, deleting, and
+ * searching flights.
+ */
 @Service
 public class FlightServiceImpl implements FlightService {
 
-    @Autowired
-    private FlightRepository flightRepository;
+	@Autowired
+	private FlightRepository flightRepository;
 
-    @Autowired
-    private AirplaneRepository airplaneRepository;
-    
-    @Autowired
-    private AirportRepository airportRepository;
+	@Autowired
+	private AirplaneRepository airplaneRepository;
 
-    @Override
-    public FlightResponse addFlight(FlightRequest flightRequest) {
-        // Fetch airplane entity
-        Airplane airplane = airplaneRepository.findById(flightRequest.getAirplaneId())
-                .orElseThrow(() -> new IllegalArgumentException("Airplane not found"));
+	@Autowired
+	private AirportRepository airportRepository;
 
-        // Fetch from and to airport entities
-        Airport fromAirport = airportRepository.findById(flightRequest.getDepartureAirportId())
-                .orElseThrow(() -> new IllegalArgumentException("Departure airport not found"));
-        
-        Airport toAirport = airportRepository.findById(flightRequest.getArrivalAirportId())
-                .orElseThrow(() -> new IllegalArgumentException("Arrival airport not found"));
+	/**
+	 * Adds a new flight to the system.
+	 *
+	 * @param flightRequest the flight request object containing the details of the
+	 *                      flight to be added
+	 * @return the saved flight details as a {@link FlightResponse} DTO
+	 * @throws IllegalArgumentException if the airplane or airport details are not
+	 *                                  found in the system
+	 */
+	@Override
+	public FlightResponse addFlight(FlightRequest flightRequest) {
+		// Fetch airplane entity
+		Airplane airplane = airplaneRepository.findById(flightRequest.getAirplaneId())
+				.orElseThrow(() -> new IllegalArgumentException("Airplane not found"));
 
-        // Create the flight entity and set values
-        Flight flight = new Flight();
-        flight.setAirplane(airplane);
-        flight.setDepartureTime(flightRequest.getDepartureTime());
-        flight.setArrivalTime(flightRequest.getArrivalTime());
-        flight.setFromAirport(fromAirport);  // Use the Airport object, not just the ID
-        flight.setToAirport(toAirport);      // Use the Airport object, not just the ID
-        flight.setPrice(flightRequest.getPrice());
-        flight.setAirline(flightRequest.getAirline());
+		// Fetch from and to airport entities
+		Airport fromAirport = airportRepository.findById(flightRequest.getDepartureAirportId())
+				.orElseThrow(() -> new IllegalArgumentException("Departure airport not found"));
 
-        flightRepository.save(flight);
+		Airport toAirport = airportRepository.findById(flightRequest.getArrivalAirportId())
+				.orElseThrow(() -> new IllegalArgumentException("Arrival airport not found"));
 
-        return mapToDto(flight);
-    }
+		// Create the flight entity and set values
+		Flight flight = new Flight();
+		flight.setAirplane(airplane);
+		flight.setDepartureTime(flightRequest.getDepartureTime());
+		flight.setArrivalTime(flightRequest.getArrivalTime());
+		flight.setFromAirport(fromAirport); // Use the Airport object, not just the ID
+		flight.setToAirport(toAirport); // Use the Airport object, not just the ID
+		flight.setPrice(flightRequest.getPrice());
+		flight.setAirline(flightRequest.getAirline());
 
-    @Override
-    public List<FlightResponse> getAllFlights() {
-    	return flightRepository.findByDepartureTimeAfter(LocalDateTime.now()).stream()
-    	        .map(this::mapToDto)
-    	        .collect(Collectors.toList());
-    }
+		flightRepository.save(flight);
 
-    @Override
-    public FlightResponse getFlightById(Long id) {
-        Flight flight = flightRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Flight not found"));
+		return mapToDto(flight);
+	}
 
-        // Check if the flight's departure time is in the future (not expired)
-        if (flight.getDepartureTime().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("This flight has already expired.");
-        }
+	/**
+	 * Retrieves all upcoming flights from the system.
+	 *
+	 * @return a list of upcoming {@link FlightResponse} DTOs
+	 */
+	@Override
+	public List<FlightResponse> getAllFlights() {
+		return flightRepository.findByDepartureTimeAfter(LocalDateTime.now()).stream().map(this::mapToDto)
+				.collect(Collectors.toList());
+	}
 
-        return mapToDto(flight);
-    }
-    
-    @Override
-    public void deleteFlight(Long id) {
-        Flight flight = flightRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Flight not found with id: " + id));
-        flightRepository.delete(flight);
-    }
-    
-    @Override
-    public List<FlightResponse> searchFlights(Long sourceId, Long destinationId, LocalDate date) {
-        LocalDateTime startOfDay = null, endOfDay = null;
-        if (date != null) {
-            startOfDay = date.atStartOfDay();
-            endOfDay   = date.atTime(23, 59, 59);
-        }
+	/**
+	 * Retrieves a flight by its ID.
+	 *
+	 * @param id the ID of the flight to retrieve
+	 * @return the corresponding {@link FlightResponse} DTO
+	 * @throws IllegalArgumentException if the flight is not found or has already
+	 *                                  expired
+	 */
+	@Override
+	public FlightResponse getFlightById(Long id) {
+		Flight flight = flightRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Flight not found"));
 
-        List<Flight> flights = flightRepository.searchFlights(
-            sourceId, destinationId, startOfDay, endOfDay
-        );
+		// Check if the flight's departure time is in the future (not expired)
+		if (flight.getDepartureTime().isBefore(LocalDateTime.now())) {
+			throw new IllegalArgumentException("This flight has already expired.");
+		}
 
-        // Filter out past flights in the service layer
-        flights = flights.stream()
-                         .filter(flight -> flight.getDepartureTime().isAfter(LocalDateTime.now()))
-                         .collect(Collectors.toList());
+		return mapToDto(flight);
+	}
 
-        return flights.stream()
-                      .map(this::mapToDto)
-                      .collect(Collectors.toList());
-    }
+	/**
+	 * Deletes a flight by its ID.
+	 *
+	 * @param id the ID of the flight to delete
+	 * @throws RuntimeException if the flight is not found
+	 */
+	@Override
+	public void deleteFlight(Long id) {
+		Flight flight = flightRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Flight not found with id: " + id));
+		flightRepository.delete(flight);
+	}
 
+	/**
+	 * Searches for flights between a source and destination airport on a specified
+	 * date.
+	 *
+	 * @param sourceId      the ID of the source airport
+	 * @param destinationId the ID of the destination airport
+	 * @param date          the date for the flight search (optional)
+	 * @return a list of matching {@link FlightResponse} DTOs
+	 */
+	@Override
+	public List<FlightResponse> searchFlights(Long sourceId, Long destinationId, LocalDate date) {
+		LocalDateTime startOfDay = null, endOfDay = null;
+		if (date != null) {
+			startOfDay = date.atStartOfDay();
+			endOfDay = date.atTime(23, 59, 59);
+		}
 
+		List<Flight> flights = flightRepository.searchFlights(sourceId, destinationId, startOfDay, endOfDay);
 
+		// Filter out past flights in the service layer
+		flights = flights.stream().filter(flight -> flight.getDepartureTime().isAfter(LocalDateTime.now()))
+				.collect(Collectors.toList());
 
-    private FlightResponse mapToDto(Flight flight) {
-        FlightResponse response = new FlightResponse();
-        response.setId(flight.getId());
-        response.setAirline(flight.getAirline());
-        response.setDepartureTime(flight.getDepartureTime().toString());
-        response.setArrivalTime(flight.getArrivalTime().toString());
+		return flights.stream().map(this::mapToDto).collect(Collectors.toList());
+	}
 
-        // Map airport data (name or code)
-        response.setFromAirportId(flight.getFromAirport().getId());
-        response.setFromAirportName(flight.getFromAirport().getAirportName());  // Retrieve the airport name
+	/**
+	 * Converts a {@link Flight} entity to a {@link FlightResponse} DTO.
+	 *
+	 * @param flight the flight entity to convert
+	 * @return the corresponding {@link FlightResponse} DTO
+	 */
+	private FlightResponse mapToDto(Flight flight) {
+		FlightResponse response = new FlightResponse();
+		response.setId(flight.getId());
+		response.setAirline(flight.getAirline());
+		response.setDepartureTime(flight.getDepartureTime().toString());
+		response.setArrivalTime(flight.getArrivalTime().toString());
 
-        response.setToAirportId(flight.getToAirport().getId());
-        response.setToAirportName(flight.getToAirport().getAirportName());  // Retrieve the airport name
+		// Map airport data (name or code)
+		response.setFromAirportId(flight.getFromAirport().getId());
+		response.setFromAirportName(flight.getFromAirport().getAirportName()); // Retrieve the airport name
 
-        response.setPrice(flight.getPrice());  // If you need to convert BigDecimal to Double
+		response.setToAirportId(flight.getToAirport().getId());
+		response.setToAirportName(flight.getToAirport().getAirportName()); // Retrieve the airport name
 
-        return response;
-    }
+		response.setPrice(flight.getPrice()); // If you need to convert BigDecimal to Double
+
+		return response;
+	}
 
 }

@@ -194,4 +194,5 @@ public class AirplaneController {
 	public ResponseEntity<List<AirplaneResponse>> filterByModel(@PathVariable String model) {
 		return ResponseEntity.ok(airplaneService.filterByModel(model));
 	}
+	
 }

@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.BookingRequest;
 import com.version1.frs.dto.BookingResponse;
+import com.version1.frs.dto.PassengerResponse;
+import com.version1.frs.model.BookedTicket;
 import com.version1.frs.model.Booking;
 import com.version1.frs.model.Flight;
 import com.version1.frs.model.User;
@@ -82,20 +84,32 @@ public class BookingServiceImpl implements BookingService {
 		Wallet wallet = walletRepository.findByUser_UserId(userId)
 				.orElseThrow(() -> new RuntimeException("Wallet not found"));
 
-		BigDecimal flightPrice = flight.getPrice();
+		int numPassengers = request.getPassengers().size();
+		BigDecimal totalAmount = flight.getPrice().multiply(BigDecimal.valueOf(numPassengers));
 
-		if (wallet.getBalance().compareTo(flightPrice) < 0) {
+		if (wallet.getBalance().compareTo(totalAmount) < 0) {
 			throw new RuntimeException("Insufficient wallet balance.");
 		}
 
-		wallet.setBalance(wallet.getBalance().subtract(flightPrice));
+		wallet.setBalance(wallet.getBalance().subtract(totalAmount));
 		walletRepository.save(wallet);
 
 		Booking booking = new Booking();
 		booking.setUser(user);
 		booking.setFlight(flight);
 		booking.setBookingTime(LocalDateTime.now());
-		booking.setTotalAmount(flightPrice);
+		booking.setTotalAmount(totalAmount);
+
+		List<BookedTicket> tickets = request.getPassengers().stream().map(p -> {
+			BookedTicket ticket = new BookedTicket();
+			ticket.setBooking(booking);
+			ticket.setPassengerName(p.getPassengerName());
+			ticket.setPassengerAge(p.getPassengerAge());
+			ticket.setPassengerGender(p.getPassengerGender());
+			return ticket;
+		}).collect(Collectors.toList());
+
+		booking.setBookedTickets(tickets);
 
 		bookingRepository.save(booking);
 
@@ -165,8 +179,14 @@ public class BookingServiceImpl implements BookingService {
 	 * @param booking the booking entity to convert
 	 * @return the corresponding booking response DTO
 	 */
+
 	private BookingResponse mapToDto(Booking booking) {
+		List<PassengerResponse> passengers = booking.getBookedTickets().stream()
+				.map(t -> new PassengerResponse(t.getPassengerName(), t.getPassengerAge(), t.getPassengerGender()))
+				.collect(Collectors.toList());
+
 		return new BookingResponse(booking.getBookingId(), booking.getUser().getUserId(), booking.getFlight().getId(),
-				booking.getBookingTime(), booking.getTotalAmount());
+				booking.getBookingTime(), booking.getTotalAmount(), passengers);
 	}
+
 }

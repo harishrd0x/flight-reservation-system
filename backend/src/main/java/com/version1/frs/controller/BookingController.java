@@ -18,7 +18,6 @@ package com.version1.frs.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -77,6 +76,7 @@ public class BookingController {
 		Long userId = userDetails.getId();
 		return ResponseEntity.ok(bookingService.bookFlight(request, userId));
 	}
+
 
 	/**
 	 * Retrieves all bookings for the authenticated customer. Accessible only by

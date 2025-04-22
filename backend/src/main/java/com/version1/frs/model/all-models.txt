@@ -1,0 +1,1186 @@
+package com.version1.frs.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+/**
+ * Entity class representing an Airplane in the system. This class maps to the
+ * 'TBL_AIRPLANES' table in the database.
+ */
+@Entity
+@Table(name = "TBL_AIRPLANES")
+public class Airplane {
+
+	// -------------------- Fields --------------------
+
+	/**
+	 * Unique identifier for the airplane. Mapped to the 'AIRPLANE_ID' column in the
+	 * database.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "AIRPLANE_ID")
+	private Long airplaneId;
+
+	/**
+	 * Name of the airplane. Mapped to the 'AIRPLANE_NAME' column in the database.
+	 */
+	@Column(name = "AIRPLANE_NAME", nullable = false)
+	private String airplaneName;
+
+	/**
+	 * Unique identifier for the airplane (e.g., registration number). Mapped to the
+	 * 'AIRPLANE_NUMBER' column in the database. This value must be unique for each
+	 * airplane.
+	 */
+	@Column(name = "AIRPLANE_NUMBER", nullable = false, unique = true)
+	private String airplaneNumber;
+
+	/**
+	 * Model of the airplane. Mapped to the 'AIRPLANE_MODEL' column in the database.
+	 */
+	@Column(name = "AIRPLANE_MODEL", nullable = false)
+	private String airplaneModel;
+
+	/**
+	 * Manufacturer of the airplane. Mapped to the 'MANUFACTURER' column in the
+	 * database.
+	 */
+	@Column(name = "MANUFACTURER", nullable = false)
+	private String manufacturer;
+
+	/**
+	 * Capacity of the airplane (number of passengers it can carry). Mapped to the
+	 * 'CAPACITY' column in the database.
+	 */
+	@Column(name = "CAPACITY", nullable = false)
+	private int capacity;
+
+	// -------------------- Getters and Setters --------------------
+
+	/**
+	 * Gets the unique identifier of the airplane.
+	 * 
+	 * @return the airplane ID
+	 */
+	public Long getAirplaneId() {
+		return airplaneId;
+	}
+
+	/**
+	 * Sets the unique identifier for the airplane.
+	 * 
+	 * @param airplaneId the airplane ID to set
+	 */
+	public void setAirplaneId(Long airplaneId) {
+		this.airplaneId = airplaneId;
+	}
+
+	/**
+	 * Gets the name of the airplane.
+	 * 
+	 * @return the airplane name
+	 */
+	public String getAirplaneName() {
+		return airplaneName;
+	}
+
+	/**
+	 * Sets the name of the airplane.
+	 * 
+	 * @param airplaneName the airplane name to set
+	 */
+	public void setAirplaneName(String airplaneName) {
+		this.airplaneName = airplaneName;
+	}
+
+	/**
+	 * Gets the unique identifier (number) of the airplane.
+	 * 
+	 * @return the airplane number
+	 */
+	public String getAirplaneNumber() {
+		return airplaneNumber;
+	}
+
+	/**
+	 * Sets the unique identifier (number) for the airplane.
+	 * 
+	 * @param airplaneNumber the airplane number to set
+	 */
+	public void setAirplaneNumber(String airplaneNumber) {
+		this.airplaneNumber = airplaneNumber;
+	}
+
+	/**
+	 * Gets the model of the airplane.
+	 * 
+	 * @return the airplane model
+	 */
+	public String getAirplaneModel() {
+		return airplaneModel;
+	}
+
+	/**
+	 * Sets the model of the airplane.
+	 * 
+	 * @param airplaneModel the airplane model to set
+	 */
+	public void setAirplaneModel(String airplaneModel) {
+		this.airplaneModel = airplaneModel;
+	}
+
+	/**
+	 * Gets the manufacturer of the airplane.
+	 * 
+	 * @return the manufacturer of the airplane
+	 */
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	/**
+	 * Sets the manufacturer of the airplane.
+	 * 
+	 * @param manufacturer the manufacturer to set
+	 */
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+
+	/**
+	 * Gets the capacity of the airplane.
+	 * 
+	 * @return the capacity (number of passengers)
+	 */
+	public int getCapacity() {
+		return capacity;
+	}
+
+	/**
+	 * Sets the capacity of the airplane.
+	 * 
+	 * @param capacity the capacity to set (number of passengers)
+	 */
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+}
+package com.version1.frs.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+/**
+ * Entity class representing an Airport in the system. This class maps to the
+ * 'TBL_AIRPORTS' table in the database.
+ */
+@Entity
+@Table(name = "TBL_AIRPORTS")
+public class Airport {
+
+	// -------------------- Fields --------------------
+
+	/**
+	 * Unique identifier for the airport. Mapped to the 'ID' column in the database.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Long id;
+
+	/**
+	 * Unique airport code (e.g., IATA code). Mapped to the 'AIRPORT_CODE' column in
+	 * the database. This value must be unique for each airport.
+	 */
+	@Column(name = "AIRPORT_CODE", nullable = false, unique = true, length = 10)
+	private String airportCode;
+
+	/**
+	 * Name of the airport. Mapped to the 'AIRPORT_NAME' column in the database.
+	 */
+	@Column(name = "AIRPORT_NAME", nullable = false, length = 100)
+	private String airportName;
+
+	/**
+	 * City where the airport is located. Mapped to the 'AIRPORT_CITY' column in the
+	 * database.
+	 */
+	@Column(name = "AIRPORT_CITY", nullable = false, length = 100)
+	private String airportCity;
+
+	/**
+	 * State where the airport is located. Mapped to the 'AIRPORT_STATE' column in
+	 * the database.
+	 */
+	@Column(name = "AIRPORT_STATE", nullable = false, length = 100)
+	private String airportState;
+
+	/**
+	 * Country where the airport is located. Mapped to the 'AIRPORT_COUNTRY' column
+	 * in the database.
+	 */
+	@Column(name = "AIRPORT_COUNTRY", nullable = false, length = 100)
+	private String airportCountry;
+
+	// -------------------- Getters and Setters --------------------
+
+	/**
+	 * Gets the unique identifier of the airport.
+	 * 
+	 * @return the airport ID
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the unique identifier for the airport.
+	 * 
+	 * @param id the airport ID to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * Gets the airport code (e.g., IATA code).
+	 * 
+	 * @return the airport code
+	 */
+	public String getAirportCode() {
+		return airportCode;
+	}
+
+	/**
+	 * Sets the airport code (e.g., IATA code).
+	 * 
+	 * @param airportCode the airport code to set
+	 */
+	public void setAirportCode(String airportCode) {
+		this.airportCode = airportCode;
+	}
+
+	/**
+	 * Gets the name of the airport.
+	 * 
+	 * @return the airport name
+	 */
+	public String getAirportName() {
+		return airportName;
+	}
+
+	/**
+	 * Sets the name of the airport.
+	 * 
+	 * @param airportName the airport name to set
+	 */
+	public void setAirportName(String airportName) {
+		this.airportName = airportName;
+	}
+
+	/**
+	 * Gets the city where the airport is located.
+	 * 
+	 * @return the airport city
+	 */
+	public String getAirportCity() {
+		return airportCity;
+	}
+
+	/**
+	 * Sets the city where the airport is located.
+	 * 
+	 * @param airportCity the airport city to set
+	 */
+	public void setAirportCity(String airportCity) {
+		this.airportCity = airportCity;
+	}
+
+	/**
+	 * Gets the state where the airport is located.
+	 * 
+	 * @return the airport state
+	 */
+	public String getAirportState() {
+		return airportState;
+	}
+
+	/**
+	 * Sets the state where the airport is located.
+	 * 
+	 * @param airportState the airport state to set
+	 */
+	public void setAirportState(String airportState) {
+		this.airportState = airportState;
+	}
+
+	/**
+	 * Gets the country where the airport is located.
+	 * 
+	 * @return the airport country
+	 */
+	public String getAirportCountry() {
+		return airportCountry;
+	}
+
+	/**
+	 * Sets the country where the airport is located.
+	 * 
+	 * @param airportCountry the airport country to set
+	 */
+	public void setAirportCountry(String airportCountry) {
+		this.airportCountry = airportCountry;
+	}
+}
+package com.version1.frs.model;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+/**
+ * Entity class representing a booking in the system. This class maps to the
+ * 'TBL_BOOKINGS' table in the database.
+ */
+@Entity
+@Table(name = "TBL_BOOKINGS")
+public class Booking {
+
+	// -------------------- Fields --------------------
+
+	/**
+	 * Unique identifier for the booking. Mapped to the 'BOOKING_ID' column in the
+	 * database.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "BOOKING_ID")
+	private Long bookingId;
+
+	/**
+	 * User who made the booking. Represents a many-to-one relationship with the
+	 * {@link User} entity. Mapped to the 'USER_ID' column in the database.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID", nullable = false)
+	private User user;
+
+	/**
+	 * Flight that is booked. Represents a many-to-one relationship with the
+	 * {@link Flight} entity. Mapped to the 'FLIGHT_ID' column in the database.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "FLIGHT_ID", nullable = false)
+	private Flight flight;
+
+	/**
+	 * The time when the booking was made. Mapped to the 'BOOKING_TIME' column in
+	 * the database.
+	 */
+	@Column(name = "BOOKING_TIME", nullable = false)
+	private LocalDateTime bookingTime;
+
+	/**
+	 * The total amount for the booking. Mapped to the 'TOTAL_AMOUNT' column in the
+	 * database.
+	 */
+	@Column(name = "TOTAL_AMOUNT", nullable = false)
+	private BigDecimal totalAmount;
+
+	// -------------------- Getters and Setters --------------------
+
+	/**
+	 * Gets the unique identifier for the booking.
+	 * 
+	 * @return the booking ID
+	 */
+	public Long getBookingId() {
+		return bookingId;
+	}
+
+	/**
+	 * Sets the unique identifier for the booking.
+	 * 
+	 * @param bookingId the booking ID to set
+	 */
+	public void setBookingId(Long bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	/**
+	 * Gets the user who made the booking.
+	 * 
+	 * @return the user who made the booking
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * Sets the user who made the booking.
+	 * 
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * Gets the flight that is booked.
+	 * 
+	 * @return the booked flight
+	 */
+	public Flight getFlight() {
+		return flight;
+	}
+
+	/**
+	 * Sets the flight that is booked.
+	 * 
+	 * @param flight the flight to set
+	 */
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
+
+	/**
+	 * Gets the booking time.
+	 * 
+	 * @return the time when the booking was made
+	 */
+	public LocalDateTime getBookingTime() {
+		return bookingTime;
+	}
+
+	/**
+	 * Sets the booking time.
+	 * 
+	 * @param bookingTime the booking time to set
+	 */
+	public void setBookingTime(LocalDateTime bookingTime) {
+		this.bookingTime = bookingTime;
+	}
+
+	/**
+	 * Gets the total amount for the booking.
+	 * 
+	 * @return the total amount for the booking
+	 */
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	/**
+	 * Sets the total amount for the booking.
+	 * 
+	 * @param totalAmount the total amount to set
+	 */
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+}
+package com.version1.frs.model;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+
+/**
+ * Entity class representing a Flight in the system. Maps to the TBL_FLIGHTS
+ * table in the database and includes details like departure/arrival times,
+ * price, airline name, associated airports, and airplane.
+ */
+@Entity
+@Table(name = "TBL_FLIGHTS")
+public class Flight {
+
+	// -------------------- Fields --------------------
+
+	/**
+	 * Unique identifier for the flight. Mapped to the 'ID' column in the database.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Long id;
+
+	/**
+	 * The airplane assigned to the flight. Represents a many-to-one relationship
+	 * with {@link Airplane}.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AIRPLANE_ID", nullable = false)
+	private Airplane airplane;
+
+	/**
+	 * The scheduled departure time of the flight. Mapped to the 'DEPARTURE_TIME'
+	 * column in the database.
+	 */
+	@Column(name = "DEPARTURE_TIME", nullable = false)
+	private LocalDateTime departureTime;
+
+	/**
+	 * The scheduled arrival time of the flight. Mapped to the 'ARRIVAL_TIME' column
+	 * in the database.
+	 */
+	@Column(name = "ARRIVAL_TIME", nullable = false)
+	private LocalDateTime arrivalTime;
+
+	/**
+	 * The airport from which the flight departs. Represents a many-to-one
+	 * relationship with {@link Airport}.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "FROM_AIRPORT_ID", nullable = false)
+	private Airport fromAirport;
+
+	/**
+	 * The airport at which the flight arrives. Represents a many-to-one
+	 * relationship with {@link Airport}.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TO_AIRPORT_ID", nullable = false)
+	private Airport toAirport;
+
+	/**
+	 * The price of the flight ticket. Mapped to the 'PRICE' column in the database.
+	 * Must be a positive value.
+	 */
+	@Column(name = "PRICE", nullable = false)
+	@DecimalMin(value = "0.0", inclusive = false)
+	private BigDecimal price;
+
+	/**
+	 * The name of the airline operating the flight. Mapped to the 'AIRLINE' column
+	 * in the database.
+	 */
+	@Column(name = "AIRLINE", nullable = false)
+	private String airline;
+
+	// -------------------- Getters and Setters --------------------
+
+	/**
+	 * Gets the flight ID.
+	 * 
+	 * @return the flight ID
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the flight ID.
+	 * 
+	 * @param id the flight ID to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * Gets the airplane assigned to this flight.
+	 * 
+	 * @return the airplane
+	 */
+	public Airplane getAirplane() {
+		return airplane;
+	}
+
+	/**
+	 * Sets the airplane assigned to this flight.
+	 * 
+	 * @param airplane the airplane to set
+	 */
+	public void setAirplane(Airplane airplane) {
+		this.airplane = airplane;
+	}
+
+	/**
+	 * Gets the departure time of the flight.
+	 * 
+	 * @return the departure time
+	 */
+	public LocalDateTime getDepartureTime() {
+		return departureTime;
+	}
+
+	/**
+	 * Sets the departure time of the flight.
+	 * 
+	 * @param departureTime the departure time to set
+	 */
+	public void setDepartureTime(LocalDateTime departureTime) {
+		this.departureTime = departureTime;
+	}
+
+	/**
+	 * Gets the arrival time of the flight.
+	 * 
+	 * @return the arrival time
+	 */
+	public LocalDateTime getArrivalTime() {
+		return arrivalTime;
+	}
+
+	/**
+	 * Sets the arrival time of the flight.
+	 * 
+	 * @param arrivalTime the arrival time to set
+	 */
+	public void setArrivalTime(LocalDateTime arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
+
+	/**
+	 * Gets the airport the flight is departing from.
+	 * 
+	 * @return the departure airport
+	 */
+	public Airport getFromAirport() {
+		return fromAirport;
+	}
+
+	/**
+	 * Sets the airport the flight is departing from.
+	 * 
+	 * @param fromAirport the departure airport to set
+	 */
+	public void setFromAirport(Airport fromAirport) {
+		this.fromAirport = fromAirport;
+	}
+
+	/**
+	 * Gets the airport the flight is arriving at.
+	 * 
+	 * @return the arrival airport
+	 */
+	public Airport getToAirport() {
+		return toAirport;
+	}
+
+	/**
+	 * Sets the airport the flight is arriving at.
+	 * 
+	 * @param toAirport the arrival airport to set
+	 */
+	public void setToAirport(Airport toAirport) {
+		this.toAirport = toAirport;
+	}
+
+	/**
+	 * Gets the price of the flight.
+	 * 
+	 * @return the flight price
+	 */
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	/**
+	 * Sets the price of the flight.
+	 * 
+	 * @param price the price to set
+	 */
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	/**
+	 * Gets the airline name operating the flight.
+	 * 
+	 * @return the airline name
+	 */
+	public String getAirline() {
+		return airline;
+	}
+
+	/**
+	 * Sets the airline name operating the flight.
+	 * 
+	 * @param airline the airline name to set
+	 */
+	public void setAirline(String airline) {
+		this.airline = airline;
+	}
+}
+package com.version1.frs.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+/**
+ * Entity class representing a review submitted by a user for a flight. Maps to
+ * the TBL_REVIEWS table in the database. Each review contains a rating,
+ * optional review text, and associations to both user and flight.
+ */
+@Entity
+@Table(name = "TBL_REVIEWS")
+public class Review {
+
+	// -------------------- Fields --------------------
+
+	/**
+	 * Unique identifier for the review. Mapped to the 'REVIEW_ID' column.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "REVIEW_ID")
+	private Long reviewId;
+
+	/**
+	 * The user who submitted the review. Represents a many-to-one relationship with
+	 * {@link User}.
+	 */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "USER_ID")
+	private User user;
+
+	/**
+	 * The flight being reviewed. Represents a many-to-one relationship with
+	 * {@link Flight}.
+	 */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "FLIGHT_ID")
+	private Flight flight;
+
+	/**
+	 * The rating given to the flight by the user. Mapped to the 'RATING' column.
+	 */
+	@Column(name = "RATING", nullable = false)
+	private Float rating;
+
+	/**
+	 * Optional textual feedback provided by the user. Mapped to the 'REVIEW_TEXT'
+	 * column, max length 500.
+	 */
+	@Column(name = "REVIEW_TEXT", length = 500)
+	private String reviewText;
+
+	// -------------------- Getters and Setters --------------------
+
+	/**
+	 * Gets the review ID.
+	 *
+	 * @return the review ID
+	 */
+	public Long getReviewId() {
+		return reviewId;
+	}
+
+	/**
+	 * Sets the review ID.
+	 *
+	 * @param reviewId the review ID to set
+	 */
+	public void setReviewId(Long reviewId) {
+		this.reviewId = reviewId;
+	}
+
+	/**
+	 * Gets the user who submitted the review.
+	 *
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * Sets the user who submitted the review.
+	 *
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * Gets the flight associated with this review.
+	 *
+	 * @return the flight
+	 */
+	public Flight getFlight() {
+		return flight;
+	}
+
+	/**
+	 * Sets the flight associated with this review.
+	 *
+	 * @param flight the flight to set
+	 */
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
+
+	/**
+	 * Gets the rating given by the user.
+	 *
+	 * @return the rating
+	 */
+	public Float getRating() {
+		return rating;
+	}
+
+	/**
+	 * Sets the rating given by the user.
+	 *
+	 * @param rating the rating to set
+	 */
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+
+	/**
+	 * Gets the review text submitted by the user.
+	 *
+	 * @return the review text
+	 */
+	public String getReviewText() {
+		return reviewText;
+	}
+
+	/**
+	 * Sets the review text submitted by the user.
+	 *
+	 * @param reviewText the review text to set
+	 */
+	public void setReviewText(String reviewText) {
+		this.reviewText = reviewText;
+	}
+}
+package com.version1.frs.model;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+
+/**
+ * Entity class representing a system user. Maps to the TBL_USERS table in the
+ * database. Each user can have one associated wallet and can hold roles like
+ * USER or ADMIN.
+ */
+@Entity
+@Table(name = "TBL_USERS")
+public class User {
+
+	// -------------------- Fields --------------------
+
+	/**
+	 * Unique identifier for the user. Auto-generated primary key mapped to the
+	 * 'USER_ID' column.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "USER_ID")
+	private Long userId;
+
+	/**
+	 * The full name of the user. Mapped to the 'USER_NAME' column.
+	 */
+	@Size(max = 100)
+	@Column(name = "USER_NAME", nullable = false, length = 100)
+	private String userName;
+
+	/**
+	 * Unique email of the user. Used as a login credential. Mapped to 'USER_EMAIL'.
+	 */
+	@Column(name = "USER_EMAIL", nullable = false, unique = true, length = 150)
+	private String userEmail;
+
+	/**
+	 * Gender of the user. Mapped to the 'USER_GENDER' column.
+	 */
+	@Column(name = "USER_GENDER", nullable = false, length = 10)
+	private String userGender;
+
+	/**
+	 * Encrypted password of the user. Mapped to 'USER_PASSWORD'. Should be stored
+	 * in hashed format.
+	 */
+	@Column(name = "USER_PASSWORD", nullable = false, length = 255)
+	private String userPassword;
+
+	/**
+	 * Role assigned to the user (e.g., USER, ADMIN). Mapped to 'USER_ROLE'.
+	 */
+	@Column(name = "USER_ROLE", nullable = false, length = 20)
+	private String userRole;
+
+	/**
+	 * One-to-one relationship with the Wallet entity. Cascade all operations.
+	 * Wallet is removed if user is deleted.
+	 */
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Wallet wallet;
+
+	// -------------------- Getters and Setters --------------------
+
+	/**
+	 * Gets the user ID.
+	 *
+	 * @return the user ID
+	 */
+	public Long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * Sets the user ID.
+	 *
+	 * @param userId the user ID to set
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * Gets the user's full name.
+	 *
+	 * @return the user's name
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * Sets the user's full name.
+	 *
+	 * @param userName the name to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/**
+	 * Gets the user's email.
+	 *
+	 * @return the user's email
+	 */
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	/**
+	 * Sets the user's email.
+	 *
+	 * @param userEmail the email to set
+	 */
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	/**
+	 * Gets the user's gender.
+	 *
+	 * @return the gender
+	 */
+	public String getUserGender() {
+		return userGender;
+	}
+
+	/**
+	 * Sets the user's gender.
+	 *
+	 * @param userGender the gender to set
+	 */
+	public void setUserGender(String userGender) {
+		this.userGender = userGender;
+	}
+
+	/**
+	 * Gets the user's password (encrypted).
+	 *
+	 * @return the password
+	 */
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	/**
+	 * Sets the user's encrypted password.
+	 *
+	 * @param userPassword the password to set
+	 */
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	/**
+	 * Gets the user's role (e.g., USER or ADMIN).
+	 *
+	 * @return the user role
+	 */
+	public String getUserRole() {
+		return userRole;
+	}
+
+	/**
+	 * Sets the user's role.
+	 *
+	 * @param userRole the role to set
+	 */
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
+	/**
+	 * Gets the wallet associated with the user.
+	 *
+	 * @return the wallet
+	 */
+	public Wallet getWallet() {
+		return wallet;
+	}
+
+	/**
+	 * Sets the wallet associated with the user.
+	 *
+	 * @param wallet the wallet to set
+	 */
+	public void setWallet(Wallet wallet) {
+		this.wallet = wallet;
+	}
+}
+package com.version1.frs.model;
+
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+/**
+ * Entity class representing a user's wallet. Maps to the TBL_WALLETS table in
+ * the database. Each wallet is uniquely associated with one user.
+ */
+@Entity
+@Table(name = "TBL_WALLETS")
+public class Wallet {
+
+	// -------------------- Fields --------------------
+
+	/**
+	 * Unique identifier for the wallet. Auto-generated primary key mapped to the
+	 * 'WALLET_ID' column.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "WALLET_ID")
+	private Long walletId;
+
+	/**
+	 * One-to-one relationship with the User entity. Each user has exactly one
+	 * wallet.
+	 */
+	@OneToOne
+	@JoinColumn(name = "USER_ID", nullable = false, unique = true)
+	private User user;
+
+	/**
+	 * Current balance in the wallet. Stored as a decimal value in the 'BALANCE'
+	 * column.
+	 */
+	@Column(name = "BALANCE", nullable = false)
+	private BigDecimal balance;
+
+	// -------------------- Getters and Setters --------------------
+
+	/**
+	 * Gets the wallet ID.
+	 *
+	 * @return the wallet ID
+	 */
+	public Long getWalletId() {
+		return walletId;
+	}
+
+	/**
+	 * Sets the wallet ID.
+	 *
+	 * @param walletId the wallet ID to set
+	 */
+	public void setWalletId(Long walletId) {
+		this.walletId = walletId;
+	}
+
+	/**
+	 * Gets the user associated with the wallet.
+	 *
+	 * @return the associated user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * Sets the user associated with the wallet.
+	 *
+	 * @param user the user to associate
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * Gets the wallet balance.
+	 *
+	 * @return the wallet balance
+	 */
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	/**
+	 * Sets the wallet balance.
+	 *
+	 * @param balance the balance to set
+	 */
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+}

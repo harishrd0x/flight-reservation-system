@@ -18,6 +18,7 @@ package com.version1.frs.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Data Transfer Object (DTO) representing the response returned after a
@@ -57,6 +58,8 @@ public class BookingResponse {
 	 * Total amount charged for the booking.
 	 */
 	private BigDecimal totalAmount;
+  
+  private List<PassengerResponse> passengers;
 
 	/**
 	 * Default constructor.
@@ -73,14 +76,16 @@ public class BookingResponse {
 	 * @param bookingTime the date and time of booking
 	 * @param totalAmount the total amount paid
 	 */
-	public BookingResponse(Long bookingId, Long customerId, Long flightId, LocalDateTime bookingTime,
-			BigDecimal totalAmount) {
-		this.bookingId = bookingId;
-		this.customerId = customerId;
-		this.flightId = flightId;
-		this.bookingTime = bookingTime;
-		this.totalAmount = totalAmount;
-	}
+    public BookingResponse(Long bookingId, Long customerId, Long flightId,
+                           LocalDateTime bookingTime, BigDecimal totalAmount,
+                           List<PassengerResponse> passengers) {
+        this.bookingId = bookingId;
+        this.customerId = customerId;
+        this.flightId = flightId;
+        this.bookingTime = bookingTime;
+        this.totalAmount = totalAmount;
+        this.passengers = passengers;
+    }
 
 	// Getters and Setters
 
@@ -173,4 +178,12 @@ public class BookingResponse {
 	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
 	}
+  
+  public List<PassengerResponse> getPassengers() {
+        return passengers;
+  }
+  
+  public void setPassengers() {
+    this.passengers = passengers;
+  }
 }

@@ -51,8 +51,13 @@ import jakarta.validation.Valid;
 @CrossOrigin
 public class AirportController {
 
+	private final AirportService airportService;
+
+	// Constructor Injection (cleaner, test-friendly)
 	@Autowired
-	private AirportService airportService;
+	public AirportController(AirportService airportService) {
+		this.airportService = airportService;
+	}
 
 	/**
 	 * Adds a new airport. Accessible only by ADMIN users.

@@ -45,8 +45,16 @@ import jakarta.validation.Valid;
 @CrossOrigin
 public class WalletController {
 
-	@Autowired
-	private WalletService walletService;
+	private final WalletService walletService;
+
+	/**
+	 * Constructor-based injection for {@link WalletService}.
+	 *
+	 * @param walletService the wallet service to handle wallet-related operations
+	 */
+	public WalletController(WalletService walletService) {
+		this.walletService = walletService;
+	}
 
 	/**
 	 * Retrieves the wallet details for the currently authenticated customer.

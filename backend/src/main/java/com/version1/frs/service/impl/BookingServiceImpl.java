@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.BookingRequest;
@@ -39,135 +38,135 @@ import com.version1.frs.service.BookingService;
 import jakarta.transaction.Transactional;
 
 /**
- * Implementation of the {@link BookingService} interface. Handles booking operations,
- * including creating bookings, retrieving booking details, and managing wallet balances.
- * Ensures transactional consistency when performing booking and wallet deduction operations.
+ * Implementation of the {@link BookingService} interface. Handles booking
+ * operations, including creating bookings, retrieving booking details, and
+ * managing wallet balances. Ensures transactional consistency when performing
+ * booking and wallet deduction operations.
  */
 @Service
 public class BookingServiceImpl implements BookingService {
 
-    @Autowired private BookingRepository bookingRepository;
-    @Autowired private UserRepository userRepository;
-    @Autowired private FlightRepository flightRepository;
-    @Autowired private WalletRepository walletRepository;
+	private final BookingRepository bookingRepository;
+	private final UserRepository userRepository;
+	private final FlightRepository flightRepository;
+	private final WalletRepository walletRepository;
 
-    /**
-     * Books a flight for a user. Deducts the flight price from the user's wallet
-     * and saves the booking details. This operation is transactional to ensure
-     * consistency.
-     *
-     * @param request the booking request containing flight ID and user ID
-     * @param userId  the ID of the user making the booking
-     * @return the saved booking response
-     * @throws RuntimeException if user, flight, or wallet is not found, or if insufficient balance
-     */
-    @Transactional
-    @Override
-    public BookingResponse bookFlight(BookingRequest request, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+	// Constructor injection for dependencies
+	public BookingServiceImpl(BookingRepository bookingRepository, UserRepository userRepository,
+			FlightRepository flightRepository, WalletRepository walletRepository) {
+		this.bookingRepository = bookingRepository;
+		this.userRepository = userRepository;
+		this.flightRepository = flightRepository;
+		this.walletRepository = walletRepository;
+	}
 
-        Flight flight = flightRepository.findById(request.getFlightId())
-                .orElseThrow(() -> new RuntimeException("Flight not found"));
+	/**
+	 * Books a flight for a user. Deducts the flight price from the user's wallet
+	 * and saves the booking details. This operation is transactional to ensure
+	 * consistency.
+	 *
+	 * @param request the booking request containing flight ID and user ID
+	 * @param userId  the ID of the user making the booking
+	 * @return the saved booking response
+	 * @throws RuntimeException if user, flight, or wallet is not found, or if
+	 *                          insufficient balance
+	 */
+	@Transactional
+	@Override
+	public BookingResponse bookFlight(BookingRequest request, Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-        Wallet wallet = walletRepository.findByUser_UserId(userId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+		Flight flight = flightRepository.findById(request.getFlightId())
+				.orElseThrow(() -> new RuntimeException("Flight not found"));
 
-        BigDecimal flightPrice = flight.getPrice();
+		Wallet wallet = walletRepository.findByUser_UserId(userId)
+				.orElseThrow(() -> new RuntimeException("Wallet not found"));
 
-        if (wallet.getBalance().compareTo(flightPrice) < 0) {
-            throw new RuntimeException("Insufficient wallet balance.");
-        }
+		BigDecimal flightPrice = flight.getPrice();
 
-        wallet.setBalance(wallet.getBalance().subtract(flightPrice));
-        walletRepository.save(wallet);
+		if (wallet.getBalance().compareTo(flightPrice) < 0) {
+			throw new RuntimeException("Insufficient wallet balance.");
+		}
 
-        Booking booking = new Booking();
-        booking.setUser(user);
-        booking.setFlight(flight);
-        booking.setBookingTime(LocalDateTime.now());
-        booking.setTotalAmount(flightPrice);
+		wallet.setBalance(wallet.getBalance().subtract(flightPrice));
+		walletRepository.save(wallet);
 
-        bookingRepository.save(booking);
+		Booking booking = new Booking();
+		booking.setUser(user);
+		booking.setFlight(flight);
+		booking.setBookingTime(LocalDateTime.now());
+		booking.setTotalAmount(flightPrice);
 
-        return mapToDto(booking);
-    }
+		bookingRepository.save(booking);
 
-    /**
-     * Retrieves all bookings made by a specific user.
-     *
-     * @param userId the ID of the user whose bookings are to be retrieved
-     * @return a list of booking responses
-     */
-    @Override
-    public List<BookingResponse> getBookingsByUser(Long userId) {
-        return bookingRepository.findByUserUserId(userId)
-                .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
-    }
+		return mapToDto(booking);
+	}
 
-    /**
-     * Retrieves all bookings or filters them by a specific customer ID.
-     *
-     * @param customerId the ID of the customer to filter by (nullable)
-     * @return a list of booking responses
-     */
-    @Override
-    public List<BookingResponse> getAllBookings(Long customerId) {
-        List<Booking> bookings;
+	/**
+	 * Retrieves all bookings made by a specific user.
+	 *
+	 * @param userId the ID of the user whose bookings are to be retrieved
+	 * @return a list of booking responses
+	 */
+	@Override
+	public List<BookingResponse> getBookingsByUser(Long userId) {
+		return bookingRepository.findByUserUserId(userId).stream().map(this::mapToDto).collect(Collectors.toList());
+	}
 
-        if (customerId != null) {
-            bookings = bookingRepository.findByUserUserId(customerId);
-        } else {
-            bookings = bookingRepository.findAll();
-        }
+	/**
+	 * Retrieves all bookings or filters them by a specific customer ID.
+	 *
+	 * @param customerId the ID of the customer to filter by (nullable)
+	 * @return a list of booking responses
+	 */
+	@Override
+	public List<BookingResponse> getAllBookings(Long customerId) {
+		List<Booking> bookings;
 
-        return bookings.stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
-    }
+		if (customerId != null) {
+			bookings = bookingRepository.findByUserUserId(customerId);
+		} else {
+			bookings = bookingRepository.findAll();
+		}
 
-    /**
-     * Retrieves a booking by its unique ID.
-     *
-     * @param bookingId the ID of the booking
-     * @return the booking response
-     * @throws RuntimeException if the booking is not found
-     */
-    @Override
-    public BookingResponse getBookingById(Long bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-        return mapToDto(booking);
-    }
+		return bookings.stream().map(this::mapToDto).collect(Collectors.toList());
+	}
 
-    /**
-     * Deletes a booking by its ID.
-     *
-     * @param bookingId the ID of the booking to delete
-     * @throws RuntimeException if the booking is not found
-     */
-    @Override
-    public void deleteBooking(Long bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-        bookingRepository.delete(booking);
-    }
+	/**
+	 * Retrieves a booking by its unique ID.
+	 *
+	 * @param bookingId the ID of the booking
+	 * @return the booking response
+	 * @throws RuntimeException if the booking is not found
+	 */
+	@Override
+	public BookingResponse getBookingById(Long bookingId) {
+		Booking booking = bookingRepository.findById(bookingId)
+				.orElseThrow(() -> new RuntimeException("Booking not found"));
+		return mapToDto(booking);
+	}
 
-    /**
-     * Converts a booking entity to a booking response DTO.
-     *
-     * @param booking the booking entity to convert
-     * @return the corresponding booking response DTO
-     */
-    private BookingResponse mapToDto(Booking booking) {
-        return new BookingResponse(
-                booking.getBookingId(),
-                booking.getUser().getUserId(),
-                booking.getFlight().getId(),
-                booking.getBookingTime(),
-                booking.getTotalAmount()
-        );
-    }
+	/**
+	 * Deletes a booking by its ID.
+	 *
+	 * @param bookingId the ID of the booking to delete
+	 * @throws RuntimeException if the booking is not found
+	 */
+	@Override
+	public void deleteBooking(Long bookingId) {
+		Booking booking = bookingRepository.findById(bookingId)
+				.orElseThrow(() -> new RuntimeException("Booking not found"));
+		bookingRepository.delete(booking);
+	}
+
+	/**
+	 * Converts a booking entity to a booking response DTO.
+	 *
+	 * @param booking the booking entity to convert
+	 * @return the corresponding booking response DTO
+	 */
+	private BookingResponse mapToDto(Booking booking) {
+		return new BookingResponse(booking.getBookingId(), booking.getUser().getUserId(), booking.getFlight().getId(),
+				booking.getBookingTime(), booking.getTotalAmount());
+	}
 }

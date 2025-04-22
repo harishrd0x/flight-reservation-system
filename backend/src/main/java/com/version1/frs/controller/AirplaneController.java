@@ -18,7 +18,6 @@ package com.version1.frs.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,8 +47,16 @@ import com.version1.frs.service.AirplaneService;
 @CrossOrigin
 public class AirplaneController {
 
-	@Autowired
-	private AirplaneService airplaneService;
+	private final AirplaneService airplaneService;
+
+	/**
+	 * Constructor-based injection for {@link AirplaneService}.
+	 *
+	 * @param airplaneService the service used to handle airplane operations
+	 */
+	public AirplaneController(AirplaneService airplaneService) {
+		this.airplaneService = airplaneService;
+	}
 
 	/**
 	 * Adds a new airplane to the system. Only accessible by users with ADMIN role.
@@ -194,5 +201,5 @@ public class AirplaneController {
 	public ResponseEntity<List<AirplaneResponse>> filterByModel(@PathVariable String model) {
 		return ResponseEntity.ok(airplaneService.filterByModel(model));
 	}
-	
+
 }

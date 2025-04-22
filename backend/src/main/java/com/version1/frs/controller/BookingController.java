@@ -49,8 +49,16 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/bookings")
 public class BookingController {
 
-	@Autowired
-	private BookingService bookingService;
+	private final BookingService bookingService;
+
+	/**
+	 * Constructor for injecting the required {@link BookingService}.
+	 *
+	 * @param bookingService the booking service used for booking operations
+	 */
+	public BookingController(BookingService bookingService) {
+		this.bookingService = bookingService;
+	}
 
 	/**
 	 * Books a flight for the authenticated customer. Accessible only by users with

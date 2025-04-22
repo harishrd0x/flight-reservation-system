@@ -18,7 +18,6 @@ package com.version1.frs.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,8 +43,16 @@ import com.version1.frs.service.ReviewService;
 @RequestMapping("/api/reviews")
 public class ReviewController {
 
-	@Autowired
-	private ReviewService reviewService;
+	private final ReviewService reviewService;
+
+	/**
+	 * Constructor for injecting the required {@link ReviewService}.
+	 *
+	 * @param reviewService the review service to be used for review operations
+	 */
+	public ReviewController(ReviewService reviewService) {
+		this.reviewService = reviewService;
+	}
 
 	/**
 	 * Allows a customer to post a review. Accessible only by customers

@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.AirportRequest;
@@ -37,8 +36,16 @@ import com.version1.frs.service.AirportService;
 @Service
 public class AirportServiceImpl implements AirportService {
 
-	@Autowired
-	private AirportRepository airportRepository;
+	private final AirportRepository airportRepository;
+
+	/**
+	 * Constructor-based injection for {@link AirportRepository}.
+	 *
+	 * @param airportRepository the repository used to manage airport data
+	 */
+	public AirportServiceImpl(AirportRepository airportRepository) {
+		this.airportRepository = airportRepository;
+	}
 
 	/**
 	 * Adds a new airport if the code does not already exist.

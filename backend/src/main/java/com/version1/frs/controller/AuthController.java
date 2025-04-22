@@ -51,17 +51,30 @@ import jakarta.validation.Valid;
 @CrossOrigin
 public class AuthController {
 
-	@Autowired
-	private AuthenticationManager authManager;
+	private final AuthenticationManager authManager;
+	private final JwtUtil jwtUtil;
+	private final UserRepository userRepository;
+	private final UserService userService;
+	
+	/**
+	 * Constructor for injecting required dependencies.
+	 *
+	 * @param authManager     Spring Security's AuthenticationManager for handling login attempts
+	 * @param jwtUtil         Utility class for generating JWT tokens
+	 * @param userRepository  Repository for fetching user data from database
+	 * @param userService     Service to handle user registration logic
+	 */
 
-	@Autowired
-	private JwtUtil jwtUtil;
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private UserService userService;
+	public AuthController(
+			AuthenticationManager authManager,
+			JwtUtil jwtUtil,
+			UserRepository userRepository,
+			UserService userService) {
+		this.authManager = authManager;
+		this.jwtUtil = jwtUtil;
+		this.userRepository = userRepository;
+		this.userService = userService;
+	}
 
 	/**
 	 * Registers a new user (CUSTOMER role by default). Accessible by

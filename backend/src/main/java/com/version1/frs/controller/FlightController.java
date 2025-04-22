@@ -19,7 +19,6 @@ package com.version1.frs.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,8 +48,16 @@ import com.version1.frs.service.FlightService;
 @CrossOrigin
 public class FlightController {
 
-	@Autowired
-	private FlightService flightService;
+	private final FlightService flightService;
+
+	/**
+	 * Constructor for injecting the required {@link FlightService}.
+	 *
+	 * @param flightService the flight service to be used for flight operations
+	 */
+	public FlightController(FlightService flightService) {
+		this.flightService = flightService;
+	}
 
 	/**
 	 * Adds a new flight to the system. Accessible only by ADMIN role.

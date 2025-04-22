@@ -22,7 +22,7 @@ public class WalletServiceImpl implements WalletService {
 
 	// Constructor injection for dependencies
 
-	public WalletServiceImpl(WalletRepository walletRepsitory) {
+	public WalletServiceImpl(WalletRepository walletRepository) {
 		this.walletRepository = walletRepository;
 	}
 

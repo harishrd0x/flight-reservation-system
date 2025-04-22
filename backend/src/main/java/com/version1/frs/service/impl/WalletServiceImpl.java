@@ -2,7 +2,6 @@ package com.version1.frs.service.impl;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.WalletRequest;
@@ -19,8 +18,13 @@ import com.version1.frs.service.WalletService;
 @Service
 public class WalletServiceImpl implements WalletService {
 
-	@Autowired
 	private WalletRepository walletRepository;
+
+	// Constructor injection for dependencies
+
+	public WalletServiceImpl(WalletRepository walletRepsitory) {
+		this.walletRepository = walletRepository;
+	}
 
 	/**
 	 * Retrieves the wallet information for a user by their user ID.

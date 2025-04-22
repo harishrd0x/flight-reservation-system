@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,11 +26,14 @@ import com.version1.frs.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	// Constructor injection for dependencies
+	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	/**
 	 * Registers a new user in the system.

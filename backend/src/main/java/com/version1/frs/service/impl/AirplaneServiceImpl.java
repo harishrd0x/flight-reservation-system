@@ -19,7 +19,6 @@ package com.version1.frs.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.AirplaneRequest;
@@ -35,8 +34,17 @@ import com.version1.frs.service.AirplaneService;
 @Service
 public class AirplaneServiceImpl implements AirplaneService {
 
-	@Autowired
-	private AirplaneRepository airplaneRepository;
+	private final AirplaneRepository airplaneRepository;
+
+	/**
+	 * Constructor-based injection for {@link AirplaneRepository}.
+	 *
+	 * @param airplaneRepository the repository used for airplane persistence
+	 *                           operations
+	 */
+	public AirplaneServiceImpl(AirplaneRepository airplaneRepository) {
+		this.airplaneRepository = airplaneRepository;
+	}
 
 	/**
 	 * Adds a new airplane to the database.

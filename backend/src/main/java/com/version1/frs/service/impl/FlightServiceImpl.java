@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.FlightRequest;
@@ -26,14 +25,17 @@ import com.version1.frs.service.FlightService;
 @Service
 public class FlightServiceImpl implements FlightService {
 
-	@Autowired
-	private FlightRepository flightRepository;
+	private final FlightRepository flightRepository;
+	private final AirplaneRepository airplaneRepository;
+	private final AirportRepository airportRepository;
 
-	@Autowired
-	private AirplaneRepository airplaneRepository;
-
-	@Autowired
-	private AirportRepository airportRepository;
+	// Constructor injection for dependencies
+	public FlightServiceImpl(FlightRepository flightRepository, AirplaneRepository airplaneRepository,
+			AirportRepository airportRepository) {
+		this.flightRepository = flightRepository;
+		this.airplaneRepository = airplaneRepository;
+		this.airportRepository = airportRepository;
+	}
 
 	/**
 	 * Adds a new flight to the system.

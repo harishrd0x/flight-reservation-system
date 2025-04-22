@@ -3,7 +3,6 @@ package com.version1.frs.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.version1.frs.dto.ReviewRequest;
@@ -24,17 +23,19 @@ import com.version1.frs.service.ReviewService;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-	@Autowired
-	private ReviewRepository reviewRepository;
+	private final ReviewRepository reviewRepository;
+	private final UserRepository userRepository;
+	private final FlightRepository flightRepository;
+	private final BookingRepository bookingRepository;
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private FlightRepository flightRepository;
-
-	@Autowired
-	private BookingRepository bookingRepository;
+	// Constructor injection for dependencies
+	public ReviewServiceImpl(ReviewRepository reviewRepository, UserRepository userRepository,
+			FlightRepository flightRepository, BookingRepository bookingRepository) {
+		this.reviewRepository = reviewRepository;
+		this.userRepository = userRepository;
+		this.flightRepository = flightRepository;
+		this.bookingRepository = bookingRepository;
+	}
 
 	/**
 	 * Posts a new review for a flight by a customer.

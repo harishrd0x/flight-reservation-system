@@ -49,8 +49,16 @@ import com.version1.frs.service.UserService;
 @CrossOrigin
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+
+	/**
+	 * Constructor-based injection for {@link UserService}.
+	 *
+	 * @param userService the service to manage user-related operations
+	 */
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
 	/**
 	 * Retrieves a list of all users. Accessible only by admins.

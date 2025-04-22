@@ -54,7 +54,7 @@ public class AirportController {
 	private final AirportService airportService;
 
 	// Constructor Injection (cleaner, test-friendly)
-	@Autowired
+	
 	public AirportController(AirportService airportService) {
 		this.airportService = airportService;
 	}

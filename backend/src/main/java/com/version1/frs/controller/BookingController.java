@@ -137,7 +137,7 @@ public class BookingController {
 	 * @param id the ID of the booking
 	 * @return HTTP 204 No Content if successful
 	 */
-	@PreAuthorize("hasRole('CUSTOMER') and @bookingSecurity.checkOwner(#id) or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
 		bookingService.deleteBooking(id);

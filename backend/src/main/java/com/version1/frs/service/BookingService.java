@@ -1,5 +1,6 @@
 package com.version1.frs.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.version1.frs.dto.BookingRequest;
@@ -56,7 +57,8 @@ public interface BookingService {
 	 * Deletes a booking from the system using its ID.
 	 * 
 	 * @param id the ID of the booking to delete
+	 * @return 
 	 * @throws RuntimeException if no booking with the specified ID is found
 	 */
-	void deleteBooking(Long id);
+	BigDecimal deleteBooking(Long id);
 }

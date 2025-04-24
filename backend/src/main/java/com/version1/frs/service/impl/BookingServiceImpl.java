@@ -167,11 +167,24 @@ public class BookingServiceImpl implements BookingService {
 	 * @throws RuntimeException if the booking is not found
 	 */
 	@Override
-	public void deleteBooking(Long bookingId) {
-		Booking booking = bookingRepository.findById(bookingId)
-				.orElseThrow(() -> new RuntimeException("Booking not found"));
-		bookingRepository.delete(booking);
+	@Transactional
+	public BigDecimal deleteBooking(Long bookingId) {
+	    Booking booking = bookingRepository.findById(bookingId)
+	            .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+	    User user = booking.getUser();
+	    Wallet wallet = walletRepository.findByUser_UserId(user.getUserId())
+	            .orElseThrow(() -> new RuntimeException("Wallet not found"));
+
+	    BigDecimal refundAmount = booking.getTotalAmount();
+	    wallet.setBalance(wallet.getBalance().add(refundAmount));
+	    walletRepository.save(wallet);
+
+	    bookingRepository.delete(booking);
+
+	    return refundAmount;
 	}
+
 
 	/**
 	 * Converts a booking entity to a booking response DTO.

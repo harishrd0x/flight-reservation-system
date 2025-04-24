@@ -35,6 +35,8 @@ import com.version1.frs.dto.AirplaneRequest;
 import com.version1.frs.dto.AirplaneResponse;
 import com.version1.frs.service.AirplaneService;
 
+import jakarta.validation.Valid;
+
 /**
  * Controller for managing airplane entities. Handles all HTTP endpoints related
  * to airplane creation, retrieval, updating, deletion, validation, and
@@ -113,7 +115,7 @@ public class AirplaneController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<AirplaneResponse> updateAirplaneById(@PathVariable Long id,
-			@RequestBody AirplaneRequest airplaneRequest) {
+			@Valid @RequestBody AirplaneRequest airplaneRequest) {
 		return ResponseEntity.ok(airplaneService.updateAirplane(id, airplaneRequest));
 	}
 
@@ -128,7 +130,7 @@ public class AirplaneController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/number/{airplaneNumber}")
 	public ResponseEntity<AirplaneResponse> updateAirplaneByNumber(@PathVariable String airplaneNumber,
-			@RequestBody AirplaneRequest request) {
+			@Valid @RequestBody AirplaneRequest request) {
 		return ResponseEntity.ok(airplaneService.updateAirplane(airplaneNumber, request));
 	}
 

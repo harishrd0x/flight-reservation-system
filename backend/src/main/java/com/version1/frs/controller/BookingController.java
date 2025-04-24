@@ -16,6 +16,7 @@
 
 package com.version1.frs.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.version1.frs.dto.ApiResponse;
 import com.version1.frs.dto.BookingRequest;
 import com.version1.frs.dto.BookingResponse;
 import com.version1.frs.security.UserDetailsImpl;
@@ -139,8 +141,11 @@ public class BookingController {
 	 */
 	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
+	public ResponseEntity<ApiResponse> deleteBooking(@PathVariable Long id) {
 		bookingService.deleteBooking(id);
-		return ResponseEntity.noContent().build();
+
+		BigDecimal refundAmount = bookingService.deleteBooking(id);
+		String msg = "Booking cancelled and ₹" + refundAmount + " refunded to your wallet.";
+		return ResponseEntity.ok(new ApiResponse(msg));
 	}
 }

@@ -68,7 +68,7 @@ public class AirplaneController {
 	 */
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<AirplaneResponse> addAirplane(@RequestBody AirplaneRequest airplaneRequest) {
+	public ResponseEntity<AirplaneResponse> addAirplane(@Valid @RequestBody AirplaneRequest airplaneRequest) {
 		return ResponseEntity.ok(airplaneService.addAirplane(airplaneRequest));
 	}
 
